@@ -1,0 +1,62 @@
+/**
+ * Example Custom CSS using @apply
+ *
+ * This file demonstrates how to compose USWDS utilities using @apply.
+ * Run `npx gulp compileCustomCSS` to process this file.
+ */
+
+/* Primary button with USWDS utilities */
+.btn-primary {
+  @apply padding-x-2 padding-y-1 bg-primary text-white radius-md;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  @apply bg-primary-dark;
+}
+
+/* Card component composed from utilities */
+.custom-card {
+  @apply bg-white radius-lg padding-3 shadow-2;
+}
+
+.custom-card__header {
+  @apply margin-bottom-2 text-bold;
+}
+
+/* Alert variants */
+.alert {
+  @apply padding-2 radius-md margin-bottom-2;
+}
+
+.alert--info {
+  @apply bg-info-lighter text-info-dark;
+}
+
+.alert--success {
+  @apply bg-success-lighter text-success-dark;
+}
+
+.alert--warning {
+  @apply bg-warning-lighter text-warning-dark;
+}
+
+.alert--error {
+  @apply bg-error-lighter text-error-dark;
+}
+
+/* Flex container utilities */
+.flex-center {
+  @apply display-flex flex-align-center flex-justify-center;
+}
+
+.flex-between {
+  @apply display-flex flex-align-center flex-justify;
+}
+
+/* Spacing helpers */
+.section-spacing {
+  @apply padding-y-5 margin-bottom-4;
+}

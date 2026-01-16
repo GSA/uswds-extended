@@ -1,19 +1,38 @@
 const autoprefixer = require("autoprefixer");
 const csso = require("postcss-csso");
 const discardComments = require("postcss-discard-comments");
+const colorOpacity = require("./postcss-plugins/color-opacity");
+const arbitraryValues = require("./postcss-plugins/arbitrary-values");
 const { src, dest } = require("gulp");
 const postcss = require("gulp-postcss");
 const replace = require("gulp-replace");
 const rename = require("gulp-rename");
 const sass = require("gulp-sass")(require("sass-embedded"));
 const sourcemaps = require("gulp-sourcemaps");
+const fs = require("fs");
+const path = require("path");
 const dutil = require("./utils/doc-util");
 const pkg = require("../package.json");
+
+// Load USWDS Extended configuration
+const configPath = path.resolve(__dirname, "../uswds-extended.config.js");
+let extendedConfig = {};
+if (fs.existsSync(configPath)) {
+  extendedConfig = require(configPath);
+}
 
 module.exports = {
   compileSass() {
     dutil.logMessage("sass", "Compiling Sass");
-    const pluginsProcess = [discardComments(), autoprefixer()];
+    const pluginsProcess = [
+      discardComments(),
+      autoprefixer(),
+      colorOpacity({ opacitySteps: extendedConfig.opacitySteps }),
+      arbitraryValues({
+        arbitraryValues: extendedConfig.arbitraryValues,
+        important: extendedConfig.important,
+      }),
+    ];
     const pluginsMinify = [csso({ forceMediaMerge: false })];
 
     return src("src/stylesheets/uswds.scss")

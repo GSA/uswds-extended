@@ -14,6 +14,8 @@ const { build } = require("./tasks/build");
 const { release } = require("./tasks/release");
 const { watch } = require("./tasks/watch");
 const { compileSass } = require("./tasks/sass");
+const { compileCustomCSS } = require("./tasks/custom-css");
+const { purgeSass, reportPurgeStats } = require("./tasks/purge");
 const { cleanDist } = require("./tasks/clean");
 
 /**
@@ -61,6 +63,9 @@ exports.test = series(
 exports.buildSpriteStandalone = buildSpriteStandalone;
 exports.buildSprite = buildSprite;
 exports.compileSass = compileSass;
+exports.compileCustomCSS = compileCustomCSS;
+exports.purgeSass = purgeSass;
+exports.reportPurgeStats = reportPurgeStats;
 exports.buildSass = series(lintSass, compileSass);
 exports.buildJS = series(typeCheck, compileJS);
 exports.buildUSWDS = build;
