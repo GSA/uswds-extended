@@ -39,6 +39,64 @@ loop
   }
 }
 
+/*
+----------------------------------------
+@render-group-variant
+----------------------------------------
+Build a group-based variant utility.
+When a parent .group element matches the
+pseudoclass, this child element's styles
+are applied.
+Example: .group:hover .group-hover\:bg-primary
+----------------------------------------
+*/
+
+@mixin render-group-variant(
+  $utility,
+  $pseudoclass,
+  $selector,
+  $property,
+  $value,
+  $media-prefix
+) {
+  $important: if($utilities-use-important, " !important", null);
+
+  .group:#{$pseudoclass} .#{$media-prefix}group-#{$pseudoclass}#{$separator}#{ns("utility")}#{$selector} {
+    @each $this-property in $property {
+      #{$this-property}: string.unquote("#{$value}#{$important}");
+    }
+  }
+}
+
+/*
+----------------------------------------
+@render-peer-variant
+----------------------------------------
+Build a peer-based variant utility.
+When a sibling .peer element matches the
+pseudoclass, this element's styles are
+applied using the general sibling combinator.
+Example: .peer:focus ~ .peer-focus\:text-secondary
+----------------------------------------
+*/
+
+@mixin render-peer-variant(
+  $utility,
+  $pseudoclass,
+  $selector,
+  $property,
+  $value,
+  $media-prefix
+) {
+  $important: if($utilities-use-important, " !important", null);
+
+  .peer:#{$pseudoclass} ~ .#{$media-prefix}peer-#{$pseudoclass}#{$separator}#{ns("utility")}#{$selector} {
+    @each $this-property in $property {
+      #{$this-property}: string.unquote("#{$value}#{$important}");
+    }
+  }
+}
+
 // utility-feature? utility-property
 @mixin add-utility-declaration($declaration, $utility-type, $important) {
   @each $ext-prop, $ext-value in map.get($declaration, $utility-type) {
@@ -132,6 +190,54 @@ future version of Sass' warning.
 
   @if map-deep-get($utility, settings, focus) {
     @include render-pseudoclass(
+      $utility,
+      focus,
+      $selector,
+      $property,
+      $value,
+      $media-prefix
+    );
+  }
+
+  // Add group variants (parent-based state changes)
+
+  @if map-deep-get($utility, settings, group-hover) {
+    @include render-group-variant(
+      $utility,
+      hover,
+      $selector,
+      $property,
+      $value,
+      $media-prefix
+    );
+  }
+
+  @if map-deep-get($utility, settings, group-focus) {
+    @include render-group-variant(
+      $utility,
+      focus,
+      $selector,
+      $property,
+      $value,
+      $media-prefix
+    );
+  }
+
+  // Add peer variants (sibling-based state changes)
+
+  @if map-deep-get($utility, settings, peer-hover) {
+    @include render-peer-variant(
+      $utility,
+      hover,
+      $selector,
+      $property,
+      $value,
+      $media-prefix
+    );
+  }
+
+  @if map-deep-get($utility, settings, peer-focus) {
+    @include render-peer-variant(
       $utility,
       focus,
       $selector,

@@ -108,11 +108,15 @@ $align-items-settings: () !default;
 $align-items-settings-complete: map.merge(
   (
     output: true,
-    responsive: false,
+    responsive: true,
     active: false,
     focus: false,
     hover: false,
     visited: false,
+    group-hover: false,
+    group-focus: false,
+    peer-hover: false,
+    peer-focus: false,
   ),
   $align-items-settings
 ) !default;
@@ -121,11 +125,15 @@ $align-self-settings: () !default;
 $align-self-settings-complete: map.merge(
   (
     output: true,
-    responsive: false,
+    responsive: true,
     active: false,
     focus: false,
     hover: false,
     visited: false,
+    group-hover: false,
+    group-focus: false,
+    peer-hover: false,
+    peer-focus: false,
   ),
   $align-self-settings
 ) !default;
@@ -139,6 +147,10 @@ $background-color-settings-complete: map.merge(
     focus: false,
     hover: true,
     visited: false,
+    group-hover: true,
+    group-focus: false,
+    peer-hover: false,
+    peer-focus: true,
   ),
   $background-color-settings
 ) !default;
@@ -162,9 +174,13 @@ $border-color-settings-complete: map.merge(
     output: true,
     responsive: true,
     active: false,
-    focus: false,
+    focus: true,
     hover: true,
     visited: false,
+    group-hover: true,
+    group-focus: false,
+    peer-hover: false,
+    peer-focus: true,
   ),
   $border-color-settings
 ) !default;
@@ -269,6 +285,10 @@ $color-settings-complete: map.merge(
     focus: false,
     hover: true,
     visited: false,
+    group-hover: true,
+    group-focus: false,
+    peer-hover: false,
+    peer-focus: true,
   ),
   $color-settings
 ) !default;
@@ -295,6 +315,10 @@ $display-settings-complete: map.merge(
     focus: false,
     hover: false,
     visited: false,
+    group-hover: true,
+    group-focus: true,
+    peer-hover: true,
+    peer-focus: true,
   ),
   $display-settings
 ) !default;
@@ -303,11 +327,15 @@ $flex-settings: () !default;
 $flex-settings-complete: map.merge(
   (
     output: true,
-    responsive: false,
+    responsive: true,
     active: false,
     focus: false,
     hover: false,
     visited: false,
+    group-hover: false,
+    group-focus: false,
+    peer-hover: false,
+    peer-focus: false,
   ),
   $flex-settings
 ) !default;
@@ -316,11 +344,15 @@ $flex-direction-settings: () !default;
 $flex-direction-settings-complete: map.merge(
   (
     output: true,
-    responsive: false,
+    responsive: true,
     active: false,
     focus: false,
     hover: false,
     visited: false,
+    group-hover: false,
+    group-focus: false,
+    peer-hover: false,
+    peer-focus: false,
   ),
   $flex-direction-settings
 ) !default;
@@ -329,11 +361,15 @@ $flex-wrap-settings: () !default;
 $flex-wrap-settings-complete: map.merge(
   (
     output: true,
-    responsive: false,
+    responsive: true,
     active: false,
     focus: false,
     hover: false,
     visited: false,
+    group-hover: false,
+    group-focus: false,
+    peer-hover: false,
+    peer-focus: false,
   ),
   $flex-wrap-settings
 ) !default;
@@ -579,8 +615,12 @@ $opacity-settings-complete: map.merge(
     responsive: false,
     active: false,
     focus: false,
-    hover: false,
+    hover: true,
     visited: false,
+    group-hover: true,
+    group-focus: false,
+    peer-hover: false,
+    peer-focus: false,
   ),
   $opacity-settings
 ) !default;
@@ -706,11 +746,15 @@ $text-align-settings: () !default;
 $text-align-settings-complete: map.merge(
   (
     output: true,
-    responsive: false,
+    responsive: true,
     active: false,
     focus: false,
     hover: false,
     visited: false,
+    group-hover: false,
+    group-focus: false,
+    peer-hover: false,
+    peer-focus: false,
   ),
   $text-align-settings
 ) !default;
@@ -721,9 +765,13 @@ $text-decoration-settings-complete: map.merge(
     output: true,
     responsive: false,
     active: false,
-    focus: false,
+    focus: true,
     hover: true,
     visited: false,
+    group-hover: true,
+    group-focus: false,
+    peer-hover: false,
+    peer-focus: true,
   ),
   $text-decoration-settings
 ) !default;
