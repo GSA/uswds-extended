@@ -1,21 +1,25 @@
 {
-  "name": "@uswds/uswds",
-  "version": "3.13.0",
-  "description": "Open source UI components and visual style guide for U.S. government websites",
+  "name": "uswds-extended",
+  "version": "3.13.0-extended.1",
+  "description": "USWDS with Tailwind-style utilities: color opacity, arbitrary values, @apply directive, and more",
   "engines": {
-    "node": ">= 4"
+    "node": ">= 18"
   },
   "keywords": [
     "ui",
     "uswds",
+    "tailwind",
+    "utilities",
+    "css",
     "components",
     "library",
     "open source",
     "united states",
     "usa",
-    "u.s.",
     "government",
-    "websites"
+    "websites",
+    "design-system",
+    "postcss"
   ],
   "files": [
     ".storybook",
@@ -29,7 +33,9 @@
     "webpack.twig.config.js",
     "vite.config.js",
     "vite.config.banner.cdn.js",
-    "vite.config.components.js"
+    "vite.config.components.js",
+    "uswds-extended.config.js",
+    "purgecss.config.js"
   ],
   "module": "./dist/js/uswds.min.js",
   "exports": {
@@ -88,9 +94,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/uswds/uswds.git"
+    "url": "https://github.com/gsa/uswds-extended.git"
   },
-  "author": "18F",
+  "author": "Ivan Metzger",
+  "originalAuthor": "18F",
   "contributors": [
     "Shawn Allen <shawn.allen@gsa.gov>",
     "Maya Benari <maya.ben-ari@gsa.gov>",
@@ -116,9 +123,9 @@
   ],
   "license": "SEE LICENSE IN LICENSE.md",
   "bugs": {
-    "url": "https://github.com/uswds/uswds/issues"
+    "url": "https://github.com/gsa/uswds-extended/issues"
   },
-  "homepage": "https://github.com/uswds/uswds#readme",
+  "homepage": "https://github.com/gsa/uswds-extended#readme",
   "dependencies": {
     "lit": "^3.2.1"
   },

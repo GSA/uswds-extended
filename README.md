@@ -1,6 +1,112 @@
-# United States Web Design System
+# USWDS Extended
 
-[![CircleCI Build Status](https://img.shields.io/circleci/build/gh/uswds/uswds/develop?style=for-the-badge&logo=circleci)](https://circleci.com/gh/uswds/uswds/tree/develop) ![Snyk vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@uswds/uswds?style=for-the-badge) [![npm Version](https://img.shields.io/npm/v/@uswds/uswds?style=for-the-badge)](https://www.npmjs.com/package/uswds) [![npm Downloads](https://img.shields.io/npm/dt/@uswds/uswds?style=for-the-badge)](https://www.npmjs.com/package/uswds) [![GitHub issues](https://img.shields.io/github/issues/uswds/uswds?style=for-the-badge&logo=github)](https://github.com/uswds/uswds/issues) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4?style=for-the-badge)](https://github.com/prettier/prettier)
+[![npm version](https://img.shields.io/npm/v/uswds-extended.svg?style=for-the-badge)](https://www.npmjs.com/package/uswds-extended)
+[![GitHub issues](https://img.shields.io/github/issues/gsa/uswds-extended?style=for-the-badge&logo=github)](https://github.com/gsa/uswds-extended/issues)
+
+**USWDS with Tailwind-style utilities** — All the government compliance of USWDS, with the developer experience of Tailwind.
+
+Based on the [U.S. Web Design System (USWDS)](https://designsystem.digital.gov), this package adds modern utility features while maintaining full government accessibility compliance.
+
+## Extended Features
+
+| Feature | Example | Description |
+|---------|---------|-------------|
+| **Color Opacity** | `bg-primary/75` | Apply opacity to any color utility |
+| **Arbitrary Values** | `w-[137px]` | Use any CSS value without config |
+| **@apply Directive** | `@apply padding-2 bg-primary` | Compose utilities in custom CSS |
+| **Stacked Modifiers** | `tablet:hover:bg-primary` | Combine responsive + state |
+| **Group/Peer** | `group-hover:text-white` | Style based on parent/sibling state |
+| **Fractional Widths** | `width-1/2`, `width-2/3` | Percentage-based sizing |
+| **Modern Viewport** | `height-dvh`, `width-svw` | Dynamic viewport units |
+| **Gap Utilities** | `gap-2`, `gap-x-1` | Flexbox/Grid gap control |
+| **PurgeCSS** | Production build | Remove unused CSS |
+
+## Quick Start
+
+### Installation
+
+```bash
+npm install uswds-extended
+```
+
+### Usage
+
+```html
+<!-- Color opacity -->
+<div class="bg-primary/75 text-white/90">
+  Translucent background
+</div>
+
+<!-- Stacked modifiers -->
+<button class="tablet:hover:bg-primary-dark">
+  Hover on tablet+
+</button>
+
+<!-- Fractional widths -->
+<div class="display-flex">
+  <div class="width-1/3">Sidebar</div>
+  <div class="width-2/3">Content</div>
+</div>
+
+<!-- Group hover -->
+<div class="group">
+  <h2 class="group-hover:text-primary">Hover the card</h2>
+</div>
+
+<!-- Arbitrary values (configure in uswds-extended.config.js) -->
+<div class="w-[137px] h-[calc(100vh-60px)]">Custom size</div>
+```
+
+### @apply Directive
+
+Compose utilities in custom CSS (`src/stylesheets/custom/*.css`):
+
+```css
+.btn-primary {
+  @apply padding-x-2 padding-y-1 bg-primary text-white radius-md;
+}
+```
+
+Build with: `npx gulp compileCustomCSS`
+
+### Production Build
+
+Remove unused CSS:
+
+```bash
+npx gulp purgeSass
+npx gulp reportPurgeStats
+```
+
+## Configuration
+
+**`uswds-extended.config.js`** - Configure arbitrary values and opacity steps:
+
+```js
+module.exports = {
+  arbitraryValues: {
+    w: ['137px', '200px'],
+    h: ['calc(100vh-60px)'],
+    'max-w': ['1200px', '80ch'],
+  },
+  opacitySteps: [5, 10, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 95],
+};
+```
+
+**`purgecss.config.js`** - Configure CSS purging for production.
+
+## Gulp Tasks
+
+| Task | Description |
+|------|-------------|
+| `compileSass` | Compile USWDS + extended utilities |
+| `compileCustomCSS` | Process custom CSS with @apply |
+| `purgeSass` | Remove unused CSS for production |
+| `reportPurgeStats` | Show size comparison |
+
+---
+
+# Original USWDS Documentation
 
 The [United States Web Design System](https://designsystem.digital.gov) includes a library of open source UI components and a visual style guide for U.S. federal government websites.
 
