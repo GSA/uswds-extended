@@ -1,0 +1,209 @@
+/*
+========================================
+CSS Grid Utilities
+----------------------------------------
+These utilities provide CSS Grid layout support,
+distinct from USWDS's flexbox-based grid system.
+
+Key differences:
+- USWDS Flexbox: .grid-row + .grid-col-6 (item width)
+- CSS Grid: .display-grid + .grid-cols-6 (container columns)
+
+usage:
+  .grid-cols-[n]     - n equal columns
+  .grid-rows-[n]     - n equal rows
+  .col-span-[n]      - span n columns
+  .row-span-[n]      - span n rows
+  .col-start-[n]     - start at column line n
+  .row-start-[n]     - start at row line n
+----------------------------------------
+example:
+  <div class="display-grid grid-cols-3 gap-2">
+    <div class="col-span-2">Wide item</div>
+    <div>Regular item</div>
+  </div>
+----------------------------------------
+*/
+
+@use "uswds-core/src/styles/settings" as *;
+@use "uswds-core/src/styles/functions" as *;
+@use "../functions/" as *;
+
+// Grid template columns (1-12)
+$grid-cols-values: (
+  "1": repeat(1, minmax(0, 1fr)),
+  "2": repeat(2, minmax(0, 1fr)),
+  "3": repeat(3, minmax(0, 1fr)),
+  "4": repeat(4, minmax(0, 1fr)),
+  "5": repeat(5, minmax(0, 1fr)),
+  "6": repeat(6, minmax(0, 1fr)),
+  "7": repeat(7, minmax(0, 1fr)),
+  "8": repeat(8, minmax(0, 1fr)),
+  "9": repeat(9, minmax(0, 1fr)),
+  "10": repeat(10, minmax(0, 1fr)),
+  "11": repeat(11, minmax(0, 1fr)),
+  "12": repeat(12, minmax(0, 1fr)),
+  "none": none,
+);
+
+// Grid template rows (1-6)
+$grid-rows-values: (
+  "1": repeat(1, minmax(0, 1fr)),
+  "2": repeat(2, minmax(0, 1fr)),
+  "3": repeat(3, minmax(0, 1fr)),
+  "4": repeat(4, minmax(0, 1fr)),
+  "5": repeat(5, minmax(0, 1fr)),
+  "6": repeat(6, minmax(0, 1fr)),
+  "none": none,
+);
+
+// Column span values
+$col-span-values: (
+  "1": span 1 / span 1,
+  "2": span 2 / span 2,
+  "3": span 3 / span 3,
+  "4": span 4 / span 4,
+  "5": span 5 / span 5,
+  "6": span 6 / span 6,
+  "7": span 7 / span 7,
+  "8": span 8 / span 8,
+  "9": span 9 / span 9,
+  "10": span 10 / span 10,
+  "11": span 11 / span 11,
+  "12": span 12 / span 12,
+  "full": 1 / -1,
+  "auto": auto,
+);
+
+// Row span values
+$row-span-values: (
+  "1": span 1 / span 1,
+  "2": span 2 / span 2,
+  "3": span 3 / span 3,
+  "4": span 4 / span 4,
+  "5": span 5 / span 5,
+  "6": span 6 / span 6,
+  "full": 1 / -1,
+  "auto": auto,
+);
+
+// Column/row start values (line numbers)
+$grid-line-values: (
+  "1": 1,
+  "2": 2,
+  "3": 3,
+  "4": 4,
+  "5": 5,
+  "6": 6,
+  "7": 7,
+  "8": 8,
+  "9": 9,
+  "10": 10,
+  "11": 11,
+  "12": 12,
+  "13": 13,
+  "auto": auto,
+);
+
+// Grid auto flow values
+$grid-flow-values: (
+  "row": row,
+  "col": column,
+  "dense": dense,
+  "row-dense": row dense,
+  "col-dense": column dense,
+);
+
+// Settings for CSS Grid utilities
+$css-grid-settings: (
+  output: true,
+  responsive: true,
+  hover: false,
+  active: false,
+  visited: false,
+  focus: false,
+);
+
+$u-css-grid: (
+  // grid-template-columns
+  grid-cols: (
+    base: "grid-cols",
+    modifiers: null,
+    values: $grid-cols-values,
+    settings: $css-grid-settings,
+    property: "grid-template-columns",
+    type: "utility",
+  ),
+  // grid-template-rows
+  grid-rows: (
+    base: "grid-rows",
+    modifiers: null,
+    values: $grid-rows-values,
+    settings: $css-grid-settings,
+    property: "grid-template-rows",
+    type: "utility",
+  ),
+  // grid-column (span)
+  col-span: (
+    base: "col-span",
+    modifiers: null,
+    values: $col-span-values,
+    settings: $css-grid-settings,
+    property: "grid-column",
+    type: "utility",
+  ),
+  // grid-row (span)
+  row-span: (
+    base: "row-span",
+    modifiers: null,
+    values: $row-span-values,
+    settings: $css-grid-settings,
+    property: "grid-row",
+    type: "utility",
+  ),
+  // grid-column-start
+  col-start: (
+    base: "col-start",
+    modifiers: null,
+    values: $grid-line-values,
+    settings: $css-grid-settings,
+    property: "grid-column-start",
+    type: "utility",
+  ),
+  // grid-column-end
+  col-end: (
+    base: "col-end",
+    modifiers: null,
+    values: $grid-line-values,
+    settings: $css-grid-settings,
+    property: "grid-column-end",
+    type: "utility",
+  ),
+  // grid-row-start
+  row-start: (
+    base: "row-start",
+    modifiers: null,
+    values: $grid-line-values,
+    settings: $css-grid-settings,
+    property: "grid-row-start",
+    type: "utility",
+  ),
+  // grid-row-end
+  row-end: (
+    base: "row-end",
+    modifiers: null,
+    values: $grid-line-values,
+    settings: $css-grid-settings,
+    property: "grid-row-end",
+    type: "utility",
+  ),
+  // grid-auto-flow
+  grid-flow: (
+    base: "grid-flow",
+    modifiers: null,
+    values: $grid-flow-values,
+    settings: $css-grid-settings,
+    property: "grid-auto-flow",
+    type: "utility",
+  ),
+);
