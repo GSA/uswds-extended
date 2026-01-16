@@ -142,7 +142,7 @@ $background-color-settings: () !default;
 $background-color-settings-complete: map.merge(
   (
     output: true,
-    responsive: false,
+    responsive: true,
     active: false,
     focus: false,
     hover: true,
@@ -280,7 +280,7 @@ $color-settings: () !default;
 $color-settings-complete: map.merge(
   (
     output: true,
-    responsive: false,
+    responsive: true,
     active: false,
     focus: false,
     hover: true,
@@ -612,7 +612,7 @@ $opacity-settings: () !default;
 $opacity-settings-complete: map.merge(
   (
     output: true,
-    responsive: false,
+    responsive: true,
     active: false,
     focus: false,
     hover: true,
