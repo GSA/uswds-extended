@@ -1,6 +1,6 @@
 {
   "name": "uswds-extended",
-  "version": "3.13.0-extended.1",
+  "version": "3.13.1",
   "description": "USWDS with Tailwind-style utilities: color opacity, arbitrary values, @apply directive, and more",
   "engines": {
     "node": ">= 18"
@@ -94,7 +94,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gsa/uswds-extended.git"
+    "url": "git+https://github.com/gsa/uswds-extended.git"
   },
   "author": "Ivan Metzger",
   "originalAuthor": "18F",
