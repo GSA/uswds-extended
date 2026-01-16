@@ -1,0 +1,65 @@
+/*
+========================================
+gap
+----------------------------------------
+usage:
+  .gap-[key]
+  .gap-x-[key]
+  .gap-y-[key]
+----------------------------------------
+output:
+  gap: [value];
+  column-gap: [value];
+  row-gap: [value];
+----------------------------------------
+example:
+  .gap-2 {
+    gap: 1rem;
+  }
+
+  .gap-x-105 {
+    column-gap: .75rem;
+  }
+
+  .gap-y-3 {
+    row-gap: 1.5rem;
+  }
+----------------------------------------
+*/
+
+@use "uswds-core/src/styles/settings" as *;
+@use "uswds-core/src/styles/functions" as *;
+@use "../functions/" as *;
+
+$u-gap: (
+  gap: (
+    base: "gap",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: map-collect(get-palettes($gap-palettes), $gap-manual-values),
+    settings: $gap-settings-complete,
+    property: "gap",
+    type: "utility",
+  ),
+  gap-column: (
+    base: "gap",
+    modifiers: (
+      "x": "-column",
+    ),
+    values: map-collect(get-palettes($gap-palettes), $gap-manual-values),
+    settings: $gap-settings-complete,
+    property: "gap",
+    type: "utility",
+  ),
+  gap-row: (
+    base: "gap",
+    modifiers: (
+      "y": "-row",
+    ),
+    values: map-collect(get-palettes($gap-palettes), $gap-manual-values),
+    settings: $gap-settings-complete,
+    property: "gap",
+    type: "utility",
+  ),
+);

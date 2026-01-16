@@ -37,6 +37,7 @@ $palettes-default: (
   "palette-flex-default": get-standard-values(flex),
   "palette-flex-direction-default": get-standard-values(flex-direction),
   "palette-flex-wrap-default": get-standard-values(flex-wrap),
+  "palette-gap-default": get-standard-values(gap),
   "palette-float-default": get-standard-values(float),
   "palette-font-default": $tokens-font-theme,
   "palette-font-family-default": get-standard-values(font-family),

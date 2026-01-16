@@ -338,6 +338,19 @@ $flex-wrap-settings-complete: map.merge(
   $flex-wrap-settings
 ) !default;
 
+$gap-settings: () !default;
+$gap-settings-complete: map.merge(
+  (
+    output: true,
+    responsive: true,
+    active: false,
+    focus: false,
+    hover: false,
+    visited: false,
+  ),
+  $gap-settings
+) !default;
+
 $float-settings: () !default;
 $float-settings-complete: map.merge(
   (
@@ -916,6 +929,11 @@ $flex-direction-manual-values: () !default;
 
 $flex-wrap-palettes: ("palette-flex-wrap-default") !default;
 $flex-wrap-manual-values: () !default;
+
+// .gap
+
+$gap-palettes: ("palette-gap-default") !default;
+$gap-manual-values: () !default;
 
 // .float
 
