@@ -7,36 +7,56 @@ $system-spacing: (
     "2px": 2px,
   ),
   "small": (
+    "025": spacing-multiple(0.25),
+    // 2px
     "05": spacing-multiple(0.5),
     // 4px
+    "075": spacing-multiple(0.75),
+    // 6px
     1: spacing-multiple(1),
     // 8px
+    "125": spacing-multiple(1.25),
+    // 10px
     "105": spacing-multiple(1.5),
     // 12px
+    "175": spacing-multiple(1.75),
+    // 14px
     2: spacing-multiple(2),
     // 16px
     "205": spacing-multiple(2.5),
     // 20px
     3: spacing-multiple(3),
     // 24px
+    "305": spacing-multiple(3.5),
+    // 28px
   ),
   "smaller-negative": (
     "#{$neg-prefix}-1px": -1px,
     "#{$neg-prefix}-2px": -2px,
   ),
   "small-negative": (
+    "#{$neg-prefix}-025": spacing-multiple(-0.25),
+    // -2px
     "#{$neg-prefix}-05": spacing-multiple(-0.5),
     // -4px
+    "#{$neg-prefix}-075": spacing-multiple(-0.75),
+    // -6px
     "#{$neg-prefix}-1": spacing-multiple(-1),
     // -8px
+    "#{$neg-prefix}-125": spacing-multiple(-1.25),
+    // -10px
     "#{$neg-prefix}-105": spacing-multiple(-1.5),
     // -12px
+    "#{$neg-prefix}-175": spacing-multiple(-1.75),
+    // -14px
     "#{$neg-prefix}-2": spacing-multiple(-2),
     // -16px
     "#{$neg-prefix}-205": spacing-multiple(-2.5),
     // -20px
     "#{$neg-prefix}-3": spacing-multiple(-3),
     // -24px
+    "#{$neg-prefix}-305": spacing-multiple(-3.5),
+    // -28px
   ),
   "medium": (
     4: spacing-multiple(4),

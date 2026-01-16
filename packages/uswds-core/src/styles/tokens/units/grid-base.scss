@@ -1,1 +1,4 @@
-$system-spacing-grid-base: 8px;
+@use "../../settings" as settings;
+
+// Use theme setting for spacing base unit, defaulting to 8px if not set
+$system-spacing-grid-base: settings.$theme-spacing-base-unit;

@@ -18,6 +18,29 @@ https://designsystem.digital.gov/design-tokens/spacing-units
 
 /*
 ----------------------------------------
+Spacing base unit
+----------------------------------------
+The base unit for the spacing scale.
+USWDS default is 8px (1 unit = 8px).
+Set to 4px for Tailwind-like granularity
+(1 unit = 4px).
+
+Examples with 8px base:
+  1 unit  = 8px  (0.5rem)
+  2 units = 16px (1rem)
+  4 units = 32px (2rem)
+
+Examples with 4px base:
+  1 unit  = 4px  (0.25rem)
+  2 units = 8px  (0.5rem)
+  4 units = 16px (1rem)
+----------------------------------------
+*/
+
+$theme-spacing-base-unit: 8px !default;
+
+/*
+----------------------------------------
 Border radius
 ----------------------------------------
 2px           2px
