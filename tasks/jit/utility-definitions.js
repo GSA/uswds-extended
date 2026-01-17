@@ -423,25 +423,25 @@ const UTILITIES = {
     responsive: true,
   },
 
-  'min-w': {
+  'minw': {
     property: 'min-width',
     values: SIZING,
     responsive: true,
   },
 
-  'max-w': {
+  'maxw': {
     property: 'max-width',
     values: SIZING,
     responsive: true,
   },
 
-  'min-h': {
+  'minh': {
     property: 'min-height',
     values: SIZING,
     responsive: true,
   },
 
-  'max-h': {
+  'maxh': {
     property: 'max-height',
     values: SIZING,
     responsive: true,
