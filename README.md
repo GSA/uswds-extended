@@ -27,6 +27,9 @@ Based on the [U.S. Web Design System (USWDS)](https://designsystem.digital.gov),
 
 ```bash
 npm install uswds-extended
+
+# Or as a drop-in replacement for @uswds/uswds:
+npm install uswds@npm:uswds-extended
 ```
 
 ### Usage
@@ -53,7 +56,7 @@ npm install uswds-extended
   <h2 class="group-hover:text-primary">Hover the card</h2>
 </div>
 
-<!-- Arbitrary values (configure in uswds-extended.config.js) -->
+<!-- Arbitrary values (configure in uswds.config.js) -->
 <div class="w-[137px] h-[calc(100vh-60px)]">Custom size</div>
 ```
 
@@ -80,7 +83,7 @@ npx gulp reportPurgeStats
 
 ## Configuration
 
-**`uswds-extended.config.js`** - Configure arbitrary values and opacity steps:
+**`uswds.config.js`** - Configure arbitrary values and opacity steps:
 
 ```js
 module.exports = {

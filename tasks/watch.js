@@ -8,7 +8,7 @@ const path = require("path");
 const fs = require("fs");
 
 // Load content patterns from config for JIT watching
-const configPath = path.resolve(__dirname, "../uswds-extended.config.js");
+const configPath = path.resolve(__dirname, "../uswds.config.js");
 let contentPatterns = [];
 if (fs.existsSync(configPath)) {
   delete require.cache[configPath];

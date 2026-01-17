@@ -25,6 +25,7 @@
     ".storybook",
     "dist",
     "packages",
+    "scripts",
     "src",
     "tasks",
     ".browserslistrc",
@@ -34,7 +35,7 @@
     "vite.config.js",
     "vite.config.banner.cdn.js",
     "vite.config.components.js",
-    "uswds-extended.config.js",
+    "uswds.config.js",
     "purgecss.config.js"
   ],
   "module": "./dist/js/uswds.min.js",
@@ -64,6 +65,7 @@
     "config": "src/utils/test/.mocharc.json"
   },
   "scripts": {
+    "postinstall": "node scripts/postinstall.js",
     "build": "gulp && npm run build:web-components",
     "build:web-components": "vite build --config='./vite.config.banner.cdn.js'",
     "lint": "npm run lint:js && npm run lint:sass",

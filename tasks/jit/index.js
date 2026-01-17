@@ -71,7 +71,7 @@ function postcssJIT(options = {}) {
 
       if (contentPatterns.length === 0) {
         // Try to load from config file
-        const configPath = path.resolve(process.cwd(), 'uswds-extended.config.js');
+        const configPath = path.resolve(process.cwd(), 'uswds.config.js');
         if (fs.existsSync(configPath)) {
           delete require.cache[configPath];
           const config = require(configPath);
@@ -143,7 +143,7 @@ async function gulpJIT(options = {}) {
 
 // Load config file
 function loadConfig() {
-  const configPath = path.resolve(process.cwd(), 'uswds-extended.config.js');
+  const configPath = path.resolve(process.cwd(), 'uswds.config.js');
   if (fs.existsSync(configPath)) {
     delete require.cache[configPath];
     return require(configPath);

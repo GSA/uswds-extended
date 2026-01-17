@@ -15,8 +15,8 @@ const path = require("path");
 const dutil = require("./utils/doc-util");
 const pkg = require("../package.json");
 
-// Load USWDS Extended configuration
-const configPath = path.resolve(__dirname, "../uswds-extended.config.js");
+// Load USWDS configuration
+const configPath = path.resolve(__dirname, "../uswds.config.js");
 let extendedConfig = {};
 if (fs.existsSync(configPath)) {
   delete require.cache[configPath]; // Clear cache for hot reload
@@ -119,7 +119,7 @@ module.exports = {
 
     const contentPatterns = extendedConfig.content || [];
     if (contentPatterns.length === 0) {
-      dutil.logMessage("jit", "No content patterns configured in uswds-extended.config.js");
+      dutil.logMessage("jit", "No content patterns configured in uswds.config.js");
       return;
     }
 
