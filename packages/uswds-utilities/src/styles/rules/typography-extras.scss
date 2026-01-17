@@ -1,0 +1,230 @@
+// Typography Extra Utilities
+// Additional text control utilities
+//
+// Usage:
+//   <p class="hyphens-auto">Hyphenated text</p>
+//   <p class="break-words">Break long words</p>
+//   <p class="truncate">Truncated text with ellipsis...</p>
+//   <p class="text-balance">Balanced text wrapping</p>
+
+@use "uswds-core" as *;
+
+$typography-settings: (
+  output: true,
+  responsive: true,
+  hover: false,
+  focus: false,
+);
+
+// ============================================================================
+// HYPHENS
+// ============================================================================
+
+$u-hyphens: (
+  hyphens: (
+    base: "hyphens",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+      "manual": manual,
+      "auto": auto,
+    ),
+    settings: $typography-settings,
+    property: "hyphens",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// WORD BREAK
+// ============================================================================
+
+$u-word-break: (
+  word-break: (
+    base: "break",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "normal": normal,
+      "words": break-word,
+      "all": break-all,
+      "keep": keep-all,
+    ),
+    settings: $typography-settings,
+    property: "word-break",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// OVERFLOW WRAP
+// ============================================================================
+
+$u-overflow-wrap: (
+  overflow-wrap: (
+    base: "overflow-wrap",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "normal": normal,
+      "anywhere": anywhere,
+      "break": break-word,
+    ),
+    settings: $typography-settings,
+    property: "overflow-wrap",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// TEXT OVERFLOW
+// ============================================================================
+
+$u-text-overflow: (
+  text-overflow: (
+    base: "",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "truncate": ellipsis,
+      "text-ellipsis": ellipsis,
+      "text-clip": clip,
+    ),
+    settings: $typography-settings,
+    property: "text-overflow",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// TEXT WRAP
+// ============================================================================
+
+$u-text-wrap: (
+  text-wrap: (
+    base: "text",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "wrap": wrap,
+      "nowrap": nowrap,
+      "balance": balance,
+      "pretty": pretty,
+    ),
+    settings: $typography-settings,
+    property: "text-wrap",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// WRITING MODE
+// ============================================================================
+
+$u-writing-mode: (
+  writing-mode: (
+    base: "writing",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "horizontal": horizontal-tb,
+      "vertical-rl": vertical-rl,
+      "vertical-lr": vertical-lr,
+    ),
+    settings: $typography-settings,
+    property: "writing-mode",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// TEXT ORIENTATION
+// ============================================================================
+
+$u-text-orientation: (
+  text-orientation: (
+    base: "text-orientation",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "mixed": mixed,
+      "upright": upright,
+      "sideways": sideways,
+    ),
+    settings: $typography-settings,
+    property: "text-orientation",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// LIST STYLE TYPE
+// ============================================================================
+
+$u-list-style-type: (
+  list-style-type: (
+    base: "list",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+      "disc": disc,
+      "decimal": decimal,
+      "circle": circle,
+      "square": square,
+      "roman": upper-roman,
+      "alpha": lower-alpha,
+    ),
+    settings: $typography-settings,
+    property: "list-style-type",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// LIST STYLE POSITION
+// ============================================================================
+
+$u-list-style-position: (
+  list-style-position: (
+    base: "list",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "inside": inside,
+      "outside": outside,
+    ),
+    settings: $typography-settings,
+    property: "list-style-position",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// LIST STYLE IMAGE
+// ============================================================================
+
+$u-list-style-image: (
+  list-style-image: (
+    base: "list-image",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+    ),
+    settings: $typography-settings,
+    property: "list-style-image",
+    type: "utility",
+  ),
+);

@@ -1,0 +1,37 @@
+// Visibility Utilities
+// Control element visibility without affecting layout
+//
+// Usage:
+//   <div class="visible">Always visible</div>
+//   <div class="invisible">Hidden but occupies space</div>
+//   <tr class="collapse">For table rows</tr>
+
+@use "uswds-core" as *;
+
+$visibility-settings: (
+  output: true,
+  responsive: true,
+  hover: true,
+  focus: true,
+);
+
+// ============================================================================
+// VISIBILITY
+// ============================================================================
+
+$u-visibility: (
+  visibility: (
+    base: "",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "visible": visible,
+      "invisible": hidden,
+      "collapse": collapse,
+    ),
+    settings: $visibility-settings,
+    property: "visibility",
+    type: "utility",
+  ),
+);

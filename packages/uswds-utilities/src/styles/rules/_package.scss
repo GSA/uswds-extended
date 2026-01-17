@@ -63,5 +63,191 @@ $utilities-package: map-collect(
   $u-whitespace,
   $u-width,
   $u-z-index,
-  $u-css-grid
+  $u-css-grid,
+
+  // Animation utilities
+  $u-transition,
+  $u-duration,
+  $u-ease,
+  $u-delay,
+  $u-scale,
+  $u-rotate,
+  $u-translate,
+  $u-skew,
+  $u-origin,
+  $u-animate,
+  $u-animation-state,
+
+  // Container utilities
+  $u-container-type,
+  $u-container-name,
+  $u-container,
+
+  // Logical properties
+  $u-margin-logical,
+  $u-padding-logical,
+  $u-inset-logical,
+  $u-border-logical,
+  $u-text-align-logical,
+  $u-size-logical,
+  $u-radius-logical,
+  $u-scroll-logical,
+  $u-float-logical,
+  $u-clear-logical,
+
+  // Filter utilities
+  $u-blur,
+  $u-brightness,
+  $u-contrast,
+  $u-grayscale,
+  $u-hue-rotate,
+  $u-invert,
+  $u-saturate,
+  $u-sepia,
+  $u-drop-shadow,
+  $u-filter-none,
+
+  // Backdrop filter utilities
+  $u-backdrop-blur,
+  $u-backdrop-brightness,
+  $u-backdrop-contrast,
+  $u-backdrop-grayscale,
+  $u-backdrop-hue-rotate,
+  $u-backdrop-invert,
+  $u-backdrop-opacity,
+  $u-backdrop-saturate,
+  $u-backdrop-sepia,
+  $u-backdrop-filter-none,
+
+  // Ring utilities
+  $u-ring,
+  $u-ring-color,
+  $u-ring-offset,
+  $u-ring-offset-color,
+  $u-ring-inset,
+
+  // Interactivity utilities
+  $u-accent-color,
+  $u-caret-color,
+  $u-appearance,
+  $u-pointer-events,
+  $u-resize,
+  $u-scroll-behavior,
+  $u-scroll-snap-type,
+  $u-scroll-snap-align,
+  $u-scroll-snap-stop,
+  $u-touch-action,
+  $u-user-select,
+  $u-will-change,
+
+  // Aspect ratio utilities
+  $u-aspect-ratio,
+
+  // Columns utilities
+  $u-columns,
+  $u-break-after,
+  $u-break-before,
+  $u-break-inside,
+
+  // Object fit/position utilities
+  $u-object-fit,
+  $u-object-position,
+
+  // Visibility utilities
+  $u-visibility,
+
+  // Isolation utilities
+  $u-isolation,
+
+  // Overscroll utilities
+  $u-overscroll,
+
+  // Place utilities
+  $u-place-content,
+  $u-place-items,
+  $u-place-self,
+
+  // Content utilities
+  $u-content,
+  $u-box-decoration,
+  $u-box-sizing,
+
+  // SVG utilities
+  $u-fill,
+  $u-stroke,
+  $u-stroke-width,
+  $u-stroke-linecap,
+  $u-stroke-linejoin,
+
+  // Table utilities
+  $u-table-layout,
+  $u-border-collapse,
+  $u-border-spacing,
+  $u-caption,
+  $u-empty-cells,
+
+  // Typography extras
+  $u-hyphens,
+  $u-word-break,
+  $u-overflow-wrap,
+  $u-text-overflow,
+  $u-text-wrap,
+  $u-writing-mode,
+  $u-text-orientation,
+  $u-list-style-type,
+  $u-list-style-position,
+  $u-list-style-image,
+
+  // Blend mode utilities
+  $u-mix-blend,
+  $u-bg-blend,
+
+  // Flex extended utilities
+  $u-flex-grow,
+  $u-flex-shrink,
+  $u-flex-basis,
+
+  // Accessibility utilities
+  $u-sr-only,
+  $u-not-sr-only,
+  $u-forced-color-adjust,
+
+  // Divide utilities
+  $u-divide-y,
+  $u-divide-x,
+  $u-divide-color,
+  $u-divide-style,
+
+  // Size utilities
+  $u-size,
+  $u-min-size,
+  $u-max-size,
+
+  // Gradient utilities
+  $u-gradient-direction,
+  $u-from-color,
+  $u-via-color,
+  $u-to-color,
+
+  // Background extended utilities
+  $u-bg-attachment,
+  $u-bg-clip,
+  $u-bg-origin,
+  $u-bg-position,
+  $u-bg-repeat,
+  $u-bg-size,
+  $u-bg-image,
+
+  // Space utilities
+  $u-space-x,
+  $u-space-y,
+
+  // Grid extended utilities
+  $u-auto-cols,
+  $u-auto-rows,
+  $u-justify-items,
+  $u-justify-self,
+  $u-align-content,
+  $u-line-clamp,
+  $u-subgrid
 );

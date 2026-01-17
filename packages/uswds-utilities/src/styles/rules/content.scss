@@ -1,0 +1,76 @@
+// Content Utilities
+// Control the content property for pseudo-elements
+//
+// Usage:
+//   <div class="before:content-['Hello'] before:mr-1">
+//   <a class="after:content-['_↗']">External link</a>
+//   <div class="content-none">Clear pseudo content</div>
+
+@use "uswds-core" as *;
+
+$content-settings: (
+  output: true,
+  responsive: false,
+  hover: false,
+  focus: false,
+);
+
+// ============================================================================
+// CONTENT
+// ============================================================================
+
+$u-content: (
+  content: (
+    base: "content",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+      "empty": "",
+    ),
+    settings: $content-settings,
+    property: "content",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BOX DECORATION BREAK
+// ============================================================================
+
+$u-box-decoration: (
+  box-decoration: (
+    base: "box-decoration",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "clone": clone,
+      "slice": slice,
+    ),
+    settings: $content-settings,
+    property: "box-decoration-break",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BOX SIZING
+// ============================================================================
+
+$u-box-sizing: (
+  box-sizing: (
+    base: "box",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "border": border-box,
+      "content": content-box,
+    ),
+    settings: $content-settings,
+    property: "box-sizing",
+    type: "utility",
+  ),
+);

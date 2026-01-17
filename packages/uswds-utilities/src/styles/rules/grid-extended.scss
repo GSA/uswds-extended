@@ -1,0 +1,188 @@
+// Grid Extended Utilities
+// Additional CSS Grid utilities
+//
+// Usage:
+//   <div class="auto-cols-fr">Equal width auto columns</div>
+//   <div class="auto-rows-min">Minimum content rows</div>
+//   <div class="justify-items-center">Center items in cells</div>
+
+@use "uswds-core" as *;
+
+$grid-extended-settings: (
+  output: true,
+  responsive: true,
+  hover: false,
+  focus: false,
+);
+
+// ============================================================================
+// GRID AUTO COLUMNS
+// ============================================================================
+
+$u-auto-cols: (
+  auto-cols: (
+    base: "auto-cols",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "min": min-content,
+      "max": max-content,
+      "fr": minmax(0, 1fr),
+    ),
+    settings: $grid-extended-settings,
+    property: "grid-auto-columns",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// GRID AUTO ROWS
+// ============================================================================
+
+$u-auto-rows: (
+  auto-rows: (
+    base: "auto-rows",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "min": min-content,
+      "max": max-content,
+      "fr": minmax(0, 1fr),
+    ),
+    settings: $grid-extended-settings,
+    property: "grid-auto-rows",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// JUSTIFY ITEMS
+// ============================================================================
+
+$u-justify-items: (
+  justify-items: (
+    base: "justify-items",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "start": start,
+      "end": end,
+      "center": center,
+      "stretch": stretch,
+    ),
+    settings: $grid-extended-settings,
+    property: "justify-items",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// JUSTIFY SELF
+// ============================================================================
+
+$u-justify-self: (
+  justify-self: (
+    base: "justify-self",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "start": start,
+      "end": end,
+      "center": center,
+      "stretch": stretch,
+    ),
+    settings: $grid-extended-settings,
+    property: "justify-self",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// ALIGN CONTENT
+// ============================================================================
+
+$u-align-content: (
+  align-content: (
+    base: "content",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "normal": normal,
+      "center": center,
+      "start": flex-start,
+      "end": flex-end,
+      "between": space-between,
+      "around": space-around,
+      "evenly": space-evenly,
+      "baseline": baseline,
+      "stretch": stretch,
+    ),
+    settings: $grid-extended-settings,
+    property: "align-content",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// LINE CLAMP
+// ============================================================================
+
+$u-line-clamp: (
+  line-clamp: (
+    base: "line-clamp",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "5": 5,
+      "6": 6,
+      "none": unset,
+    ),
+    settings: $grid-extended-settings,
+    property: "-webkit-line-clamp",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// SUBGRID
+// ============================================================================
+
+$u-subgrid: (
+  subgrid: (
+    base: "grid-cols",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "subgrid": subgrid,
+    ),
+    settings: $grid-extended-settings,
+    property: "grid-template-columns",
+    type: "utility",
+  ),
+  subgrid-rows: (
+    base: "grid-rows",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "subgrid": subgrid,
+    ),
+    settings: $grid-extended-settings,
+    property: "grid-template-rows",
+    type: "utility",
+  ),
+);

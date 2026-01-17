@@ -1,2 +1,3 @@
 // Theme functions - Tailwind-style token access
-@forward "theme" show theme, spacing, font-size, radius, shadow, z, breakpoint, duration, easing;
+// All helper functions are prefixed with theme- to avoid conflicts with existing USWDS functions
+@forward "theme" show theme, theme-spacing, theme-font-size, theme-radius, theme-shadow, theme-z, theme-breakpoint, theme-duration, theme-easing;

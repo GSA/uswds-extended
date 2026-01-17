@@ -1,0 +1,128 @@
+// Divide Utilities
+// Control borders between child elements
+//
+// Usage:
+//   <div class="divide-y divide-base-lighter">
+//     <div>Item 1</div>
+//     <div>Item 2</div>
+//   </div>
+//   <div class="divide-x-2 divide-primary">Horizontal dividers</div>
+
+@use "uswds-core" as *;
+
+$divide-settings: (
+  output: true,
+  responsive: true,
+  hover: false,
+  focus: false,
+);
+
+// ============================================================================
+// DIVIDE WIDTH
+// ============================================================================
+
+// Divide Y (horizontal lines between stacked elements)
+$u-divide-y: (
+  divide-y: (
+    base: "divide-y",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": 0px,
+      "": 1px,
+      "2": 2px,
+      "4": 4px,
+      "8": 8px,
+      "reverse": 0px,
+    ),
+    settings: $divide-settings,
+    property: "border-top-width",
+    type: "utility",
+  ),
+);
+
+// Divide X (vertical lines between side-by-side elements)
+$u-divide-x: (
+  divide-x: (
+    base: "divide-x",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": 0px,
+      "": 1px,
+      "2": 2px,
+      "4": 4px,
+      "8": 8px,
+      "reverse": 0px,
+    ),
+    settings: $divide-settings,
+    property: "border-left-width",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// DIVIDE COLOR
+// ============================================================================
+
+$divide-colors: (
+  "inherit": inherit,
+  "current": currentColor,
+  "transparent": transparent,
+  "black": #000000,
+  "white": #ffffff,
+  "primary": #005ea2,
+  "primary-dark": #1a4480,
+  "primary-light": #73b3e7,
+  "secondary": #d83933,
+  "accent-cool": #00bde3,
+  "accent-warm": #fa9441,
+  "base": #71767a,
+  "base-dark": #565c65,
+  "base-light": #a9aeb1,
+  "base-lighter": #dfe1e2,
+  "base-lightest": #f0f0f0,
+  "ink": #1b1b1b,
+  "info": #00bde3,
+  "success": #00a91c,
+  "warning": #ffbe2e,
+  "error": #d54309,
+);
+
+$u-divide-color: (
+  divide-color: (
+    base: "divide",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $divide-colors,
+    settings: $divide-settings,
+    property: "border-color",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// DIVIDE STYLE
+// ============================================================================
+
+$u-divide-style: (
+  divide-style: (
+    base: "divide",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "solid": solid,
+      "dashed": dashed,
+      "dotted": dotted,
+      "double": double,
+      "none": none,
+    ),
+    settings: $divide-settings,
+    property: "border-style",
+    type: "utility",
+  ),
+);

@@ -1,0 +1,44 @@
+// Overscroll Behavior Utilities
+// Control what happens when scroll reaches the boundary
+//
+// Usage:
+//   <div class="overscroll-contain">Prevent scroll chaining</div>
+//   <div class="overscroll-none">No overscroll behavior</div>
+//   <div class="overscroll-y-contain">Vertical only</div>
+//
+// Useful for:
+//   - Modals (prevent background scroll)
+//   - Nested scroll containers
+//   - Pull-to-refresh prevention
+
+@use "uswds-core" as *;
+
+$overscroll-settings: (
+  output: true,
+  responsive: false,
+  hover: false,
+  focus: false,
+);
+
+// ============================================================================
+// OVERSCROLL BEHAVIOR
+// ============================================================================
+
+$u-overscroll: (
+  overscroll: (
+    base: "overscroll",
+    modifiers: (
+      noModifier: "",
+      "y": "-y",
+      "x": "-x",
+    ),
+    values: (
+      "auto": auto,
+      "contain": contain,
+      "none": none,
+    ),
+    settings: $overscroll-settings,
+    property: "overscroll-behavior",
+    type: "utility",
+  ),
+);

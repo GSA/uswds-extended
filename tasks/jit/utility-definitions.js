@@ -696,6 +696,842 @@ const UTILITIES = {
     property: 'cursor',
     values: CURSOR,
   },
+
+  // -------------------------------------------------------------------------
+  // FILTERS
+  // -------------------------------------------------------------------------
+  'blur': {
+    property: 'filter',
+    values: {
+      'none': 'blur(0)',
+      'sm': 'blur(4px)',
+      '': 'blur(8px)',
+      'md': 'blur(12px)',
+      'lg': 'blur(16px)',
+      'xl': 'blur(24px)',
+      '2xl': 'blur(40px)',
+      '3xl': 'blur(64px)',
+    },
+    states: ['hover'],
+  },
+
+  'brightness': {
+    property: 'filter',
+    values: {
+      '0': 'brightness(0)',
+      '50': 'brightness(0.5)',
+      '75': 'brightness(0.75)',
+      '90': 'brightness(0.9)',
+      '95': 'brightness(0.95)',
+      '100': 'brightness(1)',
+      '105': 'brightness(1.05)',
+      '110': 'brightness(1.1)',
+      '125': 'brightness(1.25)',
+      '150': 'brightness(1.5)',
+      '200': 'brightness(2)',
+    },
+    states: ['hover'],
+  },
+
+  'contrast': {
+    property: 'filter',
+    values: {
+      '0': 'contrast(0)',
+      '50': 'contrast(0.5)',
+      '75': 'contrast(0.75)',
+      '100': 'contrast(1)',
+      '125': 'contrast(1.25)',
+      '150': 'contrast(1.5)',
+      '200': 'contrast(2)',
+    },
+    states: ['hover'],
+  },
+
+  'grayscale': {
+    property: 'filter',
+    values: {
+      '0': 'grayscale(0)',
+      '': 'grayscale(100%)',
+    },
+    states: ['hover'],
+  },
+
+  'invert': {
+    property: 'filter',
+    values: {
+      '0': 'invert(0)',
+      '': 'invert(100%)',
+    },
+    states: ['hover'],
+  },
+
+  'saturate': {
+    property: 'filter',
+    values: {
+      '0': 'saturate(0)',
+      '50': 'saturate(0.5)',
+      '100': 'saturate(1)',
+      '150': 'saturate(1.5)',
+      '200': 'saturate(2)',
+    },
+    states: ['hover'],
+  },
+
+  'sepia': {
+    property: 'filter',
+    values: {
+      '0': 'sepia(0)',
+      '': 'sepia(100%)',
+    },
+    states: ['hover'],
+  },
+
+  'drop-shadow': {
+    property: 'filter',
+    values: {
+      'none': 'drop-shadow(0 0 #0000)',
+      'sm': 'drop-shadow(0 1px 1px rgb(0 0 0 / 0.05))',
+      '': 'drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06))',
+      'md': 'drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06))',
+      'lg': 'drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1))',
+      'xl': 'drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))',
+      '2xl': 'drop-shadow(0 25px 25px rgb(0 0 0 / 0.15))',
+    },
+    states: ['hover'],
+  },
+
+  // -------------------------------------------------------------------------
+  // BACKDROP FILTERS
+  // -------------------------------------------------------------------------
+  'backdrop-blur': {
+    property: 'backdrop-filter',
+    values: {
+      'none': 'blur(0)',
+      'sm': 'blur(4px)',
+      '': 'blur(8px)',
+      'md': 'blur(12px)',
+      'lg': 'blur(16px)',
+      'xl': 'blur(24px)',
+      '2xl': 'blur(40px)',
+      '3xl': 'blur(64px)',
+    },
+  },
+
+  // -------------------------------------------------------------------------
+  // TRANSITIONS & ANIMATIONS
+  // -------------------------------------------------------------------------
+  'transition': {
+    property: 'transition',
+    values: {
+      'none': 'none',
+      'all': 'all 150ms cubic-bezier(0.4, 0, 0.2, 1)',
+      '': 'color 150ms, background-color 150ms, border-color 150ms',
+      'colors': 'color 150ms, background-color 150ms, border-color 150ms',
+      'opacity': 'opacity 150ms cubic-bezier(0.4, 0, 0.2, 1)',
+      'shadow': 'box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1)',
+      'transform': 'transform 150ms cubic-bezier(0.4, 0, 0.2, 1)',
+    },
+  },
+
+  'duration': {
+    property: 'transition-duration',
+    values: {
+      '0': '0s',
+      '75': '75ms',
+      '100': '100ms',
+      '150': '150ms',
+      '200': '200ms',
+      '300': '300ms',
+      '500': '500ms',
+      '700': '700ms',
+      '1000': '1000ms',
+    },
+  },
+
+  'ease': {
+    property: 'transition-timing-function',
+    values: {
+      'linear': 'linear',
+      'in': 'cubic-bezier(0.4, 0, 1, 1)',
+      'out': 'cubic-bezier(0, 0, 0.2, 1)',
+      'in-out': 'cubic-bezier(0.4, 0, 0.2, 1)',
+    },
+  },
+
+  'delay': {
+    property: 'transition-delay',
+    values: {
+      '0': '0s',
+      '75': '75ms',
+      '100': '100ms',
+      '150': '150ms',
+      '200': '200ms',
+      '300': '300ms',
+      '500': '500ms',
+      '700': '700ms',
+      '1000': '1000ms',
+    },
+  },
+
+  'animate': {
+    property: 'animation',
+    values: {
+      'none': 'none',
+      'spin': 'spin 1s linear infinite',
+      'ping': 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
+      'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      'bounce': 'bounce 1s infinite',
+    },
+  },
+
+  // -------------------------------------------------------------------------
+  // TRANSFORMS
+  // -------------------------------------------------------------------------
+  'scale': {
+    property: 'scale',
+    values: {
+      '0': '0',
+      '50': '0.5',
+      '75': '0.75',
+      '90': '0.9',
+      '95': '0.95',
+      '100': '1',
+      '105': '1.05',
+      '110': '1.1',
+      '125': '1.25',
+      '150': '1.5',
+    },
+    states: ['hover'],
+  },
+
+  'rotate': {
+    property: 'rotate',
+    values: {
+      '0': '0deg',
+      '1': '1deg',
+      '2': '2deg',
+      '3': '3deg',
+      '6': '6deg',
+      '12': '12deg',
+      '45': '45deg',
+      '90': '90deg',
+      '180': '180deg',
+    },
+    states: ['hover'],
+    supportsNegative: true,
+  },
+
+  'translate-x': {
+    property: 'translate',
+    values: SPACING_SCALE,
+    states: ['hover'],
+    supportsNegative: true,
+  },
+
+  'translate-y': {
+    property: 'translate',
+    values: SPACING_SCALE,
+    states: ['hover'],
+    supportsNegative: true,
+  },
+
+  'origin': {
+    property: 'transform-origin',
+    values: {
+      'center': 'center',
+      'top': 'top',
+      'top-right': 'top right',
+      'right': 'right',
+      'bottom-right': 'bottom right',
+      'bottom': 'bottom',
+      'bottom-left': 'bottom left',
+      'left': 'left',
+      'top-left': 'top left',
+    },
+  },
+
+  // -------------------------------------------------------------------------
+  // ASPECT RATIO
+  // -------------------------------------------------------------------------
+  'aspect': {
+    property: 'aspect-ratio',
+    values: {
+      'auto': 'auto',
+      'square': '1 / 1',
+      'video': '16 / 9',
+      '4/3': '4 / 3',
+      '3/2': '3 / 2',
+      '16/9': '16 / 9',
+    },
+    responsive: true,
+  },
+
+  // -------------------------------------------------------------------------
+  // OBJECT FIT/POSITION
+  // -------------------------------------------------------------------------
+  'object': {
+    property: 'object-fit',
+    values: {
+      'contain': 'contain',
+      'cover': 'cover',
+      'fill': 'fill',
+      'none': 'none',
+      'scale-down': 'scale-down',
+    },
+    responsive: true,
+  },
+
+  'object-position': {
+    property: 'object-position',
+    values: {
+      'bottom': 'bottom',
+      'center': 'center',
+      'left': 'left',
+      'left-bottom': 'left bottom',
+      'left-top': 'left top',
+      'right': 'right',
+      'right-bottom': 'right bottom',
+      'right-top': 'right top',
+      'top': 'top',
+    },
+    responsive: true,
+  },
+
+  // -------------------------------------------------------------------------
+  // COLUMNS
+  // -------------------------------------------------------------------------
+  'columns': {
+    property: 'columns',
+    values: {
+      'auto': 'auto',
+      '1': '1',
+      '2': '2',
+      '3': '3',
+      '4': '4',
+      '5': '5',
+      '6': '6',
+      '7': '7',
+      '8': '8',
+      '9': '9',
+      '10': '10',
+      '11': '11',
+      '12': '12',
+    },
+    responsive: true,
+  },
+
+  // -------------------------------------------------------------------------
+  // RINGS
+  // -------------------------------------------------------------------------
+  'ring': {
+    property: 'box-shadow',
+    values: {
+      '0': 'var(--ring-inset) 0 0 0 calc(0px + var(--ring-offset-width)) var(--ring-color)',
+      '1': 'var(--ring-inset) 0 0 0 calc(1px + var(--ring-offset-width)) var(--ring-color)',
+      '2': 'var(--ring-inset) 0 0 0 calc(2px + var(--ring-offset-width)) var(--ring-color)',
+      '': 'var(--ring-inset) 0 0 0 calc(3px + var(--ring-offset-width)) var(--ring-color)',
+      '4': 'var(--ring-inset) 0 0 0 calc(4px + var(--ring-offset-width)) var(--ring-color)',
+      '8': 'var(--ring-inset) 0 0 0 calc(8px + var(--ring-offset-width)) var(--ring-color)',
+    },
+    states: ['hover', 'focus'],
+  },
+
+  'ring-color': {
+    property: '--ring-color',
+    values: COLORS,
+    states: ['hover', 'focus'],
+  },
+
+  'ring-offset': {
+    property: '--ring-offset-width',
+    values: {
+      '0': '0px',
+      '1': '1px',
+      '2': '2px',
+      '4': '4px',
+      '8': '8px',
+    },
+  },
+
+  // -------------------------------------------------------------------------
+  // BLEND MODES
+  // -------------------------------------------------------------------------
+  'mix-blend': {
+    property: 'mix-blend-mode',
+    values: {
+      'normal': 'normal',
+      'multiply': 'multiply',
+      'screen': 'screen',
+      'overlay': 'overlay',
+      'darken': 'darken',
+      'lighten': 'lighten',
+      'color-dodge': 'color-dodge',
+      'color-burn': 'color-burn',
+      'hard-light': 'hard-light',
+      'soft-light': 'soft-light',
+      'difference': 'difference',
+      'exclusion': 'exclusion',
+    },
+    states: ['hover'],
+  },
+
+  'bg-blend': {
+    property: 'background-blend-mode',
+    values: {
+      'normal': 'normal',
+      'multiply': 'multiply',
+      'screen': 'screen',
+      'overlay': 'overlay',
+      'darken': 'darken',
+      'lighten': 'lighten',
+      'color-dodge': 'color-dodge',
+      'color-burn': 'color-burn',
+      'hard-light': 'hard-light',
+      'soft-light': 'soft-light',
+      'difference': 'difference',
+      'exclusion': 'exclusion',
+    },
+  },
+
+  // -------------------------------------------------------------------------
+  // FLEX EXTENDED
+  // -------------------------------------------------------------------------
+  'grow': {
+    property: 'flex-grow',
+    values: {
+      '': '1',
+      '0': '0',
+    },
+    responsive: true,
+  },
+
+  'shrink': {
+    property: 'flex-shrink',
+    values: {
+      '': '1',
+      '0': '0',
+    },
+    responsive: true,
+  },
+
+  'basis': {
+    property: 'flex-basis',
+    values: SIZING,
+    responsive: true,
+  },
+
+  // -------------------------------------------------------------------------
+  // GRADIENTS
+  // -------------------------------------------------------------------------
+  'bg-gradient-to': {
+    property: 'background-image',
+    values: {
+      't': 'linear-gradient(to top, var(--gradient-stops))',
+      'tr': 'linear-gradient(to top right, var(--gradient-stops))',
+      'r': 'linear-gradient(to right, var(--gradient-stops))',
+      'br': 'linear-gradient(to bottom right, var(--gradient-stops))',
+      'b': 'linear-gradient(to bottom, var(--gradient-stops))',
+      'bl': 'linear-gradient(to bottom left, var(--gradient-stops))',
+      'l': 'linear-gradient(to left, var(--gradient-stops))',
+      'tl': 'linear-gradient(to top left, var(--gradient-stops))',
+    },
+  },
+
+  'from': {
+    property: '--gradient-from',
+    values: COLORS,
+  },
+
+  'via': {
+    property: '--gradient-via',
+    values: COLORS,
+  },
+
+  'to': {
+    property: '--gradient-to',
+    values: COLORS,
+  },
+
+  // -------------------------------------------------------------------------
+  // BACKGROUND EXTENDED
+  // -------------------------------------------------------------------------
+  'bg-attachment': {
+    property: 'background-attachment',
+    values: {
+      'fixed': 'fixed',
+      'local': 'local',
+      'scroll': 'scroll',
+    },
+  },
+
+  'bg-clip': {
+    property: 'background-clip',
+    values: {
+      'border': 'border-box',
+      'padding': 'padding-box',
+      'content': 'content-box',
+      'text': 'text',
+    },
+  },
+
+  'bg-position': {
+    property: 'background-position',
+    values: {
+      'bottom': 'bottom',
+      'center': 'center',
+      'left': 'left',
+      'left-bottom': 'left bottom',
+      'left-top': 'left top',
+      'right': 'right',
+      'right-bottom': 'right bottom',
+      'right-top': 'right top',
+      'top': 'top',
+    },
+  },
+
+  'bg-repeat': {
+    property: 'background-repeat',
+    values: {
+      'repeat': 'repeat',
+      'no-repeat': 'no-repeat',
+      'repeat-x': 'repeat-x',
+      'repeat-y': 'repeat-y',
+    },
+  },
+
+  'bg-size': {
+    property: 'background-size',
+    values: {
+      'auto': 'auto',
+      'cover': 'cover',
+      'contain': 'contain',
+    },
+  },
+
+  // -------------------------------------------------------------------------
+  // SVG
+  // -------------------------------------------------------------------------
+  'fill': {
+    property: 'fill',
+    values: COLORS,
+    states: ['hover'],
+  },
+
+  'stroke': {
+    property: 'stroke',
+    values: COLORS,
+    states: ['hover'],
+  },
+
+  'stroke-width': {
+    property: 'stroke-width',
+    values: {
+      '0': '0',
+      '1': '1',
+      '2': '2',
+    },
+  },
+
+  // -------------------------------------------------------------------------
+  // INTERACTIVITY
+  // -------------------------------------------------------------------------
+  'accent': {
+    property: 'accent-color',
+    values: COLORS,
+  },
+
+  'caret': {
+    property: 'caret-color',
+    values: COLORS,
+  },
+
+  'pointer-events': {
+    property: 'pointer-events',
+    values: {
+      'none': 'none',
+      'auto': 'auto',
+    },
+  },
+
+  'resize': {
+    property: 'resize',
+    values: {
+      'none': 'none',
+      '': 'both',
+      'y': 'vertical',
+      'x': 'horizontal',
+    },
+  },
+
+  'scroll': {
+    property: 'scroll-behavior',
+    values: {
+      'auto': 'auto',
+      'smooth': 'smooth',
+    },
+  },
+
+  'select': {
+    property: 'user-select',
+    values: {
+      'none': 'none',
+      'text': 'text',
+      'all': 'all',
+      'auto': 'auto',
+    },
+  },
+
+  'touch': {
+    property: 'touch-action',
+    values: {
+      'auto': 'auto',
+      'none': 'none',
+      'pan-x': 'pan-x',
+      'pan-y': 'pan-y',
+      'manipulation': 'manipulation',
+    },
+  },
+
+  'will-change': {
+    property: 'will-change',
+    values: {
+      'auto': 'auto',
+      'scroll': 'scroll-position',
+      'contents': 'contents',
+      'transform': 'transform',
+    },
+  },
+
+  // -------------------------------------------------------------------------
+  // SIZE (width + height)
+  // -------------------------------------------------------------------------
+  'size': {
+    property: ['width', 'height'],
+    values: SIZING,
+    responsive: true,
+  },
+
+  // -------------------------------------------------------------------------
+  // TABLES
+  // -------------------------------------------------------------------------
+  'table-layout': {
+    property: 'table-layout',
+    values: {
+      'auto': 'auto',
+      'fixed': 'fixed',
+    },
+    responsive: true,
+  },
+
+  'border-collapse': {
+    property: 'border-collapse',
+    values: {
+      'collapse': 'collapse',
+      'separate': 'separate',
+    },
+  },
+
+  'caption': {
+    property: 'caption-side',
+    values: {
+      'top': 'top',
+      'bottom': 'bottom',
+    },
+  },
+
+  // -------------------------------------------------------------------------
+  // TYPOGRAPHY EXTENDED
+  // -------------------------------------------------------------------------
+  'hyphens': {
+    property: 'hyphens',
+    values: {
+      'none': 'none',
+      'manual': 'manual',
+      'auto': 'auto',
+    },
+  },
+
+  'break': {
+    property: 'word-break',
+    values: {
+      'normal': 'normal',
+      'words': 'break-word',
+      'all': 'break-all',
+      'keep': 'keep-all',
+    },
+  },
+
+  'text-wrap': {
+    property: 'text-wrap',
+    values: {
+      'wrap': 'wrap',
+      'nowrap': 'nowrap',
+      'balance': 'balance',
+      'pretty': 'pretty',
+    },
+  },
+
+  'line-clamp': {
+    property: '-webkit-line-clamp',
+    values: {
+      '1': '1',
+      '2': '2',
+      '3': '3',
+      '4': '4',
+      '5': '5',
+      '6': '6',
+      'none': 'unset',
+    },
+    responsive: true,
+  },
+
+  'list': {
+    property: 'list-style-type',
+    values: {
+      'none': 'none',
+      'disc': 'disc',
+      'decimal': 'decimal',
+    },
+  },
+
+  'list-position': {
+    property: 'list-style-position',
+    values: {
+      'inside': 'inside',
+      'outside': 'outside',
+    },
+  },
+
+  // -------------------------------------------------------------------------
+  // ISOLATION
+  // -------------------------------------------------------------------------
+  'isolation': {
+    property: 'isolation',
+    values: {
+      'isolate': 'isolate',
+      'auto': 'auto',
+    },
+  },
+
+  // -------------------------------------------------------------------------
+  // OVERSCROLL
+  // -------------------------------------------------------------------------
+  'overscroll': {
+    property: 'overscroll-behavior',
+    values: {
+      'auto': 'auto',
+      'contain': 'contain',
+      'none': 'none',
+    },
+    modifiers: {
+      '': ['overscroll-behavior'],
+      'x': ['overscroll-behavior-x'],
+      'y': ['overscroll-behavior-y'],
+    },
+  },
+
+  // -------------------------------------------------------------------------
+  // PLACE UTILITIES
+  // -------------------------------------------------------------------------
+  'place-content': {
+    property: 'place-content',
+    values: {
+      'center': 'center',
+      'start': 'start',
+      'end': 'end',
+      'between': 'space-between',
+      'around': 'space-around',
+      'evenly': 'space-evenly',
+      'stretch': 'stretch',
+    },
+    responsive: true,
+  },
+
+  'place-items': {
+    property: 'place-items',
+    values: {
+      'start': 'start',
+      'end': 'end',
+      'center': 'center',
+      'stretch': 'stretch',
+    },
+    responsive: true,
+  },
+
+  'place-self': {
+    property: 'place-self',
+    values: {
+      'auto': 'auto',
+      'start': 'start',
+      'end': 'end',
+      'center': 'center',
+      'stretch': 'stretch',
+    },
+    responsive: true,
+  },
+
+  // -------------------------------------------------------------------------
+  // GRID EXTENDED
+  // -------------------------------------------------------------------------
+  'auto-cols': {
+    property: 'grid-auto-columns',
+    values: {
+      'auto': 'auto',
+      'min': 'min-content',
+      'max': 'max-content',
+      'fr': 'minmax(0, 1fr)',
+    },
+    responsive: true,
+  },
+
+  'auto-rows': {
+    property: 'grid-auto-rows',
+    values: {
+      'auto': 'auto',
+      'min': 'min-content',
+      'max': 'max-content',
+      'fr': 'minmax(0, 1fr)',
+    },
+    responsive: true,
+  },
+
+  'justify-items': {
+    property: 'justify-items',
+    values: {
+      'start': 'start',
+      'end': 'end',
+      'center': 'center',
+      'stretch': 'stretch',
+    },
+    responsive: true,
+  },
+
+  'justify-self': {
+    property: 'justify-self',
+    values: {
+      'auto': 'auto',
+      'start': 'start',
+      'end': 'end',
+      'center': 'center',
+      'stretch': 'stretch',
+    },
+    responsive: true,
+  },
+
+  'content': {
+    property: 'align-content',
+    values: {
+      'normal': 'normal',
+      'center': 'center',
+      'start': 'flex-start',
+      'end': 'flex-end',
+      'between': 'space-between',
+      'around': 'space-around',
+      'evenly': 'space-evenly',
+      'stretch': 'stretch',
+    },
+    responsive: true,
+  },
 };
 
 // Breakpoints for responsive utilities

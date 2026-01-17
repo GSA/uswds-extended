@@ -1,0 +1,40 @@
+// Isolation Utilities
+// Control whether an element creates a new stacking context
+//
+// Usage:
+//   <div class="isolate relative z-10">Creates stacking context</div>
+//   <div class="isolation-auto">Default behavior</div>
+//
+// Useful for:
+//   - Preventing z-index leakage between components
+//   - Creating predictable stacking contexts
+//   - Isolating blend modes and filters
+
+@use "uswds-core" as *;
+
+$isolation-settings: (
+  output: true,
+  responsive: false,
+  hover: false,
+  focus: false,
+);
+
+// ============================================================================
+// ISOLATION
+// ============================================================================
+
+$u-isolation: (
+  isolation: (
+    base: "",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "isolate": isolate,
+      "isolation-auto": auto,
+    ),
+    settings: $isolation-settings,
+    property: "isolation",
+    type: "utility",
+  ),
+);

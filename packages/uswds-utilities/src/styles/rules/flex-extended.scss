@@ -1,0 +1,133 @@
+// Flex Extended Utilities
+// Additional flex utilities: grow, shrink, basis
+//
+// Usage:
+//   <div class="flex-grow">Grows to fill</div>
+//   <div class="flex-shrink-0">Won't shrink</div>
+//   <div class="basis-1/2">50% basis</div>
+
+@use "uswds-core" as *;
+
+$flex-extended-settings: (
+  output: true,
+  responsive: true,
+  hover: false,
+  focus: false,
+);
+
+// ============================================================================
+// FLEX GROW
+// ============================================================================
+
+$u-flex-grow: (
+  flex-grow: (
+    base: "grow",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "": 1,
+      "0": 0,
+    ),
+    settings: $flex-extended-settings,
+    property: "flex-grow",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// FLEX SHRINK
+// ============================================================================
+
+$u-flex-shrink: (
+  flex-shrink: (
+    base: "shrink",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "": 1,
+      "0": 0,
+    ),
+    settings: $flex-extended-settings,
+    property: "flex-shrink",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// FLEX BASIS
+// ============================================================================
+
+$u-flex-basis: (
+  flex-basis: (
+    base: "basis",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "0": 0px,
+      "1px": 1px,
+      "1": 0.5rem,
+      "2": 1rem,
+      "3": 1.5rem,
+      "4": 2rem,
+      "5": 2.5rem,
+      "6": 3rem,
+      "7": 3.5rem,
+      "8": 4rem,
+      "9": 4.5rem,
+      "10": 5rem,
+      "11": 5.5rem,
+      "12": 6rem,
+      "14": 7rem,
+      "16": 8rem,
+      "20": 10rem,
+      "24": 12rem,
+      "28": 14rem,
+      "32": 16rem,
+      "36": 18rem,
+      "40": 20rem,
+      "44": 22rem,
+      "48": 24rem,
+      "52": 26rem,
+      "56": 28rem,
+      "60": 30rem,
+      "64": 32rem,
+      "72": 36rem,
+      "80": 40rem,
+      "96": 48rem,
+      "full": 100%,
+      "1\\/2": 50%,
+      "1\\/3": 33.333333%,
+      "2\\/3": 66.666667%,
+      "1\\/4": 25%,
+      "2\\/4": 50%,
+      "3\\/4": 75%,
+      "1\\/5": 20%,
+      "2\\/5": 40%,
+      "3\\/5": 60%,
+      "4\\/5": 80%,
+      "1\\/6": 16.666667%,
+      "2\\/6": 33.333333%,
+      "3\\/6": 50%,
+      "4\\/6": 66.666667%,
+      "5\\/6": 83.333333%,
+      "1\\/12": 8.333333%,
+      "2\\/12": 16.666667%,
+      "3\\/12": 25%,
+      "4\\/12": 33.333333%,
+      "5\\/12": 41.666667%,
+      "6\\/12": 50%,
+      "7\\/12": 58.333333%,
+      "8\\/12": 66.666667%,
+      "9\\/12": 75%,
+      "10\\/12": 83.333333%,
+      "11\\/12": 91.666667%,
+    ),
+    settings: $flex-extended-settings,
+    property: "flex-basis",
+    type: "utility",
+  ),
+);

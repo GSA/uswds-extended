@@ -1,0 +1,66 @@
+// Object Fit Utilities
+// Control how replaced elements (img, video) are resized
+//
+// Usage:
+//   <img class="object-cover w-full h-48">
+//   <video class="object-contain">
+//   <img class="object-none object-center">
+
+@use "uswds-core" as *;
+
+$object-settings: (
+  output: true,
+  responsive: true,
+  hover: false,
+  focus: false,
+);
+
+// ============================================================================
+// OBJECT FIT
+// ============================================================================
+
+$u-object-fit: (
+  object-fit: (
+    base: "object",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "contain": contain,
+      "cover": cover,
+      "fill": fill,
+      "none": none,
+      "scale-down": scale-down,
+    ),
+    settings: $object-settings,
+    property: "object-fit",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// OBJECT POSITION
+// ============================================================================
+
+$u-object-position: (
+  object-position: (
+    base: "object",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "bottom": bottom,
+      "center": center,
+      "left": left,
+      "left-bottom": left bottom,
+      "left-top": left top,
+      "right": right,
+      "right-bottom": right bottom,
+      "right-top": right top,
+      "top": top,
+    ),
+    settings: $object-settings,
+    property: "object-position",
+    type: "utility",
+  ),
+);

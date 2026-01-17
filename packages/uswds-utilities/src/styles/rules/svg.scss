@@ -1,0 +1,144 @@
+// SVG Utilities
+// Control SVG element styling
+//
+// Usage:
+//   <svg class="fill-primary stroke-ink">
+//   <svg class="stroke-2">
+//   <svg class="fill-current text-primary">
+
+@use "uswds-core" as *;
+
+$svg-settings: (
+  output: true,
+  responsive: false,
+  hover: true,
+  focus: true,
+);
+
+// Color values for SVG
+$svg-colors: (
+  "none": none,
+  "inherit": inherit,
+  "current": currentColor,
+  "transparent": transparent,
+  "black": #000000,
+  "white": #ffffff,
+  "primary": #005ea2,
+  "primary-vivid": #0050d8,
+  "primary-dark": #1a4480,
+  "primary-light": #73b3e7,
+  "secondary": #d83933,
+  "secondary-dark": #b50909,
+  "secondary-light": #f2938c,
+  "accent-cool": #00bde3,
+  "accent-warm": #fa9441,
+  "base": #71767a,
+  "base-dark": #565c65,
+  "base-light": #a9aeb1,
+  "base-lighter": #dfe1e2,
+  "base-lightest": #f0f0f0,
+  "ink": #1b1b1b,
+  "info": #00bde3,
+  "success": #00a91c,
+  "warning": #ffbe2e,
+  "error": #d54309,
+);
+
+// ============================================================================
+// FILL
+// ============================================================================
+
+$u-fill: (
+  fill: (
+    base: "fill",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $svg-colors,
+    settings: $svg-settings,
+    property: "fill",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// STROKE
+// ============================================================================
+
+$u-stroke: (
+  stroke: (
+    base: "stroke",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $svg-colors,
+    settings: $svg-settings,
+    property: "stroke",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// STROKE WIDTH
+// ============================================================================
+
+$u-stroke-width: (
+  stroke-width: (
+    base: "stroke",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": 0,
+      "1": 1,
+      "2": 2,
+    ),
+    settings: $svg-settings,
+    property: "stroke-width",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// STROKE LINECAP
+// ============================================================================
+
+$u-stroke-linecap: (
+  stroke-linecap: (
+    base: "stroke-linecap",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "butt": butt,
+      "round": round,
+      "square": square,
+    ),
+    settings: $svg-settings,
+    property: "stroke-linecap",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// STROKE LINEJOIN
+// ============================================================================
+
+$u-stroke-linejoin: (
+  stroke-linejoin: (
+    base: "stroke-linejoin",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "arcs": arcs,
+      "bevel": bevel,
+      "miter": miter,
+      "miter-clip": miter-clip,
+      "round": round,
+    ),
+    settings: $svg-settings,
+    property: "stroke-linejoin",
+    type: "utility",
+  ),
+);

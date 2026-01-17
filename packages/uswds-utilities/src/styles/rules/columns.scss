@@ -1,0 +1,134 @@
+// Columns Utilities
+// Control the number of columns within an element (CSS multi-column layout)
+//
+// Usage:
+//   <div class="columns-2">Two column text</div>
+//   <div class="columns-3 gap-4">Three columns with gap</div>
+//   <div class="columns-xs">Auto columns based on width</div>
+
+@use "uswds-core" as *;
+
+$columns-settings: (
+  output: true,
+  responsive: true,
+  hover: false,
+  focus: false,
+);
+
+// ============================================================================
+// COLUMNS
+// ============================================================================
+
+$u-columns: (
+  columns: (
+    base: "columns",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "5": 5,
+      "6": 6,
+      "7": 7,
+      "8": 8,
+      "9": 9,
+      "10": 10,
+      "11": 11,
+      "12": 12,
+      "3xs": 16rem,
+      "2xs": 18rem,
+      "xs": 20rem,
+      "sm": 24rem,
+      "md": 28rem,
+      "lg": 32rem,
+      "xl": 36rem,
+      "2xl": 42rem,
+      "3xl": 48rem,
+      "4xl": 56rem,
+      "5xl": 64rem,
+      "6xl": 72rem,
+      "7xl": 80rem,
+    ),
+    settings: $columns-settings,
+    property: "columns",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BREAK AFTER (for column breaks)
+// ============================================================================
+
+$u-break-after: (
+  break-after: (
+    base: "break-after",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "avoid": avoid,
+      "all": all,
+      "avoid-page": avoid-page,
+      "page": page,
+      "left": left,
+      "right": right,
+      "column": column,
+    ),
+    settings: $columns-settings,
+    property: "break-after",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BREAK BEFORE
+// ============================================================================
+
+$u-break-before: (
+  break-before: (
+    base: "break-before",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "avoid": avoid,
+      "all": all,
+      "avoid-page": avoid-page,
+      "page": page,
+      "left": left,
+      "right": right,
+      "column": column,
+    ),
+    settings: $columns-settings,
+    property: "break-before",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BREAK INSIDE
+// ============================================================================
+
+$u-break-inside: (
+  break-inside: (
+    base: "break-inside",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "avoid": avoid,
+      "avoid-page": avoid-page,
+      "avoid-column": avoid-column,
+    ),
+    settings: $columns-settings,
+    property: "break-inside",
+    type: "utility",
+  ),
+);

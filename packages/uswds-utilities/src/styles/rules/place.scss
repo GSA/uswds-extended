@@ -1,0 +1,88 @@
+// Place Utilities
+// Shorthand for align + justify in grid/flex layouts
+//
+// Usage:
+//   <div class="grid place-items-center">Center all items</div>
+//   <div class="grid place-content-between">Space content</div>
+//   <div class="place-self-end">Position self at end</div>
+
+@use "uswds-core" as *;
+
+$place-settings: (
+  output: true,
+  responsive: true,
+  hover: false,
+  focus: false,
+);
+
+// ============================================================================
+// PLACE CONTENT
+// ============================================================================
+
+$u-place-content: (
+  place-content: (
+    base: "place-content",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "center": center,
+      "start": start,
+      "end": end,
+      "between": space-between,
+      "around": space-around,
+      "evenly": space-evenly,
+      "baseline": baseline,
+      "stretch": stretch,
+    ),
+    settings: $place-settings,
+    property: "place-content",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// PLACE ITEMS
+// ============================================================================
+
+$u-place-items: (
+  place-items: (
+    base: "place-items",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "start": start,
+      "end": end,
+      "center": center,
+      "baseline": baseline,
+      "stretch": stretch,
+    ),
+    settings: $place-settings,
+    property: "place-items",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// PLACE SELF
+// ============================================================================
+
+$u-place-self: (
+  place-self: (
+    base: "place-self",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "start": start,
+      "end": end,
+      "center": center,
+      "stretch": stretch,
+    ),
+    settings: $place-settings,
+    property: "place-self",
+    type: "utility",
+  ),
+);

@@ -1,0 +1,126 @@
+// Table Utilities
+// Control table layout and borders
+//
+// Usage:
+//   <table class="table-auto border-collapse">
+//   <table class="table-fixed w-full">
+//   <th class="caption-top">
+
+@use "uswds-core" as *;
+
+$table-settings: (
+  output: true,
+  responsive: true,
+  hover: false,
+  focus: false,
+);
+
+// ============================================================================
+// TABLE LAYOUT
+// ============================================================================
+
+$u-table-layout: (
+  table-layout: (
+    base: "table",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "fixed": fixed,
+    ),
+    settings: $table-settings,
+    property: "table-layout",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BORDER COLLAPSE
+// ============================================================================
+
+$u-border-collapse: (
+  border-collapse: (
+    base: "border",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "collapse": collapse,
+      "separate": separate,
+    ),
+    settings: $table-settings,
+    property: "border-collapse",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BORDER SPACING
+// ============================================================================
+
+$u-border-spacing: (
+  border-spacing: (
+    base: "border-spacing",
+    modifiers: (
+      noModifier: "",
+      "x": "",
+      "y": "",
+    ),
+    values: (
+      "0": 0,
+      "1px": 1px,
+      "2px": 2px,
+      "1": 0.5rem,
+      "2": 1rem,
+      "3": 1.5rem,
+      "4": 2rem,
+      "5": 2.5rem,
+      "6": 3rem,
+      "8": 4rem,
+    ),
+    settings: $table-settings,
+    property: "border-spacing",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// CAPTION SIDE
+// ============================================================================
+
+$u-caption: (
+  caption: (
+    base: "caption",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "top": top,
+      "bottom": bottom,
+    ),
+    settings: $table-settings,
+    property: "caption-side",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// EMPTY CELLS
+// ============================================================================
+
+$u-empty-cells: (
+  empty-cells: (
+    base: "empty-cells",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "show": show,
+      "hide": hide,
+    ),
+    settings: $table-settings,
+    property: "empty-cells",
+    type: "utility",
+  ),
+);

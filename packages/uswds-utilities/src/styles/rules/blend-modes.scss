@@ -1,0 +1,72 @@
+// Blend Mode Utilities
+// Control how an element's content blends with its background/neighbors
+//
+// Usage:
+//   <div class="mix-blend-multiply">Multiply blend</div>
+//   <div class="bg-blend-overlay">Background overlay</div>
+//   <div class="mix-blend-difference text-white">Difference effect</div>
+
+@use "uswds-core" as *;
+
+$blend-settings: (
+  output: true,
+  responsive: false,
+  hover: true,
+  focus: false,
+);
+
+// Blend mode values shared between mix-blend and background-blend
+$blend-values: (
+  "normal": normal,
+  "multiply": multiply,
+  "screen": screen,
+  "overlay": overlay,
+  "darken": darken,
+  "lighten": lighten,
+  "color-dodge": color-dodge,
+  "color-burn": color-burn,
+  "hard-light": hard-light,
+  "soft-light": soft-light,
+  "difference": difference,
+  "exclusion": exclusion,
+  "hue": hue,
+  "saturation": saturation,
+  "color": color,
+  "luminosity": luminosity,
+  "plus-darker": plus-darker,
+  "plus-lighter": plus-lighter,
+);
+
+// ============================================================================
+// MIX BLEND MODE
+// ============================================================================
+
+$u-mix-blend: (
+  mix-blend: (
+    base: "mix-blend",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $blend-values,
+    settings: $blend-settings,
+    property: "mix-blend-mode",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BACKGROUND BLEND MODE
+// ============================================================================
+
+$u-bg-blend: (
+  bg-blend: (
+    base: "bg-blend",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $blend-values,
+    settings: $blend-settings,
+    property: "background-blend-mode",
+    type: "utility",
+  ),
+);

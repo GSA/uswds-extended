@@ -1,0 +1,171 @@
+// Background Extended Utilities
+// Additional background controls
+//
+// Usage:
+//   <div class="bg-fixed">Fixed background</div>
+//   <div class="bg-cover bg-center">Cover image</div>
+//   <div class="bg-repeat-x">Repeat horizontally</div>
+
+@use "uswds-core" as *;
+
+$bg-extended-settings: (
+  output: true,
+  responsive: true,
+  hover: false,
+  focus: false,
+);
+
+// ============================================================================
+// BACKGROUND ATTACHMENT
+// ============================================================================
+
+$u-bg-attachment: (
+  bg-attachment: (
+    base: "bg",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "fixed": fixed,
+      "local": local,
+      "scroll": scroll,
+    ),
+    settings: $bg-extended-settings,
+    property: "background-attachment",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BACKGROUND CLIP
+// ============================================================================
+
+$u-bg-clip: (
+  bg-clip: (
+    base: "bg-clip",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "border": border-box,
+      "padding": padding-box,
+      "content": content-box,
+      "text": text,
+    ),
+    settings: $bg-extended-settings,
+    property: "background-clip",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BACKGROUND ORIGIN
+// ============================================================================
+
+$u-bg-origin: (
+  bg-origin: (
+    base: "bg-origin",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "border": border-box,
+      "padding": padding-box,
+      "content": content-box,
+    ),
+    settings: $bg-extended-settings,
+    property: "background-origin",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BACKGROUND POSITION
+// ============================================================================
+
+$u-bg-position: (
+  bg-position: (
+    base: "bg",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "bottom": bottom,
+      "center": center,
+      "left": left,
+      "left-bottom": left bottom,
+      "left-top": left top,
+      "right": right,
+      "right-bottom": right bottom,
+      "right-top": right top,
+      "top": top,
+    ),
+    settings: $bg-extended-settings,
+    property: "background-position",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BACKGROUND REPEAT
+// ============================================================================
+
+$u-bg-repeat: (
+  bg-repeat: (
+    base: "bg",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "repeat": repeat,
+      "no-repeat": no-repeat,
+      "repeat-x": repeat-x,
+      "repeat-y": repeat-y,
+      "repeat-round": round,
+      "repeat-space": space,
+    ),
+    settings: $bg-extended-settings,
+    property: "background-repeat",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BACKGROUND SIZE
+// ============================================================================
+
+$u-bg-size: (
+  bg-size: (
+    base: "bg",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "cover": cover,
+      "contain": contain,
+    ),
+    settings: $bg-extended-settings,
+    property: "background-size",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BACKGROUND IMAGE (none)
+// ============================================================================
+
+$u-bg-image: (
+  bg-image: (
+    base: "bg",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+    ),
+    settings: $bg-extended-settings,
+    property: "background-image",
+    type: "utility",
+  ),
+);

@@ -1,0 +1,91 @@
+// Accessibility Utilities
+// Screen reader and focus utilities
+//
+// Usage:
+//   <span class="sr-only">Skip to main content</span>
+//   <button class="not-sr-only">Visible button</button>
+//   <a class="focus-visible:outline-2">Focus ring on keyboard</a>
+
+@use "uswds-core" as *;
+
+$accessibility-settings: (
+  output: true,
+  responsive: true,
+  hover: false,
+  focus: true,
+);
+
+// ============================================================================
+// SCREEN READER ONLY
+// ============================================================================
+
+// These utilities hide content visually but keep it accessible to screen readers
+$u-sr-only: (
+  sr-only: (
+    base: "",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "sr-only": (
+        position: absolute,
+        width: 1px,
+        height: 1px,
+        padding: 0,
+        margin: -1px,
+        overflow: hidden,
+        clip: rect(0, 0, 0, 0),
+        white-space: nowrap,
+        border-width: 0,
+      ),
+    ),
+    settings: $accessibility-settings,
+    property: null,
+    type: "object",
+  ),
+);
+
+// NOT screen reader only (makes element visible again)
+$u-not-sr-only: (
+  not-sr-only: (
+    base: "",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "not-sr-only": (
+        position: static,
+        width: auto,
+        height: auto,
+        padding: 0,
+        margin: 0,
+        overflow: visible,
+        clip: auto,
+        white-space: normal,
+      ),
+    ),
+    settings: $accessibility-settings,
+    property: null,
+    type: "object",
+  ),
+);
+
+// ============================================================================
+// FORCED COLORS (High Contrast Mode)
+// ============================================================================
+
+$u-forced-color-adjust: (
+  forced-color-adjust: (
+    base: "forced-color-adjust",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "none": none,
+    ),
+    settings: $accessibility-settings,
+    property: "forced-color-adjust",
+    type: "utility",
+  ),
+);

@@ -1,0 +1,121 @@
+// Gradient Utilities
+// CSS gradient backgrounds
+//
+// Usage:
+//   <div class="bg-gradient-to-r from-primary to-secondary">
+//   <div class="bg-gradient-to-b from-transparent via-black/50 to-black">
+//   <div class="bg-gradient-to-br from-blue-500 to-purple-600">
+
+@use "uswds-core" as *;
+
+$gradient-settings: (
+  output: true,
+  responsive: true,
+  hover: true,
+  focus: false,
+);
+
+// ============================================================================
+// GRADIENT DIRECTION
+// ============================================================================
+
+$u-gradient-direction: (
+  gradient-direction: (
+    base: "bg-gradient-to",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "t": linear-gradient(to top, var(--gradient-stops)),
+      "tr": linear-gradient(to top right, var(--gradient-stops)),
+      "r": linear-gradient(to right, var(--gradient-stops)),
+      "br": linear-gradient(to bottom right, var(--gradient-stops)),
+      "b": linear-gradient(to bottom, var(--gradient-stops)),
+      "bl": linear-gradient(to bottom left, var(--gradient-stops)),
+      "l": linear-gradient(to left, var(--gradient-stops)),
+      "tl": linear-gradient(to top left, var(--gradient-stops)),
+    ),
+    settings: $gradient-settings,
+    property: "background-image",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// GRADIENT COLOR STOPS
+// ============================================================================
+
+// Gradient colors
+$gradient-colors: (
+  "inherit": inherit,
+  "current": currentColor,
+  "transparent": transparent,
+  "black": #000000,
+  "white": #ffffff,
+  "primary": #005ea2,
+  "primary-vivid": #0050d8,
+  "primary-dark": #1a4480,
+  "primary-light": #73b3e7,
+  "primary-lighter": #d9e8f6,
+  "secondary": #d83933,
+  "secondary-dark": #b50909,
+  "secondary-light": #f2938c,
+  "accent-cool": #00bde3,
+  "accent-cool-dark": #28a0cb,
+  "accent-cool-light": #97d4ea,
+  "accent-warm": #fa9441,
+  "accent-warm-dark": #c05600,
+  "accent-warm-light": #ffbc78,
+  "base": #71767a,
+  "base-dark": #565c65,
+  "base-light": #a9aeb1,
+  "base-lighter": #dfe1e2,
+  "base-lightest": #f0f0f0,
+  "ink": #1b1b1b,
+  "info": #00bde3,
+  "success": #00a91c,
+  "warning": #ffbe2e,
+  "error": #d54309,
+);
+
+// From color (gradient start)
+$u-from-color: (
+  from-color: (
+    base: "from",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $gradient-colors,
+    settings: $gradient-settings,
+    property: "--gradient-from",
+    type: "utility",
+  ),
+);
+
+// Via color (gradient middle)
+$u-via-color: (
+  via-color: (
+    base: "via",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $gradient-colors,
+    settings: $gradient-settings,
+    property: "--gradient-via",
+    type: "utility",
+  ),
+);
+
+// To color (gradient end)
+$u-to-color: (
+  to-color: (
+    base: "to",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $gradient-colors,
+    settings: $gradient-settings,
+    property: "--gradient-to",
+    type: "utility",
+  ),
+);

@@ -326,34 +326,35 @@ $-easing: (
 }
 
 // Alias functions for common token access
-@function spacing($key) {
+// All prefixed with theme- to avoid conflicts with existing USWDS functions
+@function theme-spacing($key) {
   @return theme("spacing.#{$key}");
 }
 
-@function font-size($key) {
+@function theme-font-size($key) {
   @return theme("font-size.#{$key}");
 }
 
-@function radius($key) {
+@function theme-radius($key) {
   @return theme("border-radius.#{$key}");
 }
 
-@function shadow($key) {
+@function theme-shadow($key) {
   @return theme("shadow.#{$key}");
 }
 
-@function z($key) {
+@function theme-z($key) {
   @return theme("z-index.#{$key}");
 }
 
-@function breakpoint($key) {
+@function theme-breakpoint($key) {
   @return theme("breakpoints.#{$key}");
 }
 
-@function duration($key) {
+@function theme-duration($key) {
   @return theme("duration.#{$key}");
 }
 
-@function easing($key) {
+@function theme-easing($key) {
   @return theme("easing.#{$key}");
 }
