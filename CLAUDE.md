@@ -1,1051 +1,657 @@
-# USWDS Brand Extension System
+# USWDS Extended - Tailwind-Compatible Utility System
 
-## Claude's Analysis & Critique
+## Quick Start
 
-> **Note:** This section was added after analyzing the existing USWDS codebase. The original plan follows below with recommendations.
-
-### What USWDS Already Has (The Plan Overlooked This)
-
-After examining the codebase, I found that USWDS v3.x already has a sophisticated utility system that the original plan doesn't acknowledge:
-
-1. **Comprehensive Utility Generator** (`packages/uswds-utilities/`)
-   - 60+ utility categories: margin, padding, flex, display, width, height, colors, borders, shadows, positioning, etc.
-   - Palette-based value system for colors, spacing, typography
-   - Configurable output per utility
-
-2. **Responsive Variants Already Exist**
-   - Breakpoints: `mobile-lg`, `tablet`, `tablet-lg`, `desktop`, `desktop-lg`, `widescreen`
-   - Per-utility responsive toggle: `responsive: true/false`
-   - Prefix separator already uses `\:` (like Tailwind)
-
-3. **State Variants Already Exist**
-   - `hover`, `focus`, `active`, `visited` per utility
-   - Example: `hover:bg-primary`
-
-4. **Negative Values Already Exist**
-   - Via `$neg-prefix` in spacing tokens
-   - Already generates `-1px`, `-05`, `-1`, `-2`, etc.
-
-5. **Spacing System**
-   - Uses 8px base unit (not 4px like Tailwind)
-   - Already has fractional units: `05`, `105`, `205` (= 0.5, 1.5, 2.5)
-   - Negative values included
-
-6. **Color Cascade**
-   - `$global-color-palettes` already cascades to bg, text, border, decoration
-   - Extensive system colors and theme colors
-
-### What's Actually Missing (The Real Gaps)
-
-| Feature | Status | Implementation Complexity |
-|---------|--------|--------------------------|
-| **Arbitrary values `[...]`** | Not present | High (requires build tooling) |
-| **Stacked modifiers** `hover:md:bg-blue` | Partial (one level) | Medium |
-| **Opacity modifier** `bg-blue-500/75` | Not present | Medium |
-| **`@apply` directive** | Not present | High (PostCSS plugin) |
-| **`theme()` function** | Partial (Sass only) | Low (enhance existing) |
-| **Fractional widths** `w-1/2` | Limited | Low |
-| **JIT generation** | Not present | Very High |
-| **Group/peer modifiers** | Not present | Medium |
-| **Finer spacing scale** | Different scale | Low |
-| **Modern viewport units** `dvh`, `svh` | Not present | Low |
-
-### Critical Recommendations
-
-1. **Don't Recreate - Extend**
-   The plan proposes a parallel system. Instead, extend `packages/uswds-utilities/`:
-   - Add new palettes to existing utility rules
-   - Add new rules following existing patterns
-   - Use the existing `$utilities-package` aggregation
-
-2. **Defer JIT**
-   Building a JIT engine is a multi-month project. Start with:
-   - Static utility expansion (achievable)
-   - PurgeCSS for tree-shaking (proven solution)
-   - Consider JIT as Phase 2 after core utilities work
-
-3. **Integrate with USWDS Build System**
-   - Use Gulp tasks (not custom build scripts)
-   - Follow existing Sass module patterns (`@use`, `@forward`)
-   - Integrate with existing Storybook for testing
-
-4. **Prioritize by Impact vs Effort**
-   - **Quick wins:** Fractional widths, modern viewport units, opacity utilities
-   - **Medium effort:** Enhanced color cascade, more spacing values
-   - **Defer:** JIT, arbitrary values, `@apply` (need PostCSS)
-
-### Revised Implementation Priority
-
-**Phase 1: Low-Hanging Fruit (Extend Existing System)**
-- Add fractional width/height utilities
-- Add modern viewport units (dvh, svh, lvh)
-- Add gap utilities
-- Expand spacing scale with finer gradations
-- Add opacity modifier support to colors
-
-**Phase 2: Enhanced Modifiers**
-- Enable more responsive variants by default
-- Add `group-hover`, `peer-focus` patterns
-- Stacked modifier support (may need generator changes)
-
-**Phase 3: Build Tooling (Future)**
-- Arbitrary value scanner (PostCSS)
-- `@apply` directive (PostCSS)
-- JIT engine (if static proves too large)
-
----
-
-## Original Plan
-
-*(The following is the original plan, preserved for reference)*
-
----
-
-## Project Vision
-
-Transform USWDS from a rigid component library into a flexible, Tailwind-competitive design system while maintaining full government compliance. This isn't about adding a few color utilities—it's about closing the fundamental DX gaps that make Tailwind so productive.
-
----
-
-## The Problem: USWDS vs Tailwind Gap Analysis
-
-Before building anything, understand what we're solving. These are the specific capabilities Tailwind provides that USWDS lacks:
-
-### 1. Arbitrary Value Syntax `[...]`
-
-**Tailwind:** Use any value without touching config
-```html
-<div class="w-[137px] mt-[23px] bg-[#1a2b3c] text-[clamp(1rem,2vw,1.5rem)]">
-```
-
-**USWDS:** You're stuck with predefined tokens or writing custom CSS
-
-**Gap:** No escape hatch for one-off values. Every deviation requires custom CSS.
-
----
-
-### 2. Unified Spacing Scale (4pt Grid)
-
-**Tailwind:** Single scale used everywhere, mathematical relationships
-```
-0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 20, 24...
-(maps to 0, 0.125rem, 0.25rem, 0.375rem, 0.5rem...)
-```
-
-**USWDS:** Uses "units" (1 unit = 8px) but inconsistent across properties
-- Spacing: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30
-- Different scales for different properties
-
-**Gap:** No unified mental model. Can't predict what values exist.
-
----
-
-### 3. Composable Modifier Stacking
-
-**Tailwind:** Chain any modifiers in any order
-```html
-<div class="hover:md:dark:focus:bg-blue-500">
-```
-
-**USWDS:** Single-purpose classes, no composition
-```html
-<!-- Must write custom CSS for combined states -->
-```
-
-**Gap:** Can't express complex responsive + state combinations.
-
----
-
-### 4. Negative Values
-
-**Tailwind:** Prefix with `-` for negative
-```html
-<div class="-mt-4 -translate-x-1/2 -rotate-45">
-```
-
-**USWDS:** No negative utilities
-
-**Gap:** Can't do overlap layouts, centering tricks, or pull elements without custom CSS.
-
----
-
-### 5. Fractional & Calculated Sizing
-
-**Tailwind:** Percentages, viewport units, calculations
-```html
-<div class="w-1/2 w-1/3 w-2/5 w-full h-screen min-h-[calc(100vh-64px)]">
-```
-
-**USWDS:** Limited width utilities, no fractions
-
-**Gap:** Responsive layouts require custom CSS.
-
----
-
-### 6. JIT / On-Demand Generation
-
-**Tailwind:** Scans your code, generates only what's used
-
-**USWDS:** Ships entire library or manual subsetting
-
-**Gap:** Bloated CSS or tedious configuration.
-
----
-
-### 7. Opacity Modifier Syntax
-
-**Tailwind:** Inline opacity with `/`
-```html
-<div class="bg-blue-500/75 text-black/50 border-white/25">
-```
-
-**USWDS:** No opacity utilities for colors
-
-**Gap:** Can't create layered, translucent designs without custom CSS.
-
----
-
-### 8. Theme Function & @apply
-
-**Tailwind:** Reference tokens in custom CSS
-```css
-.custom-thing {
-  color: theme('colors.blue.500');
-  @apply px-4 py-2 rounded-lg;
-}
-```
-
-**USWDS:** Must use SCSS variables (less portable)
-
-**Gap:** Harder to extend consistently.
-
----
-
-### 9. Color Cascade on Custom Values
-
-**Tailwind:** Add a color, get all utilities automatically
-```js
-// tailwind.config.js
-colors: {
-  'brand': '#ff5722'  // Instantly get bg-brand, text-brand, border-brand, etc.
-}
-```
-
-**USWDS:** Adding colors requires manually creating each utility
-
-**Gap:** Branding requires extensive manual work.
-
----
-
-### 10. Sensible Defaults + Easy Overrides
-
-**Tailwind:** Works beautifully out of box, every value is overridable
-
-**USWDS:** Requires understanding USWDS settings architecture to customize
-
-**Gap:** Steep learning curve for customization.
-
----
-
-## Implementation Strategy
-
-### Guiding Principles
-
-1. **Additive, not destructive** - USWDS stays intact, we layer on top
-2. **Compliance-preserving** - Government accessibility standards are non-negotiable
-3. **Progressive adoption** - Use as much or little as needed
-4. **Zero-config useful** - Works immediately, configuration enhances
-5. **Tooling-aware** - Designed for Claude Code to extend
-
----
-
-## Phase 1: Foundation Layer
-
-### 1.1 Unified Token System
-
-Create a single source of truth that normalizes USWDS tokens and allows extension:
-
-```scss
-// tokens/_spacing.scss
-// Unified 4pt grid - same scale for margin, padding, gap, width, height
-$spacing: (
-  '0': 0,
-  'px': 1px,
-  '0.5': 0.125rem,   // 2px
-  '1': 0.25rem,      // 4px
-  '1.5': 0.375rem,   // 6px
-  '2': 0.5rem,       // 8px  (= 1 USWDS unit)
-  '2.5': 0.625rem,   // 10px
-  '3': 0.75rem,      // 12px
-  '3.5': 0.875rem,   // 14px
-  '4': 1rem,         // 16px (= 2 USWDS units)
-  '5': 1.25rem,      // 20px
-  '6': 1.5rem,       // 24px (= 3 USWDS units)
-  // ... continue to 96 (24rem)
-);
-
-// Map USWDS units to our scale for reference
-$uswds-unit-map: (
-  1: '2',    // 1 USWDS unit = spacing-2
-  2: '4',    // 2 USWDS units = spacing-4
-  3: '6',    // etc.
-);
-```
-
-**Claude Code Task:** 
-- Generate complete spacing scale from 0 to 96 (24rem)
-- Include fractional values (0.5, 1.5, 2.5, 3.5)
-- Document USWDS unit equivalents
-- Generate CSS custom properties for all values
-
-### 1.2 Color System with Cascade
-
-```scss
-// tokens/_colors.scss
-$colors: (
-  // Brand colors - these cascade to all utilities
-  'brand': (
-    '50': #eff6ff,
-    '100': #dbeafe,
-    '200': #bfdbfe,
-    '300': #93c5fd,
-    '400': #60a5fa,
-    '500': #3b82f6,   // Base
-    '600': #2563eb,
-    '700': #1d4ed8,
-    '800': #1e40af,
-    '900': #1e3a8a,
-    '950': #172554,
-  ),
-  
-  // Preserve USWDS palette (prefixed or aliased)
-  'uswds-primary': #005ea2,
-  'uswds-primary-light': #73b3e7,
-  // ... all USWDS colors
-);
-
-// Opacity steps for color/opacity syntax
-$opacity-values: (0, 5, 10, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 95, 100);
-```
-
-**Claude Code Task:**
-- Support both nested shade syntax (`brand-500`) and flat names (`uswds-primary`)
-- Generate utilities for: bg, text, border, outline, ring, fill, stroke, decoration, accent, caret, placeholder, shadow, divide
-- Generate opacity variants: `bg-brand-500/75`
-- Validate contrast ratios and warn on compile
-
-### 1.3 Breakpoint Alignment
-
-```scss
-// tokens/_breakpoints.scss
-// Use USWDS breakpoints but with Tailwind-style naming option
-$breakpoints: (
-  'sm': 640px,       // tablet in USWDS
-  'md': 768px,       // between tablet and tablet-lg
-  'lg': 1024px,      // desktop in USWDS
-  'xl': 1280px,      // desktop-lg in USWDS
-  '2xl': 1400px,     // widescreen in USWDS
-);
-
-// USWDS aliases (use either naming convention)
-$breakpoint-aliases: (
-  'mobile': 'sm',
-  'tablet': 'sm',
-  'tablet-lg': 'md',
-  'desktop': 'lg',
-  'desktop-lg': 'xl',
-  'widescreen': '2xl',
-);
-```
-
----
-
-## Phase 2: Utility Generator
-
-### 2.1 Core Generator Architecture
-
-```scss
-// generator/_core.scss
-// Generate utilities with variants
-
-@mixin generate-utility($property, $class-prefix, $values, $variants: ()) {
-  @each $key, $value in $values {
-    .#{$class-prefix}-#{$key} {
-      #{$property}: $value;
-    }
-    
-    // Responsive variants
-    @if list.index($variants, 'responsive') {
-      @each $bp-name, $bp-value in $breakpoints {
-        @media (min-width: $bp-value) {
-          .#{$bp-name}\:#{$class-prefix}-#{$key} {
-            #{$property}: $value;
-          }
-        }
-      }
-    }
-    
-    // State variants
-    @if list.index($variants, 'hover') {
-      .hover\:#{$class-prefix}-#{$key}:hover {
-        #{$property}: $value;
-      }
-    }
-    // ... focus, active, disabled, etc.
-  }
-}
-```
-
-### 2.2 Arbitrary Value Support
-
-This is critical. Must support `[arbitrary]` syntax:
-
-```scss
-// generator/_arbitrary.scss
-// PostCSS plugin or build-time scanner needed
-
-// In HTML: class="w-[137px] mt-[2.5rem] bg-[#ff5722]"
-// Scanner extracts these and generates:
-// .w-\[137px\] { width: 137px; }
-// .mt-\[2\.5rem\] { margin-top: 2.5rem; }
-// .bg-\[\#ff5722\] { background-color: #ff5722; }
-```
-
-**Claude Code Task:**
-- Create a PostCSS plugin OR build script that:
-  1. Scans source files for `[...]` patterns in class attributes
-  2. Parses the arbitrary values
-  3. Generates corresponding CSS
-  4. Escapes special characters in selectors
-- Handle edge cases: calc(), var(), clamp(), url()
-
-### 2.3 Negative Value Support
-
-```scss
-// generator/_negative.scss
-@mixin generate-negative-utility($property, $class-prefix, $values) {
-  @each $key, $value in $values {
-    @if $value != 0 {
-      .-#{$class-prefix}-#{$key} {
-        #{$property}: -#{$value};
-      }
-    }
-  }
-}
-
-// Usage
-@include generate-negative-utility('margin-top', 'mt', $spacing);
-// Generates: .-mt-1, .-mt-2, .-mt-4, etc.
-```
-
-### 2.4 Fractional Sizing
-
-```scss
-// generator/_fractions.scss
-$fractions: (
-  '1/2': 50%,
-  '1/3': 33.333333%,
-  '2/3': 66.666667%,
-  '1/4': 25%,
-  '2/4': 50%,
-  '3/4': 75%,
-  '1/5': 20%,
-  '2/5': 40%,
-  '3/5': 60%,
-  '4/5': 80%,
-  '1/6': 16.666667%,
-  '5/6': 83.333333%,
-  '1/12': 8.333333%,
-  // ... etc
-  'full': 100%,
-  'screen': 100vw,
-  'svw': 100svw,
-  'lvw': 100lvw,
-  'dvw': 100dvw,
-  'min': min-content,
-  'max': max-content,
-  'fit': fit-content,
-);
-
-// Height-specific
-$height-fractions: (
-  'screen': 100vh,
-  'svh': 100svh,
-  'lvh': 100lvh,
-  'dvh': 100dvh,
-);
-```
-
----
-
-## Phase 3: Modifier System
-
-### 3.1 Composable Variants
-
-```scss
-// modifiers/_compose.scss
-// Enable: hover:md:dark:bg-blue-500
-
-$variant-order: ('responsive', 'dark', 'hover', 'focus', 'active', 'disabled', 'group-hover');
-
-// Generator handles nested variants
-@mixin with-variants($variants...) {
-  // Generates all permutations needed
-  // Actual implementation requires build-time processing
-}
-```
-
-**Claude Code Task:**
-- Design a system where variants can stack
-- Decide: Generate all permutations (bloated) or JIT-only (requires tooling)?
-- Recommendation: JIT approach with a scanner
-
-### 3.2 Group & Peer Modifiers
+USWDS Extended provides **100% Tailwind CSS utility parity** while maintaining full USWDS compliance. Use familiar utility classes directly in your HTML:
 
 ```html
-<!-- Tailwind pattern we should support -->
-<div class="group">
-  <p class="group-hover:text-blue-500">Changes on parent hover</p>
+<!-- Layout -->
+<div class="flex items-center justify-between gap-4">
+
+  <!-- Sizing -->
+  <div class="size-12 minw-0 maxw-full">
+
+    <!-- Colors with opacity -->
+    <div class="bg-primary text-white border-2 border-white/50">
+
+      <!-- Typography -->
+      <p class="text-lg font-bold tracking-wide truncate">
+        Content
+      </p>
+    </div>
+  </div>
 </div>
 
-<input class="peer" />
-<p class="peer-focus:text-green-500">Changes when input focused</p>
-```
-
-```scss
-// modifiers/_group-peer.scss
-.group:hover .group-hover\:text-blue-500 {
-  color: theme('colors.blue.500');
-}
-
-.peer:focus ~ .peer-focus\:text-green-500 {
-  color: theme('colors.green.500');
-}
+<!-- Responsive + State variants -->
+<button class="tablet:px-6 desktop:px-8 hover:bg-primary-dark focus:ring-2">
+  Click me
+</button>
 ```
 
 ---
 
-## Phase 4: Developer Experience
+## Implementation Status
 
-### 4.1 Theme Function
+### Completed Features
 
-```scss
-// functions/_theme.scss
-@function theme($path) {
-  // theme('colors.brand.500') → #3b82f6
-  // theme('spacing.4') → 1rem
-  // Traverses token maps
-}
-
-// Usage in custom CSS
-.custom-component {
-  padding: theme('spacing.4');
-  color: theme('colors.brand.600');
-  border-radius: theme('borderRadius.lg');
-}
-```
-
-### 4.2 @apply Directive
-
-```scss
-// functions/_apply.scss
-// PostCSS plugin to enable @apply
-
-// Input:
-.btn-primary {
-  @apply px-4 py-2 bg-brand-500 text-white rounded-lg hover:bg-brand-600;
-}
-
-// Output:
-.btn-primary {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  background-color: #3b82f6;
-  color: #ffffff;
-  border-radius: 0.5rem;
-}
-.btn-primary:hover {
-  background-color: #2563eb;
-}
-```
-
-**Claude Code Task:**
-- Create PostCSS plugin for @apply
-- Handle variant utilities correctly (hover:, focus:, etc.)
-- Warn if applying utilities that don't exist
-
-### 4.3 VS Code / Editor Integration
-
-```json
-// .vscode/settings.json recommendations
-{
-  "tailwindCSS.experimental.classRegex": [
-    ["class=\"([^\"]*)", "[^\"]*"]
-  ],
-  "css.customData": [".vscode/uswds-brand.css-data.json"]
-}
-```
-
-**Claude Code Task:**
-- Generate CSS custom data file for IntelliSense
-- Document editor setup for autocomplete
+| Feature | Status | Notes |
+|---------|--------|-------|
+| **All Tailwind utilities** | Done | 100+ utility categories |
+| **Responsive variants** | Done | `mobile-lg:`, `tablet:`, `desktop:`, etc. |
+| **State variants** | Done | `hover:`, `focus:`, `active:`, `visited:` |
+| **Stacked modifiers** | Done | `hover:tablet:bg-primary` |
+| **Negative values** | Done | `-mt-4`, `-translate-x-1/2` |
+| **Fractional sizing** | Done | `w-1/2`, `h-1/3`, etc. |
+| **Modern viewport units** | Done | `dvh`, `svh`, `lvh`, `dvw`, etc. |
+| **Arbitrary values** | Done | `w-[137px]`, `bg-[#ff5722]` (JIT) |
+| **JIT generation** | Done | On-demand CSS generation |
+| **Dark mode** | Done | `dark:bg-gray-900` |
+| **Group/peer modifiers** | Done | `group-hover:`, `peer-focus:` |
+| **Opacity modifiers** | Done | `bg-primary/75`, `text-black/50` |
 
 ---
 
-## Phase 5: Build Tooling
+## Utility Categories
 
-### 5.1 JIT Engine
+### Layout
 
-```js
-// build/jit-engine.js
-// Scans source files, generates only used CSS
+| Category | Classes | Example |
+|----------|---------|---------|
+| Aspect Ratio | `aspect-auto`, `aspect-square`, `aspect-video` | `<div class="aspect-video">` |
+| Container | `container` | `<div class="container">` |
+| Columns | `columns-1` to `columns-12`, `columns-auto` | `<div class="columns-3">` |
+| Break After/Before/Inside | `break-after-*`, `break-before-*`, `break-inside-*` | `<div class="break-inside-avoid">` |
+| Box Decoration | `box-decoration-clone`, `box-decoration-slice` | `<span class="box-decoration-clone">` |
+| Box Sizing | `box-border`, `box-content` | `<div class="box-border">` |
+| Display | `block`, `inline-block`, `flex`, `grid`, `hidden`, etc. | `<div class="flex">` |
+| Float | `float-left`, `float-right`, `float-none` | `<img class="float-left">` |
+| Clear | `clear-left`, `clear-right`, `clear-both` | `<div class="clear-both">` |
+| Isolation | `isolate`, `isolation-auto` | `<div class="isolate">` |
+| Object Fit | `object-contain`, `object-cover`, `object-fill`, etc. | `<img class="object-cover">` |
+| Object Position | `object-center`, `object-top`, `object-left`, etc. | `<img class="object-center">` |
+| Overflow | `overflow-auto`, `overflow-hidden`, `overflow-scroll`, etc. | `<div class="overflow-hidden">` |
+| Overscroll | `overscroll-auto`, `overscroll-contain`, `overscroll-none` | `<div class="overscroll-contain">` |
+| Position | `static`, `relative`, `absolute`, `fixed`, `sticky` | `<div class="relative">` |
+| Inset | `inset-0`, `inset-x-4`, `inset-y-auto`, `top-0`, `right-4`, etc. | `<div class="absolute inset-0">` |
+| Visibility | `visible`, `invisible`, `collapse` | `<tr class="collapse">` |
+| Z-Index | `z-0`, `z-10`, `z-20`, `z-30`, `z-40`, `z-50`, `z-auto` | `<div class="z-50">` |
 
-const scanner = {
-  // Regex patterns for class extraction
-  patterns: [
-    /class="([^"]*)"/g,
-    /class='([^']*)'/g,
-    /className="([^"]*)"/g,
-    /className={`([^`]*)`}/g,
-  ],
-  
-  // Arbitrary value pattern
-  arbitraryPattern: /(\w+)-\[([^\]]+)\]/g,
-};
+### Flexbox & Grid
 
-// Output: Minimal CSS with only used utilities
+| Category | Classes | Example |
+|----------|---------|---------|
+| Flex Direction | `flex-row`, `flex-col`, `flex-row-reverse`, `flex-col-reverse` | `<div class="flex flex-col">` |
+| Flex Wrap | `flex-wrap`, `flex-nowrap`, `flex-wrap-reverse` | `<div class="flex flex-wrap">` |
+| Flex | `flex-1`, `flex-auto`, `flex-initial`, `flex-none` | `<div class="flex-1">` |
+| Flex Grow | `grow`, `grow-0` | `<div class="grow">` |
+| Flex Shrink | `shrink`, `shrink-0` | `<div class="shrink-0">` |
+| Flex Basis | `basis-0`, `basis-1/2`, `basis-full`, `basis-auto` | `<div class="basis-1/2">` |
+| Order | `order-1` to `order-12`, `order-first`, `order-last`, `order-none` | `<div class="order-first">` |
+| Grid Template Columns | `grid-cols-1` to `grid-cols-12`, `grid-cols-none` | `<div class="grid grid-cols-3">` |
+| Grid Column Span | `col-span-1` to `col-span-12`, `col-span-full` | `<div class="col-span-2">` |
+| Grid Template Rows | `grid-rows-1` to `grid-rows-6`, `grid-rows-none` | `<div class="grid grid-rows-3">` |
+| Grid Row Span | `row-span-1` to `row-span-6`, `row-span-full` | `<div class="row-span-2">` |
+| Grid Auto Flow | `grid-flow-row`, `grid-flow-col`, `grid-flow-dense` | `<div class="grid-flow-col">` |
+| Grid Auto Columns | `auto-cols-auto`, `auto-cols-min`, `auto-cols-max`, `auto-cols-fr` | `<div class="auto-cols-fr">` |
+| Grid Auto Rows | `auto-rows-auto`, `auto-rows-min`, `auto-rows-max`, `auto-rows-fr` | `<div class="auto-rows-min">` |
+| Gap | `gap-0` to `gap-96`, `gap-x-*`, `gap-y-*` | `<div class="grid gap-4">` |
+| Justify Content | `justify-start`, `justify-center`, `justify-end`, `justify-between`, etc. | `<div class="flex justify-between">` |
+| Justify Items | `justify-items-start`, `justify-items-center`, `justify-items-end`, etc. | `<div class="grid justify-items-center">` |
+| Justify Self | `justify-self-auto`, `justify-self-start`, `justify-self-center`, etc. | `<div class="justify-self-end">` |
+| Align Content | `content-start`, `content-center`, `content-end`, `content-between`, etc. | `<div class="flex content-center">` |
+| Align Items | `items-start`, `items-center`, `items-end`, `items-baseline`, `items-stretch` | `<div class="flex items-center">` |
+| Align Self | `self-auto`, `self-start`, `self-center`, `self-end`, `self-stretch` | `<div class="self-center">` |
+| Place Content | `place-content-center`, `place-content-start`, etc. | `<div class="place-content-center">` |
+| Place Items | `place-items-center`, `place-items-start`, etc. | `<div class="place-items-center">` |
+| Place Self | `place-self-center`, `place-self-start`, etc. | `<div class="place-self-center">` |
+
+### Spacing
+
+| Category | Classes | Example |
+|----------|---------|---------|
+| Padding | `p-0` to `p-96`, `px-*`, `py-*`, `pt-*`, `pr-*`, `pb-*`, `pl-*` | `<div class="p-4 px-6">` |
+| Margin | `m-0` to `m-96`, `mx-*`, `my-*`, `mt-*`, `mr-*`, `mb-*`, `ml-*`, `m-auto` | `<div class="mt-4 mx-auto">` |
+| Space Between | `space-x-*`, `space-y-*` (sets gap between children) | `<div class="flex space-x-4">` |
+
+**Negative margins:** Use `-` prefix: `-mt-4`, `-mx-2`, etc.
+
+### Sizing
+
+| Category | Classes | Example |
+|----------|---------|---------|
+| Width | `w-0` to `w-96`, `w-auto`, `w-full`, `w-screen`, `w-1/2`, `w-1/3`, etc. | `<div class="w-full tablet:w-1/2">` |
+| Min Width | `minw-0`, `minw-full`, `minw-min`, `minw-max`, `minw-fit` | `<div class="minw-0">` |
+| Max Width | `maxw-0` to `maxw-7xl`, `maxw-full`, `maxw-none`, `maxw-prose` | `<div class="maxw-lg">` |
+| Height | `h-0` to `h-96`, `h-auto`, `h-full`, `h-screen`, `h-dvh`, `h-svh`, `h-lvh` | `<div class="h-screen">` |
+| Min Height | `minh-0`, `minh-full`, `minh-screen`, `minh-dvh` | `<div class="minh-screen">` |
+| Max Height | `maxh-0` to `maxh-96`, `maxh-full`, `maxh-screen`, `maxh-none` | `<div class="maxh-64">` |
+| Size | `size-0` to `size-96`, `size-full` (sets both width & height) | `<img class="size-12">` |
+
+**Naming convention:** USWDS uses `minw`/`maxw`/`minh`/`maxh` (no hyphens), not `min-w`/`max-w`.
+
+### Typography
+
+| Category | Classes | Example |
+|----------|---------|---------|
+| Font Family | `font-sans`, `font-serif`, `font-mono` | `<code class="font-mono">` |
+| Font Size | `text-xs`, `text-sm`, `text-base`, `text-lg`, `text-xl`, `text-2xl`, etc. | `<p class="text-lg">` |
+| Font Smoothing | `antialiased`, `subpixel-antialiased` | `<body class="antialiased">` |
+| Font Style | `italic`, `not-italic` | `<em class="not-italic">` |
+| Font Weight | `font-thin`, `font-light`, `font-normal`, `font-medium`, `font-semibold`, `font-bold`, etc. | `<strong class="font-bold">` |
+| Font Variant Numeric | `normal-nums`, `ordinal`, `tabular-nums`, `oldstyle-nums`, etc. | `<span class="tabular-nums">` |
+| Letter Spacing | `tracking-tighter`, `tracking-tight`, `tracking-normal`, `tracking-wide`, etc. | `<h1 class="tracking-wide">` |
+| Line Clamp | `line-clamp-1` to `line-clamp-6`, `line-clamp-none` | `<p class="line-clamp-3">` |
+| Line Height | `leading-none`, `leading-tight`, `leading-normal`, `leading-relaxed`, `leading-loose` | `<p class="leading-relaxed">` |
+| List Style Type | `list-none`, `list-disc`, `list-decimal`, `list-circle`, `list-square` | `<ul class="list-disc">` |
+| List Style Position | `list-inside`, `list-outside` | `<ul class="list-inside">` |
+| Text Align | `text-left`, `text-center`, `text-right`, `text-justify` | `<p class="text-center">` |
+| Text Color | `text-primary`, `text-secondary`, `text-white`, `text-black`, etc. | `<p class="text-primary">` |
+| Text Decoration | `underline`, `overline`, `line-through`, `no-underline` | `<a class="no-underline">` |
+| Text Decoration Style | `decoration-solid`, `decoration-double`, `decoration-dotted`, `decoration-dashed`, `decoration-wavy` | `<a class="underline decoration-wavy">` |
+| Text Decoration Thickness | `decoration-auto`, `decoration-from-font`, `decoration-0`, `decoration-1`, `decoration-2`, `decoration-4`, `decoration-8` | `<a class="decoration-2">` |
+| Text Underline Offset | `underline-offset-auto`, `underline-offset-0`, `underline-offset-1`, `underline-offset-2`, `underline-offset-4`, `underline-offset-8` | `<a class="underline-offset-4">` |
+| Text Transform | `uppercase`, `lowercase`, `capitalize`, `normal-case` | `<span class="uppercase">` |
+| Text Overflow | `truncate`, `text-ellipsis`, `text-clip` | `<p class="truncate">` |
+| Text Wrap | `text-wrap`, `text-nowrap`, `text-balance`, `text-pretty` | `<p class="text-balance">` |
+| Vertical Align | `align-baseline`, `align-top`, `align-middle`, `align-bottom`, `align-text-top`, `align-text-bottom` | `<img class="align-middle">` |
+| Whitespace | `whitespace-normal`, `whitespace-nowrap`, `whitespace-pre`, `whitespace-pre-line`, `whitespace-pre-wrap` | `<pre class="whitespace-pre-wrap">` |
+| Word Break | `break-normal`, `break-words`, `break-all`, `break-keep` | `<p class="break-words">` |
+| Hyphens | `hyphens-none`, `hyphens-manual`, `hyphens-auto` | `<p class="hyphens-auto">` |
+| Content | `content-none` | `<span class="content-none">` |
+
+### Backgrounds
+
+| Category | Classes | Example |
+|----------|---------|---------|
+| Background Attachment | `bg-fixed`, `bg-local`, `bg-scroll` | `<div class="bg-fixed">` |
+| Background Clip | `bg-clip-border`, `bg-clip-padding`, `bg-clip-content`, `bg-clip-text` | `<span class="bg-clip-text">` |
+| Background Color | `bg-primary`, `bg-secondary`, `bg-white`, `bg-black`, `bg-transparent`, etc. | `<div class="bg-primary">` |
+| Background Origin | `bg-origin-border`, `bg-origin-padding`, `bg-origin-content` | `<div class="bg-origin-content">` |
+| Background Position | `bg-center`, `bg-top`, `bg-right`, `bg-bottom`, `bg-left`, etc. | `<div class="bg-center">` |
+| Background Repeat | `bg-repeat`, `bg-no-repeat`, `bg-repeat-x`, `bg-repeat-y`, `bg-repeat-round`, `bg-repeat-space` | `<div class="bg-no-repeat">` |
+| Background Size | `bg-auto`, `bg-cover`, `bg-contain` | `<div class="bg-cover">` |
+| Background Image / Gradient | `bg-none`, `bg-gradient-to-t`, `bg-gradient-to-r`, `bg-gradient-to-b`, `bg-gradient-to-l`, etc. | `<div class="bg-gradient-to-r">` |
+| Gradient Stops | `from-*`, `via-*`, `to-*` | `<div class="bg-gradient-to-r from-primary to-secondary">` |
+
+### Borders
+
+| Category | Classes | Example |
+|----------|---------|---------|
+| Border Radius | `rounded-none`, `rounded-sm`, `rounded`, `rounded-md`, `rounded-lg`, `rounded-xl`, `rounded-2xl`, `rounded-3xl`, `rounded-full` | `<div class="rounded-lg">` |
+| Border Width | `border`, `border-0`, `border-2`, `border-4`, `border-8`, `border-t-*`, `border-r-*`, `border-b-*`, `border-l-*` | `<div class="border-2">` |
+| Border Color | `border-primary`, `border-secondary`, `border-white`, `border-black`, `border-transparent`, etc. | `<div class="border border-primary">` |
+| Border Style | `border-solid`, `border-dashed`, `border-dotted`, `border-double`, `border-hidden`, `border-none` | `<div class="border-dashed">` |
+| Divide Width | `divide-x`, `divide-y`, `divide-x-2`, `divide-y-2`, etc. | `<div class="divide-y">` |
+| Divide Color | `divide-primary`, `divide-gray`, etc. | `<div class="divide-y divide-gray">` |
+| Divide Style | `divide-solid`, `divide-dashed`, `divide-dotted`, `divide-double`, `divide-none` | `<div class="divide-dashed">` |
+| Outline Width | `outline-0`, `outline-1`, `outline-2`, `outline-4`, `outline-8` | `<button class="outline-2">` |
+| Outline Color | `outline-primary`, `outline-secondary`, etc. | `<button class="outline-primary">` |
+| Outline Style | `outline-none`, `outline`, `outline-dashed`, `outline-dotted`, `outline-double` | `<button class="outline-dashed">` |
+| Outline Offset | `outline-offset-0`, `outline-offset-1`, `outline-offset-2`, `outline-offset-4`, `outline-offset-8` | `<button class="outline-offset-2">` |
+| Ring Width | `ring-0`, `ring-1`, `ring-2`, `ring`, `ring-4`, `ring-8`, `ring-inset` | `<button class="ring-2">` |
+| Ring Color | `ring-primary`, `ring-secondary`, etc. | `<button class="ring-2 ring-primary">` |
+| Ring Offset Width | `ring-offset-0`, `ring-offset-1`, `ring-offset-2`, `ring-offset-4`, `ring-offset-8` | `<button class="ring-offset-2">` |
+| Ring Offset Color | `ring-offset-white`, `ring-offset-primary`, etc. | `<button class="ring-offset-primary">` |
+
+### Effects
+
+| Category | Classes | Example |
+|----------|---------|---------|
+| Box Shadow | `shadow-sm`, `shadow`, `shadow-md`, `shadow-lg`, `shadow-xl`, `shadow-2xl`, `shadow-inner`, `shadow-none` | `<div class="shadow-lg">` |
+| Box Shadow Color | `shadow-primary`, `shadow-gray`, etc. | `<div class="shadow-lg shadow-primary">` |
+| Opacity | `opacity-0`, `opacity-5`, `opacity-10`, ... `opacity-100` | `<div class="opacity-50">` |
+| Mix Blend Mode | `mix-blend-normal`, `mix-blend-multiply`, `mix-blend-screen`, `mix-blend-overlay`, etc. | `<div class="mix-blend-multiply">` |
+| Background Blend Mode | `bg-blend-normal`, `bg-blend-multiply`, `bg-blend-screen`, etc. | `<div class="bg-blend-overlay">` |
+
+### Filters
+
+| Category | Classes | Example |
+|----------|---------|---------|
+| Blur | `blur-none`, `blur-sm`, `blur`, `blur-md`, `blur-lg`, `blur-xl`, `blur-2xl`, `blur-3xl` | `<img class="blur-sm">` |
+| Brightness | `brightness-0`, `brightness-50`, `brightness-75`, `brightness-90`, `brightness-100`, `brightness-105`, `brightness-110`, `brightness-125`, `brightness-150`, `brightness-200` | `<img class="brightness-125">` |
+| Contrast | `contrast-0`, `contrast-50`, `contrast-75`, `contrast-100`, `contrast-125`, `contrast-150`, `contrast-200` | `<img class="contrast-125">` |
+| Drop Shadow | `drop-shadow-sm`, `drop-shadow`, `drop-shadow-md`, `drop-shadow-lg`, `drop-shadow-xl`, `drop-shadow-2xl`, `drop-shadow-none` | `<img class="drop-shadow-lg">` |
+| Grayscale | `grayscale-0`, `grayscale` | `<img class="grayscale">` |
+| Hue Rotate | `hue-rotate-0`, `hue-rotate-15`, `hue-rotate-30`, `hue-rotate-60`, `hue-rotate-90`, `hue-rotate-180` | `<img class="hue-rotate-90">` |
+| Invert | `invert-0`, `invert` | `<img class="invert">` |
+| Saturate | `saturate-0`, `saturate-50`, `saturate-100`, `saturate-150`, `saturate-200` | `<img class="saturate-150">` |
+| Sepia | `sepia-0`, `sepia` | `<img class="sepia">` |
+| Backdrop Blur | `backdrop-blur-none`, `backdrop-blur-sm`, `backdrop-blur`, etc. | `<div class="backdrop-blur-sm">` |
+| Backdrop Brightness | `backdrop-brightness-*` | `<div class="backdrop-brightness-50">` |
+| Backdrop Contrast | `backdrop-contrast-*` | `<div class="backdrop-contrast-125">` |
+| Backdrop Grayscale | `backdrop-grayscale-0`, `backdrop-grayscale` | `<div class="backdrop-grayscale">` |
+| Backdrop Hue Rotate | `backdrop-hue-rotate-*` | `<div class="backdrop-hue-rotate-90">` |
+| Backdrop Invert | `backdrop-invert-0`, `backdrop-invert` | `<div class="backdrop-invert">` |
+| Backdrop Opacity | `backdrop-opacity-*` | `<div class="backdrop-opacity-50">` |
+| Backdrop Saturate | `backdrop-saturate-*` | `<div class="backdrop-saturate-150">` |
+| Backdrop Sepia | `backdrop-sepia-0`, `backdrop-sepia` | `<div class="backdrop-sepia">` |
+
+### Tables
+
+| Category | Classes | Example |
+|----------|---------|---------|
+| Border Collapse | `border-collapse`, `border-separate` | `<table class="border-collapse">` |
+| Border Spacing | `border-spacing-*`, `border-spacing-x-*`, `border-spacing-y-*` | `<table class="border-spacing-2">` |
+| Table Layout | `table-auto`, `table-fixed` | `<table class="table-fixed">` |
+| Caption Side | `caption-top`, `caption-bottom` | `<table class="caption-bottom">` |
+
+### Transitions & Animation
+
+| Category | Classes | Example |
+|----------|---------|---------|
+| Transition Property | `transition-none`, `transition-all`, `transition`, `transition-colors`, `transition-opacity`, `transition-shadow`, `transition-transform` | `<button class="transition-colors">` |
+| Transition Duration | `duration-75`, `duration-100`, `duration-150`, `duration-200`, `duration-300`, `duration-500`, `duration-700`, `duration-1000` | `<button class="duration-300">` |
+| Transition Timing | `ease-linear`, `ease-in`, `ease-out`, `ease-in-out` | `<button class="ease-in-out">` |
+| Transition Delay | `delay-75`, `delay-100`, `delay-150`, `delay-200`, `delay-300`, `delay-500`, `delay-700`, `delay-1000` | `<button class="delay-150">` |
+| Animation | `animate-none`, `animate-spin`, `animate-ping`, `animate-pulse`, `animate-bounce` | `<div class="animate-spin">` |
+
+### Transforms
+
+| Category | Classes | Example |
+|----------|---------|---------|
+| Scale | `scale-0`, `scale-50`, `scale-75`, `scale-90`, `scale-95`, `scale-100`, `scale-105`, `scale-110`, `scale-125`, `scale-150` | `<div class="hover:scale-105">` |
+| Rotate | `rotate-0`, `rotate-1`, `rotate-2`, `rotate-3`, `rotate-6`, `rotate-12`, `rotate-45`, `rotate-90`, `rotate-180` | `<div class="rotate-45">` |
+| Translate | `translate-x-*`, `translate-y-*` | `<div class="translate-x-4">` |
+| Skew | `skew-x-*`, `skew-y-*` | `<div class="skew-x-3">` |
+| Transform Origin | `origin-center`, `origin-top`, `origin-top-right`, `origin-right`, etc. | `<div class="origin-top-left">` |
+| Backface Visibility | `backface-visible`, `backface-hidden` | `<div class="backface-hidden">` |
+| Perspective | `perspective-none`, `perspective-*` | `<div class="perspective-500">` |
+| Perspective Origin | `perspective-origin-center`, `perspective-origin-top`, etc. | `<div class="perspective-origin-top">` |
+| Transform Style | `transform-style-flat`, `transform-style-3d` | `<div class="transform-style-3d">` |
+
+### Interactivity
+
+| Category | Classes | Example |
+|----------|---------|---------|
+| Accent Color | `accent-primary`, `accent-secondary`, `accent-auto`, etc. | `<input type="checkbox" class="accent-primary">` |
+| Appearance | `appearance-none`, `appearance-auto` | `<select class="appearance-none">` |
+| Cursor | `cursor-auto`, `cursor-default`, `cursor-pointer`, `cursor-wait`, `cursor-text`, `cursor-move`, `cursor-not-allowed`, etc. | `<button class="cursor-pointer">` |
+| Caret Color | `caret-primary`, `caret-transparent`, etc. | `<input class="caret-primary">` |
+| Pointer Events | `pointer-events-none`, `pointer-events-auto` | `<div class="pointer-events-none">` |
+| Resize | `resize-none`, `resize`, `resize-x`, `resize-y` | `<textarea class="resize-y">` |
+| Scroll Behavior | `scroll-auto`, `scroll-smooth` | `<html class="scroll-smooth">` |
+| Scroll Margin | `scroll-m-*`, `scroll-mt-*`, `scroll-mr-*`, `scroll-mb-*`, `scroll-ml-*`, `scroll-mx-*`, `scroll-my-*` | `<section class="scroll-mt-16">` |
+| Scroll Padding | `scroll-p-*`, `scroll-pt-*`, `scroll-pr-*`, `scroll-pb-*`, `scroll-pl-*`, `scroll-px-*`, `scroll-py-*` | `<div class="scroll-p-4">` |
+| Scroll Snap Align | `snap-start`, `snap-end`, `snap-center`, `snap-align-none` | `<div class="snap-start">` |
+| Scroll Snap Stop | `snap-normal`, `snap-always` | `<div class="snap-always">` |
+| Scroll Snap Type | `snap-none`, `snap-x`, `snap-y`, `snap-both`, `snap-mandatory`, `snap-proximity` | `<div class="snap-x snap-mandatory">` |
+| Touch Action | `touch-auto`, `touch-none`, `touch-pan-x`, `touch-pan-y`, `touch-manipulation` | `<div class="touch-manipulation">` |
+| User Select | `select-none`, `select-text`, `select-all`, `select-auto` | `<p class="select-none">` |
+| Will Change | `will-change-auto`, `will-change-scroll`, `will-change-contents`, `will-change-transform` | `<div class="will-change-transform">` |
+| Color Scheme | `color-scheme-normal`, `color-scheme-light`, `color-scheme-dark` | `<html class="color-scheme-dark">` |
+| Field Sizing | `field-sizing-content`, `field-sizing-fixed` | `<textarea class="field-sizing-content">` |
+
+### SVG
+
+| Category | Classes | Example |
+|----------|---------|---------|
+| Fill | `fill-current`, `fill-none`, `fill-inherit`, `fill-primary`, etc. | `<svg class="fill-current">` |
+| Stroke | `stroke-current`, `stroke-none`, `stroke-inherit`, `stroke-primary`, etc. | `<svg class="stroke-current">` |
+| Stroke Width | `stroke-0`, `stroke-1`, `stroke-2` | `<svg class="stroke-2">` |
+| Stroke Linecap | `stroke-linecap-butt`, `stroke-linecap-round`, `stroke-linecap-square` | `<svg class="stroke-linecap-round">` |
+| Stroke Linejoin | `stroke-linejoin-miter`, `stroke-linejoin-round`, `stroke-linejoin-bevel` | `<svg class="stroke-linejoin-round">` |
+
+### Accessibility
+
+| Category | Classes | Example |
+|----------|---------|---------|
+| Screen Reader Only | `sr-only`, `not-sr-only` | `<span class="sr-only">Skip to content</span>` |
+| Forced Color Adjust | `forced-color-adjust-auto`, `forced-color-adjust-none` | `<div class="forced-color-adjust-none">` |
+
+---
+
+## Responsive Design
+
+Use breakpoint prefixes for responsive utilities:
+
+| Breakpoint | Prefix | Min Width |
+|------------|--------|-----------|
+| Mobile Large | `mobile-lg:` | 480px |
+| Tablet | `tablet:` | 640px |
+| Tablet Large | `tablet-lg:` | 880px |
+| Desktop | `desktop:` | 1024px |
+| Desktop Large | `desktop-lg:` | 1200px |
+| Widescreen | `widescreen:` | 1400px |
+
+```html
+<!-- Stack on mobile, side-by-side on tablet, 3-column on desktop -->
+<div class="flex flex-col tablet:flex-row desktop:grid desktop:grid-cols-3">
+  <div class="w-full tablet:w-1/2 desktop:w-auto">Item 1</div>
+  <div class="w-full tablet:w-1/2 desktop:w-auto">Item 2</div>
+  <div class="w-full tablet:w-full desktop:w-auto">Item 3</div>
+</div>
 ```
 
-### 5.2 PurgeCSS Configuration
+---
+
+## State Variants
+
+Apply styles conditionally based on element state:
+
+| Variant | Selector | Example |
+|---------|----------|---------|
+| `hover:` | `:hover` | `hover:bg-primary-dark` |
+| `focus:` | `:focus` | `focus:ring-2` |
+| `active:` | `:active` | `active:scale-95` |
+| `visited:` | `:visited` | `visited:text-purple` |
+| `disabled:` | `:disabled` | `disabled:opacity-50` |
+| `group-hover:` | `.group:hover &` | `group-hover:text-white` |
+| `peer-focus:` | `.peer:focus ~ &` | `peer-focus:visible` |
+| `dark:` | `.dark &` or `@media (prefers-color-scheme: dark)` | `dark:bg-gray-900` |
+
+### Stacking Modifiers
+
+Combine responsive and state variants:
+
+```html
+<button class="
+  bg-primary
+  hover:bg-primary-dark
+  tablet:hover:bg-primary-darker
+  focus:ring-2
+  desktop:focus:ring-4
+">
+  Button
+</button>
+```
+
+### Group and Peer Modifiers
+
+```html
+<!-- Group hover: style children when parent is hovered -->
+<div class="group">
+  <h3 class="group-hover:text-primary">Title</h3>
+  <p class="group-hover:text-gray-600">Description</p>
+</div>
+
+<!-- Peer focus: style siblings when input is focused -->
+<label>
+  <input type="text" class="peer" />
+  <span class="peer-focus:text-primary">Label appears blue when focused</span>
+</label>
+```
+
+---
+
+## JIT (Just-In-Time) Mode
+
+The JIT engine scans your HTML/JSX files and generates only the CSS you use.
+
+### Configuration
+
+Create `jit.config.js` in your project root:
 
 ```js
-// build/purge.config.js
 module.exports = {
-  content: ['./src/**/*.{html,js,jsx,ts,tsx,vue,svelte}'],
-  safelist: {
-    standard: [/^usa-/],  // Preserve all USWDS
-    deep: [],
-    greedy: [],
-  },
-  extractors: [
-    {
-      extractor: content => content.match(/[\w-/:[\]#]+/g) || [],
-      extensions: ['html', 'js', 'jsx'],
-    },
+  content: [
+    './src/**/*.{html,js,jsx,ts,tsx}',
+    './templates/**/*.html',
   ],
+  // Output file
+  output: './dist/utilities.css',
 };
 ```
 
-### 5.3 Build Scripts
-
-```json
-// package.json scripts
-{
-  "scripts": {
-    "dev": "node build/watch.js",
-    "build": "node build/compile.js && node build/purge.js",
-    "analyze": "node build/analyze.js"  // Show what's generated, file size
-  }
-}
-```
-
----
-
-## Phase 6: USWDS Integration
-
-### 6.1 Specificity Management
-
-```scss
-// integration/_specificity.scss
-// Ensure brand utilities can override USWDS when intended
-
-// USWDS uses low specificity (0,1,0 typically)
-// Our utilities should match or exceed only when necessary
-
-// Safe overrides (works)
-.usa-button.bg-brand-500 {
-  background-color: var(--color-brand-500);
-}
-
-// For !important cases (avoid if possible)
-.bg-brand-500\! {
-  background-color: var(--color-brand-500) !important;
-}
-```
-
-### 6.2 Component Compatibility Layer
-
-```scss
-// integration/_components.scss
-// Helpers for common USWDS + utility combinations
-
-// Example: Branded USWDS button
-.usa-button--brand {
-  @apply bg-brand-500 hover:bg-brand-600 focus:ring-brand-300;
-}
-
-// Example: Custom card using USWDS base
-.usa-card--elevated {
-  @apply shadow-lg hover:shadow-xl transition-shadow;
-}
-```
-
-### 6.3 Token Sync
-
-```scss
-// integration/_sync.scss
-// Keep brand tokens aligned with USWDS settings
-
-// Read from USWDS settings
-@use 'uswds-core' as uswds;
-
-// Map USWDS tokens to brand system
-$synced-colors: (
-  'uswds-primary': uswds.$theme-color-primary,
-  'uswds-secondary': uswds.$theme-color-secondary,
-  // ...
-);
-```
-
----
-
-## Architecture Overview
-
-```
-/uswds-brand-extension
-├── /tokens
-│   ├── _spacing.scss       # Unified spacing scale
-│   ├── _colors.scss        # Color definitions + cascade
-│   ├── _typography.scss    # Font scale, line-height, tracking
-│   ├── _breakpoints.scss   # Responsive breakpoints
-│   ├── _borders.scss       # Border widths, radii
-│   ├── _shadows.scss       # Box shadow scale
-│   └── _index.scss         # Token exports
-│
-├── /generator
-│   ├── _core.scss          # Main utility generator
-│   ├── _arbitrary.scss     # [...] value support
-│   ├── _negative.scss      # Negative value utilities
-│   ├── _fractions.scss     # Fractional sizing
-│   └── _index.scss
-│
-├── /modifiers
-│   ├── _responsive.scss    # Breakpoint variants
-│   ├── _states.scss        # hover, focus, active, etc.
-│   ├── _dark.scss          # Dark mode variant
-│   ├── _group-peer.scss    # Group/peer modifiers
-│   └── _index.scss
-│
-├── /functions
-│   ├── _theme.scss         # theme() function
-│   ├── _apply.scss         # @apply support (PostCSS)
-│   └── _index.scss
-│
-├── /integration
-│   ├── _uswds-preserve.scss  # Original USWDS colors
-│   ├── _specificity.scss     # Override management
-│   ├── _components.scss      # USWDS component helpers
-│   └── _index.scss
-│
-├── /build
-│   ├── jit-engine.js       # On-demand generation
-│   ├── scanner.js          # Class extraction
-│   ├── arbitrary.js        # Arbitrary value parser
-│   ├── compile.js          # SCSS compilation
-│   ├── purge.js            # Tree-shaking
-│   └── watch.js            # Dev server
-│
-├── /dist
-│   ├── brand-utilities.css       # Full build
-│   ├── brand-utilities.min.css   # Minified
-│   └── brand-utilities.jit.css   # JIT output
-│
-├── index.scss              # Main entry
-├── CLAUDE.md               # This file
-└── package.json
-```
-
----
-
-## Claude Code Instructions
-
-### When Working on This Project
-
-1. **Analyze before implementing** - Before adding any utility category, check:
-   - Does USWDS already provide this?
-   - What's the Tailwind equivalent?
-   - What's the gap we're filling?
-
-2. **Maintain token consistency** - All values must trace back to token files
-
-3. **Test with real USWDS components** - Every feature must work alongside `usa-*` classes
-
-4. **Document gaps discovered** - If you find new USWDS limitations, add them to the gap analysis
-
-5. **Prefer JIT over static generation** - Don't generate massive CSS files
-
-6. **Accessibility is non-negotiable** - Warn on contrast failures, preserve focus states
-
-### Discovery Tasks for Claude Code
-
-When extending this system, Claude should:
-
-1. **Audit USWDS source** - What utilities exist? What's missing?
-2. **Compare Tailwind categories** - For each Tailwind utility group, what's the USWDS equivalent?
-3. **Identify escape hatches needed** - Where do developers most need arbitrary values?
-4. **Test edge cases** - Complex selectors, specificity conflicts, CSS custom property support
-
-### Example Prompt for Claude Code
-
-> "Analyze the USWDS flex utilities and compare to Tailwind. Document what's missing, then implement a gap-filling utility set that maintains USWDS breakpoint naming but adds Tailwind's flex utility completeness. Include arbitrary value support for flex-basis."
-
----
-
-## Testing Checklist
-
-### Tokens
-- [ ] Spacing scale is complete (0-96)
-- [ ] All colors generate cascade utilities
-- [ ] Opacity modifiers work (color/opacity syntax)
-- [ ] CSS custom properties generated for all tokens
-
-### Utilities
-- [ ] All utility types generate correctly
-- [ ] Arbitrary values work: `class="w-[137px]"`
-- [ ] Negative values work: `class="-mt-4"`
-- [ ] Fractions work: `class="w-1/2"`
-
-### Modifiers
-- [ ] Responsive variants at all breakpoints
-- [ ] State variants (hover, focus, active, disabled)
-- [ ] Stacked variants: `hover:md:bg-blue-500`
-- [ ] Group/peer modifiers work
-
-### Integration
-- [ ] Works alongside vanilla USWDS
-- [ ] No specificity conflicts
-- [ ] USWDS components can use brand utilities
-- [ ] Original USWDS colors preserved with prefix
-
-### Build
-- [ ] JIT generates minimal CSS
-- [ ] PurgeCSS removes unused utilities
-- [ ] Source maps work
-- [ ] Build time is acceptable (<5s)
-
----
-
-## Future Considerations
-
-- [ ] Figma token export/import
-- [ ] Design system documentation generator
-- [ ] Visual regression testing
-- [ ] Multi-theme support (beyond dark mode)
-- [ ] Container queries
-- [ ] CSS layers integration
-- [ ] Animation utilities
-- [ ] Logical properties (start/end vs left/right)
-
----
-
-## Revised Implementation Plan (Claude's Recommendation)
-
-Based on my analysis, here's a practical implementation plan that works **with** USWDS rather than around it.
-
-### Phase 1: Extend Existing Utilities
-
-**Location:** `packages/uswds-utilities/src/styles/`
-
-#### 1.1 Add Fractional Width/Height Utilities
-
-Create `rules/width-fractions.scss`:
-```scss
-$u-width-fractions: (
-  width-fractions: (
-    base: "width",
-    modifiers: (noModifier: ""),
-    values: (
-      "1\\/2": 50%,
-      "1\\/3": 33.333333%,
-      "2\\/3": 66.666667%,
-      "1\\/4": 25%,
-      "3\\/4": 75%,
-      "1\\/5": 20%,
-      "2\\/5": 40%,
-      "3\\/5": 60%,
-      "4\\/5": 80%,
-      "1\\/6": 16.666667%,
-      "5\\/6": 83.333333%,
-      "full": 100%,
-    ),
-    settings: $width-settings-complete,
-    property: "width",
-    type: "utility",
-  ),
-);
-```
-
-#### 1.2 Add Modern Viewport Units
-
-Extend `rules/height.scss` and `rules/width.scss`:
-```scss
-// Add to height values
-"dvh": 100dvh,
-"svh": 100svh,
-"lvh": 100lvh,
-
-// Add to width values
-"dvw": 100dvw,
-"svw": 100svw,
-"lvw": 100lvw,
-```
-
-#### 1.3 Add Gap Utilities
-
-Create `rules/gap.scss`:
-```scss
-$u-gap: (
-  gap: (
-    base: "gap",
-    modifiers: (
-      noModifier: "",
-      "x": "-column",
-      "y": "-row",
-    ),
-    values: map-collect(get-palettes($padding-palettes)), // reuse padding scale
-    settings: $gap-settings-complete,
-    property: "gap",
-    type: "utility",
-  ),
-);
-```
-
-#### 1.4 Add Opacity Utilities to Colors
-
-Create new palette in `palettes/colors/_opacity-palettes.scss`:
-```scss
-// Generate bg-{color}/{opacity} utilities
-// This requires a mixin modification to support slash syntax
-```
-
-### Phase 2: Expand Token Scales
-
-**Location:** `packages/uswds-core/src/styles/tokens/`
-
-#### 2.1 Finer Spacing Scale
-
-Add to `tokens/units/spacing.scss`:
-```scss
-"extra-small": (
-  "025": spacing-multiple(0.25),  // 2px
-  "075": spacing-multiple(0.75),  // 6px
-  "125": spacing-multiple(1.25),  // 10px
-  // etc.
-),
-```
-
-#### 2.2 Extended Color Opacity
-
-Add opacity scale for color utilities:
-```scss
-$opacity-scale: (0, 5, 10, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 95, 100);
-```
-
-### Phase 3: Enhanced Modifiers
-
-#### 3.1 Enable More Responsive Variants
-
-Update `settings/_settings-utilities.scss` defaults:
-```scss
-// Change default responsive from false to true for key utilities
-$flex-settings-complete: map.merge(
-  (responsive: true, ...),
-  $flex-settings
-);
-```
-
-#### 3.2 Add Group/Peer Support
-
-Create `packages/uswds-utilities/src/styles/rules/group-peer.scss`:
-```scss
-// .group:hover .group-hover\:bg-primary { ... }
-// .peer:focus ~ .peer-focus\:text-secondary { ... }
-```
-
-### Phase 4: Build Integration (Optional)
-
-#### 4.1 PurgeCSS Configuration
-
-Add to `gulpfile.js`:
-```js
-const purgecss = require('@fullhuman/postcss-purgecss');
-
-// Add to PostCSS pipeline for production builds
-```
-
-#### 4.2 CSS Custom Properties Export
-
-Enhance `_properties.scss` to export all tokens as CSS variables.
-
-### File Changes Summary
-
-```
-packages/uswds-utilities/
-├── src/styles/
-│   ├── rules/
-│   │   ├── width-fractions.scss    [NEW]
-│   │   ├── gap.scss                [NEW]
-│   │   ├── group-peer.scss         [NEW]
-│   │   ├── height.scss             [MODIFY - add dvh/svh/lvh]
-│   │   ├── width.scss              [MODIFY - add dvw/svw/lvw]
-│   │   └── _package.scss           [MODIFY - add new utilities]
-│   └── palettes/
-│       └── _spacing-palettes.scss  [MODIFY - add finer scale]
-
-packages/uswds-core/
-├── src/styles/
-│   ├── tokens/units/
-│   │   └── spacing.scss            [MODIFY - add granular values]
-│   └── settings/
-│       └── _settings-utilities.scss [MODIFY - enable more responsive]
-```
-
-### Testing Strategy
-
-1. **Unit Tests:** Use sass-true to test utility generation
-2. **Visual Tests:** Storybook stories for new utilities
-3. **Integration:** Test alongside existing `usa-*` components
-4. **Bundle Size:** Monitor CSS output size
-
-### Success Criteria
-
-- [ ] All new utilities follow USWDS naming conventions
-- [ ] Responsive variants work: `tablet:w-1/2`
-- [ ] State variants work: `hover:bg-primary`
-- [ ] No conflicts with existing USWDS utilities
-- [ ] Build passes: `npm run build`
-- [ ] Tests pass: `npm test`
-- [ ] Bundle size increase < 20KB (gzipped)
-
----
-
-## Getting Started
-
-To implement this plan:
+### Running JIT
 
 ```bash
-# 1. Ensure clean build first
-npm install
-npm run build
+# One-time build
+node tasks/jit/jit-engine.js
 
-# 2. Start with Phase 1.1 (fractional widths)
-# Create the new rule file and add to package
-
-# 3. Test incrementally
-npm run build
-npm run test:sass
+# Watch mode
+node tasks/jit/jit-engine.js --watch
 ```
 
-Would you like me to proceed with implementation starting from Phase 1?
+### Arbitrary Values
+
+Use bracket syntax for one-off values:
+
+```html
+<!-- Arbitrary sizing -->
+<div class="w-[137px] h-[calc(100vh-64px)]">
+
+<!-- Arbitrary colors -->
+<div class="bg-[#ff5722] text-[rgb(255,255,255)]">
+
+<!-- Arbitrary spacing -->
+<div class="mt-[23px] p-[2.5rem]">
+
+<!-- Arbitrary font size -->
+<p class="text-[clamp(1rem,2vw,1.5rem)]">
+```
+
+### Opacity Modifiers
+
+Add opacity to any color utility:
+
+```html
+<div class="bg-primary/75">     <!-- 75% opacity -->
+<div class="text-black/50">     <!-- 50% opacity -->
+<div class="border-white/25">   <!-- 25% opacity -->
+```
+
+---
+
+## Using with USWDS Components
+
+USWDS Extended utilities work alongside standard USWDS components:
+
+```html
+<!-- Enhanced USWDS button -->
+<button class="usa-button bg-brand-500 hover:bg-brand-600 shadow-md">
+  Custom branded button
+</button>
+
+<!-- USWDS card with utility enhancements -->
+<div class="usa-card shadow-lg hover:shadow-xl transition-shadow">
+  <div class="usa-card__container">
+    <div class="usa-card__header">
+      <h2 class="usa-card__heading text-primary">Card Title</h2>
+    </div>
+    <div class="usa-card__body">
+      <p class="text-gray-600 leading-relaxed">Card content</p>
+    </div>
+  </div>
+</div>
+```
+
+---
+
+## File Structure
+
+```
+packages/uswds-utilities/src/styles/
+├── rules/                    # Utility definitions
+│   ├── _index.scss          # Forwards all utilities
+│   ├── _package.scss        # Collects utility maps
+│   ├── accessibility.scss
+│   ├── animation.scss
+│   ├── aspect-ratio.scss
+│   ├── backdrop-filters.scss
+│   ├── background-extended.scss
+│   ├── blend-modes.scss
+│   ├── columns.scss
+│   ├── container.scss
+│   ├── content.scss
+│   ├── divide.scss
+│   ├── effects-extended.scss
+│   ├── filters.scss
+│   ├── flex-extended.scss
+│   ├── gradients.scss
+│   ├── grid-extended.scss
+│   ├── interactivity.scss
+│   ├── interactivity-extended.scss
+│   ├── isolation.scss
+│   ├── logical-properties.scss
+│   ├── object-fit.scss
+│   ├── outline-extended.scss
+│   ├── overscroll.scss
+│   ├── place.scss
+│   ├── ring.scss
+│   ├── ring-base.scss
+│   ├── size.scss
+│   ├── space.scss
+│   ├── svg.scss
+│   ├── tables.scss
+│   ├── transforms-extended.scss
+│   ├── transition-extended.scss
+│   ├── typography-advanced.scss
+│   ├── typography-extras.scss
+│   └── visibility.scss
+│
+tasks/jit/
+├── jit-engine.js            # Main JIT compiler
+├── utility-definitions.js   # JavaScript utility definitions
+└── scanner.js               # Class extraction from source files
+```
+
+---
+
+## Adding Custom Utilities
+
+### SCSS Method
+
+Add to `packages/uswds-utilities/src/styles/rules/`:
+
+```scss
+// my-utility.scss
+@use "uswds-core" as *;
+
+$my-utility-settings: (
+  output: true,
+  responsive: true,
+  hover: true,
+  focus: false,
+);
+
+$u-my-utility: (
+  my-utility: (
+    base: "my-prefix",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "small": 0.5rem,
+      "medium": 1rem,
+      "large": 2rem,
+    ),
+    settings: $my-utility-settings,
+    property: "my-css-property",
+    type: "utility",
+  ),
+);
+```
+
+Then add to `_index.scss` and `_package.scss`.
+
+### JIT Method
+
+Add to `tasks/jit/utility-definitions.js`:
+
+```js
+'my-prefix': {
+  property: 'my-css-property',
+  values: {
+    'small': '0.5rem',
+    'medium': '1rem',
+    'large': '2rem',
+  },
+  responsive: true,
+  hover: true,
+},
+```
+
+---
+
+## Naming Conventions
+
+USWDS Extended follows USWDS naming conventions:
+
+| Tailwind | USWDS Extended | Notes |
+|----------|----------------|-------|
+| `min-w-*` | `minw-*` | No hyphen |
+| `max-w-*` | `maxw-*` | No hyphen |
+| `min-h-*` | `minh-*` | No hyphen |
+| `max-h-*` | `maxh-*` | No hyphen |
+| `min-size-*` | `min-size-*` | Hyphen retained |
+| `max-size-*` | `max-size-*` | Hyphen retained |
+
+Responsive breakpoints use USWDS names:
+- `tablet:` instead of `sm:`
+- `desktop:` instead of `lg:`
+- `widescreen:` instead of `2xl:`
+
+---
+
+## Build Commands
+
+```bash
+# Full build (SCSS compilation)
+npm run build
+
+# Watch mode
+npm run dev
+
+# Build utilities only
+gulp build-utilities
+
+# Run JIT compiler
+node tasks/jit/jit-engine.js
+
+# JIT watch mode
+node tasks/jit/jit-engine.js --watch
+```
+
+---
+
+## Browser Support
+
+All utilities support modern browsers:
+- Chrome/Edge 88+
+- Firefox 78+
+- Safari 14+
+
+Some utilities use modern CSS features:
+- `dvh`, `svh`, `lvh` viewport units
+- `text-wrap: balance`
+- CSS Container Queries (where applicable)
+- `color-scheme` property
+
+---
+
+## Accessibility Considerations
+
+1. **Focus states are preserved** - Never remove focus indicators without providing alternatives
+2. **Color contrast** - Use USWDS color tokens which meet WCAG 2.1 AA standards
+3. **Screen reader utilities** - Use `sr-only` for visually hidden but accessible content
+4. **Reduced motion** - Respect `prefers-reduced-motion` in animations
+
+```html
+<!-- Good: Visible focus ring -->
+<button class="focus:ring-2 focus:ring-primary focus:outline-none">
+  Accessible button
+</button>
+
+<!-- Good: Screen reader text -->
+<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-0">
+  Skip to main content
+</a>
+```
+
+---
+
+## Migration from Tailwind
+
+Most Tailwind classes work directly. Key differences:
+
+1. **Breakpoint names**: Use `tablet:` instead of `sm:`, `desktop:` instead of `lg:`
+2. **Sizing utilities**: Use `minw-*`, `maxw-*`, `minh-*`, `maxh-*` (no hyphens)
+3. **Color names**: Use USWDS color tokens (`primary`, `secondary`) alongside standard colors
+
+```html
+<!-- Tailwind -->
+<div class="sm:flex lg:grid-cols-3 min-w-0 max-w-lg">
+
+<!-- USWDS Extended -->
+<div class="tablet:flex desktop:grid-cols-3 minw-0 maxw-lg">
+```
