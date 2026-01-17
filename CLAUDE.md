@@ -394,12 +394,28 @@ module.exports = {
 
 ### Running JIT
 
-```bash
-# One-time build
-node tasks/jit/jit-engine.js
+```js
+// Import the JIT engine
+const { jit } = require('./tasks/jit');
 
-# Watch mode
-node tasks/jit/jit-engine.js --watch
+// Generate CSS for your project
+const result = await jit({
+  content: ['./src/**/*.{html,js,jsx,ts,tsx}'],
+  output: './dist/utilities.css',
+  verbose: true,
+});
+
+console.log(`Generated ${result.stats.total} utilities`);
+```
+
+Or use the scanner directly:
+
+```js
+const { scanFiles, generateReport } = require('./tasks/jit/scanner');
+const { generateCSS } = require('./tasks/jit/generator');
+
+const classes = await scanFiles(['./src/**/*.html']);
+const { css } = generateCSS(classes);
 ```
 
 ### Arbitrary Values
@@ -500,9 +516,10 @@ packages/uswds-utilities/src/styles/
 │   └── visibility.scss
 │
 tasks/jit/
-├── jit-engine.js            # Main JIT compiler
-├── utility-definitions.js   # JavaScript utility definitions
-└── scanner.js               # Class extraction from source files
+├── index.js                 # Main JIT entry point
+├── generator.js             # CSS generator from scanned classes
+├── scanner.js               # Class extraction from source files
+└── utility-definitions.js   # JavaScript utility definitions
 ```
 
 ---
@@ -586,7 +603,7 @@ Responsive breakpoints use USWDS names:
 ## Build Commands
 
 ```bash
-# Full build (SCSS compilation)
+# Full build (SCSS compilation + web components)
 npm run build
 
 # Watch mode
@@ -595,11 +612,7 @@ npm run dev
 # Build utilities only
 gulp build-utilities
 
-# Run JIT compiler
-node tasks/jit/jit-engine.js
-
-# JIT watch mode
-node tasks/jit/jit-engine.js --watch
+# JIT is used programmatically - see JIT section above
 ```
 
 ---
