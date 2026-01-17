@@ -13,12 +13,32 @@
 //   block  = vertical axis (top/bottom)
 
 @use "uswds-core" as *;
-@use "../palettes" as *;
 
 $logical-settings: (
   output: true,
   responsive: true,
   hover: false,
+);
+
+// Spacing values for logical properties
+$spacing-logical-values: (
+  "0": 0,
+  "1px": 1px,
+  "2px": 2px,
+  "05": 0.25rem,
+  "1": 0.5rem,
+  "105": 0.75rem,
+  "2": 1rem,
+  "205": 1.25rem,
+  "3": 1.5rem,
+  "4": 2rem,
+  "5": 2.5rem,
+  "6": 3rem,
+  "7": 3.5rem,
+  "8": 4rem,
+  "9": 4.5rem,
+  "10": 5rem,
+  "auto": auto,
 );
 
 // ============================================================================
@@ -33,7 +53,7 @@ $u-margin-logical: (
       "start": "-start",
       "end": "-end",
     ),
-    values: map-collect(get-palettes($margin-palettes)),
+    values: $spacing-logical-values,
     settings: $logical-settings,
     property: "margin-inline",
     type: "utility",
@@ -45,7 +65,7 @@ $u-margin-logical: (
       "start": "-start",
       "end": "-end",
     ),
-    values: map-collect(get-palettes($margin-palettes)),
+    values: $spacing-logical-values,
     settings: $logical-settings,
     property: "margin-block",
     type: "utility",
@@ -64,7 +84,7 @@ $u-padding-logical: (
       "start": "-start",
       "end": "-end",
     ),
-    values: map-collect(get-palettes($padding-palettes)),
+    values: $spacing-logical-values,
     settings: $logical-settings,
     property: "padding-inline",
     type: "utility",
@@ -76,7 +96,7 @@ $u-padding-logical: (
       "start": "-start",
       "end": "-end",
     ),
-    values: map-collect(get-palettes($padding-palettes)),
+    values: $spacing-logical-values,
     settings: $logical-settings,
     property: "padding-block",
     type: "utility",
