@@ -1,0 +1,34 @@
+// Transition Extended Utilities
+// Additional transition controls
+//
+// Usage:
+//   <button class="transition-behavior-discrete">Discrete transitions</button>
+
+@use "uswds-core" as *;
+
+$transition-extended-settings: (
+  output: true,
+  responsive: false,
+  hover: false,
+  focus: false,
+);
+
+// ============================================================================
+// TRANSITION BEHAVIOR
+// ============================================================================
+
+$u-transition-behavior: (
+  transition-behavior: (
+    base: "transition-behavior",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "normal": normal,
+      "discrete": allow-discrete,
+    ),
+    settings: $transition-extended-settings,
+    property: "transition-behavior",
+    type: "utility",
+  ),
+);

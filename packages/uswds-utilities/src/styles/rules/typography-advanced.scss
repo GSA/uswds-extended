@@ -1,0 +1,163 @@
+// Typography Advanced Utilities
+// Font smoothing, stretch, variant numeric, and text decoration extras
+//
+// Usage:
+//   <p class="antialiased">Smooth text</p>
+//   <p class="font-stretch-expanded">Wider font</p>
+//   <p class="tabular-nums">Monospaced numbers</p>
+//   <a class="underline-offset-4">Spaced underline</a>
+
+@use "uswds-core" as *;
+
+$typography-advanced-settings: (
+  output: true,
+  responsive: true,
+  hover: false,
+  focus: false,
+);
+
+// ============================================================================
+// FONT SMOOTHING
+// ============================================================================
+
+$u-font-smoothing: (
+  font-smoothing: (
+    base: "",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "antialiased": antialiased,
+      "subpixel-antialiased": auto,
+    ),
+    settings: $typography-advanced-settings,
+    property: "-webkit-font-smoothing",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// FONT STRETCH
+// ============================================================================
+
+$u-font-stretch: (
+  font-stretch: (
+    base: "font-stretch",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "ultra-condensed": ultra-condensed,
+      "extra-condensed": extra-condensed,
+      "condensed": condensed,
+      "semi-condensed": semi-condensed,
+      "normal": normal,
+      "semi-expanded": semi-expanded,
+      "expanded": expanded,
+      "extra-expanded": extra-expanded,
+      "ultra-expanded": ultra-expanded,
+    ),
+    settings: $typography-advanced-settings,
+    property: "font-stretch",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// FONT VARIANT NUMERIC
+// ============================================================================
+
+$u-font-variant-numeric: (
+  font-variant-numeric: (
+    base: "",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "normal-nums": normal,
+      "ordinal": ordinal,
+      "slashed-zero": slashed-zero,
+      "lining-nums": lining-nums,
+      "oldstyle-nums": oldstyle-nums,
+      "proportional-nums": proportional-nums,
+      "tabular-nums": tabular-nums,
+      "diagonal-fractions": diagonal-fractions,
+      "stacked-fractions": stacked-fractions,
+    ),
+    settings: $typography-advanced-settings,
+    property: "font-variant-numeric",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// TEXT DECORATION STYLE
+// ============================================================================
+
+$u-text-decoration-style: (
+  text-decoration-style: (
+    base: "decoration",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "solid": solid,
+      "double": double,
+      "dotted": dotted,
+      "dashed": dashed,
+      "wavy": wavy,
+    ),
+    settings: $typography-advanced-settings,
+    property: "text-decoration-style",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// TEXT DECORATION THICKNESS
+// ============================================================================
+
+$u-text-decoration-thickness: (
+  text-decoration-thickness: (
+    base: "decoration",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "from-font": from-font,
+      "0": 0px,
+      "1": 1px,
+      "2": 2px,
+      "4": 4px,
+      "8": 8px,
+    ),
+    settings: $typography-advanced-settings,
+    property: "text-decoration-thickness",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// TEXT UNDERLINE OFFSET
+// ============================================================================
+
+$u-text-underline-offset: (
+  text-underline-offset: (
+    base: "underline-offset",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "0": 0px,
+      "1": 1px,
+      "2": 2px,
+      "4": 4px,
+      "8": 8px,
+    ),
+    settings: $typography-advanced-settings,
+    property: "text-underline-offset",
+    type: "utility",
+  ),
+);

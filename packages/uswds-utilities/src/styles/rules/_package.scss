@@ -249,5 +249,45 @@ $utilities-package: map-collect(
   $u-justify-self,
   $u-align-content,
   $u-line-clamp,
-  $u-subgrid
+  $u-subgrid,
+
+  // Typography advanced utilities
+  $u-font-smoothing,
+  $u-font-stretch,
+  $u-font-variant-numeric,
+  $u-text-decoration-style,
+  $u-text-decoration-thickness,
+  $u-text-underline-offset,
+
+  // Outline extended utilities
+  $u-outline-style,
+  $u-outline-offset,
+
+  // Effects extended utilities
+  $u-text-shadow,
+  $u-mask-image,
+  $u-mask-size,
+  $u-mask-repeat,
+  $u-mask-position,
+  $u-mask-origin,
+  $u-mask-clip,
+  $u-mask-composite,
+  $u-mask-mode,
+  $u-mask-type,
+
+  // Transforms extended utilities
+  $u-backface,
+  $u-perspective,
+  $u-perspective-origin,
+  $u-transform-style,
+  $u-transform,
+
+  // Interactivity extended utilities
+  $u-color-scheme,
+  $u-field-sizing,
+  $u-scroll-margin,
+  $u-scroll-padding,
+
+  // Transition extended utilities
+  $u-transition-behavior
 );

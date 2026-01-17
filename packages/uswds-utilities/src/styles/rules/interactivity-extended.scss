@@ -1,0 +1,236 @@
+// Interactivity Extended Utilities
+// Color scheme, field sizing, scroll margin/padding
+//
+// Usage:
+//   <html class="color-scheme-dark">Dark mode system</html>
+//   <textarea class="field-sizing-content">Auto-resize</textarea>
+//   <section class="scroll-mt-20">Offset scroll target</section>
+
+@use "uswds-core" as *;
+
+$interactivity-extended-settings: (
+  output: true,
+  responsive: true,
+  hover: false,
+  focus: false,
+);
+
+// ============================================================================
+// COLOR SCHEME
+// ============================================================================
+
+$u-color-scheme: (
+  color-scheme: (
+    base: "color-scheme",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "normal": normal,
+      "light": light,
+      "dark": dark,
+      "light-dark": light dark,
+    ),
+    settings: $interactivity-extended-settings,
+    property: "color-scheme",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// FIELD SIZING
+// ============================================================================
+
+$u-field-sizing: (
+  field-sizing: (
+    base: "field-sizing",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "fixed": fixed,
+      "content": content,
+    ),
+    settings: $interactivity-extended-settings,
+    property: "field-sizing",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// SCROLL MARGIN
+// ============================================================================
+
+$scroll-margin-values: (
+  "0": 0px,
+  "1px": 1px,
+  "2px": 2px,
+  "1": 0.25rem,
+  "2": 0.5rem,
+  "3": 0.75rem,
+  "4": 1rem,
+  "5": 1.25rem,
+  "6": 1.5rem,
+  "7": 1.75rem,
+  "8": 2rem,
+  "9": 2.25rem,
+  "10": 2.5rem,
+  "11": 2.75rem,
+  "12": 3rem,
+  "14": 3.5rem,
+  "16": 4rem,
+  "20": 5rem,
+  "24": 6rem,
+  "28": 7rem,
+  "32": 8rem,
+);
+
+$u-scroll-margin: (
+  scroll-m: (
+    base: "scroll-m",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $scroll-margin-values,
+    settings: $interactivity-extended-settings,
+    property: "scroll-margin",
+    type: "utility",
+  ),
+  scroll-mx: (
+    base: "scroll-mx",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $scroll-margin-values,
+    settings: $interactivity-extended-settings,
+    property: "scroll-margin-inline",
+    type: "utility",
+  ),
+  scroll-my: (
+    base: "scroll-my",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $scroll-margin-values,
+    settings: $interactivity-extended-settings,
+    property: "scroll-margin-block",
+    type: "utility",
+  ),
+  scroll-mt: (
+    base: "scroll-mt",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $scroll-margin-values,
+    settings: $interactivity-extended-settings,
+    property: "scroll-margin-top",
+    type: "utility",
+  ),
+  scroll-mr: (
+    base: "scroll-mr",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $scroll-margin-values,
+    settings: $interactivity-extended-settings,
+    property: "scroll-margin-right",
+    type: "utility",
+  ),
+  scroll-mb: (
+    base: "scroll-mb",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $scroll-margin-values,
+    settings: $interactivity-extended-settings,
+    property: "scroll-margin-bottom",
+    type: "utility",
+  ),
+  scroll-ml: (
+    base: "scroll-ml",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $scroll-margin-values,
+    settings: $interactivity-extended-settings,
+    property: "scroll-margin-left",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// SCROLL PADDING
+// ============================================================================
+
+$u-scroll-padding: (
+  scroll-p: (
+    base: "scroll-p",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $scroll-margin-values,
+    settings: $interactivity-extended-settings,
+    property: "scroll-padding",
+    type: "utility",
+  ),
+  scroll-px: (
+    base: "scroll-px",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $scroll-margin-values,
+    settings: $interactivity-extended-settings,
+    property: "scroll-padding-inline",
+    type: "utility",
+  ),
+  scroll-py: (
+    base: "scroll-py",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $scroll-margin-values,
+    settings: $interactivity-extended-settings,
+    property: "scroll-padding-block",
+    type: "utility",
+  ),
+  scroll-pt: (
+    base: "scroll-pt",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $scroll-margin-values,
+    settings: $interactivity-extended-settings,
+    property: "scroll-padding-top",
+    type: "utility",
+  ),
+  scroll-pr: (
+    base: "scroll-pr",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $scroll-margin-values,
+    settings: $interactivity-extended-settings,
+    property: "scroll-padding-right",
+    type: "utility",
+  ),
+  scroll-pb: (
+    base: "scroll-pb",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $scroll-margin-values,
+    settings: $interactivity-extended-settings,
+    property: "scroll-padding-bottom",
+    type: "utility",
+  ),
+  scroll-pl: (
+    base: "scroll-pl",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $scroll-margin-values,
+    settings: $interactivity-extended-settings,
+    property: "scroll-padding-left",
+    type: "utility",
+  ),
+);

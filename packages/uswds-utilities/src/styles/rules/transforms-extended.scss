@@ -1,0 +1,128 @@
+// Transforms Extended Utilities
+// 3D transforms and additional transform controls
+//
+// Usage:
+//   <div class="backface-hidden">Hidden when rotated</div>
+//   <div class="perspective-500">3D perspective container</div>
+//   <div class="preserve-3d">Preserve 3D transforms</div>
+
+@use "uswds-core" as *;
+
+$transforms-extended-settings: (
+  output: true,
+  responsive: true,
+  hover: true,
+  focus: false,
+);
+
+// ============================================================================
+// BACKFACE VISIBILITY
+// ============================================================================
+
+$u-backface: (
+  backface: (
+    base: "backface",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "visible": visible,
+      "hidden": hidden,
+    ),
+    settings: $transforms-extended-settings,
+    property: "backface-visibility",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// PERSPECTIVE
+// ============================================================================
+
+$u-perspective: (
+  perspective: (
+    base: "perspective",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+      "dramatic": 100px,
+      "near": 300px,
+      "normal": 500px,
+      "midrange": 800px,
+      "far": 1000px,
+      "distant": 1500px,
+    ),
+    settings: $transforms-extended-settings,
+    property: "perspective",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// PERSPECTIVE ORIGIN
+// ============================================================================
+
+$u-perspective-origin: (
+  perspective-origin: (
+    base: "perspective-origin",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "center": center,
+      "top": top,
+      "top-right": top right,
+      "right": right,
+      "bottom-right": bottom right,
+      "bottom": bottom,
+      "bottom-left": bottom left,
+      "left": left,
+      "top-left": top left,
+    ),
+    settings: $transforms-extended-settings,
+    property: "perspective-origin",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// TRANSFORM STYLE
+// ============================================================================
+
+$u-transform-style: (
+  transform-style: (
+    base: "",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "flat": flat,
+      "preserve-3d": preserve-3d,
+    ),
+    settings: $transforms-extended-settings,
+    property: "transform-style",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// TRANSFORM (GPU acceleration)
+// ============================================================================
+
+$u-transform: (
+  transform: (
+    base: "transform",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+      "gpu": translateZ(0),
+    ),
+    settings: $transforms-extended-settings,
+    property: "transform",
+    type: "utility",
+  ),
+);

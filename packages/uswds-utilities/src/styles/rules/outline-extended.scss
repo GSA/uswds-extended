@@ -1,0 +1,61 @@
+// Outline Extended Utilities
+// Additional outline controls
+//
+// Usage:
+//   <button class="outline-dashed outline-offset-2">
+//   <input class="focus:outline-dotted focus:outline-offset-4">
+
+@use "uswds-core" as *;
+
+$outline-extended-settings: (
+  output: true,
+  responsive: false,
+  hover: false,
+  focus: true,
+);
+
+// ============================================================================
+// OUTLINE STYLE
+// ============================================================================
+
+$u-outline-style: (
+  outline-style: (
+    base: "outline",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+      "": solid,
+      "dashed": dashed,
+      "dotted": dotted,
+      "double": double,
+    ),
+    settings: $outline-extended-settings,
+    property: "outline-style",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// OUTLINE OFFSET
+// ============================================================================
+
+$u-outline-offset: (
+  outline-offset: (
+    base: "outline-offset",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": 0px,
+      "1": 1px,
+      "2": 2px,
+      "4": 4px,
+      "8": 8px,
+    ),
+    settings: $outline-extended-settings,
+    property: "outline-offset",
+    type: "utility",
+  ),
+);

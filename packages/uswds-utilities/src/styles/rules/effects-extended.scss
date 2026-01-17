@@ -1,0 +1,246 @@
+// Effects Extended Utilities
+// Text shadow and CSS mask utilities
+//
+// Usage:
+//   <h1 class="text-shadow-lg">Shadowed heading</h1>
+//   <div class="mask-image-gradient-to-b">Fading content</div>
+
+@use "uswds-core" as *;
+
+$effects-settings: (
+  output: true,
+  responsive: true,
+  hover: true,
+  focus: false,
+);
+
+// ============================================================================
+// TEXT SHADOW
+// ============================================================================
+
+$u-text-shadow: (
+  text-shadow: (
+    base: "text-shadow",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+      "sm": 0 1px 2px rgb(0 0 0 / 0.1),
+      "": 0 1px 3px rgb(0 0 0 / 0.1),
+      "md": 0 2px 4px rgb(0 0 0 / 0.15),
+      "lg": 0 4px 8px rgb(0 0 0 / 0.15),
+      "xl": 0 8px 16px rgb(0 0 0 / 0.2),
+    ),
+    settings: $effects-settings,
+    property: "text-shadow",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// MASK IMAGE
+// ============================================================================
+
+$u-mask-image: (
+  mask-image: (
+    base: "mask-image",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+      "gradient-to-t": linear-gradient(to top, black, transparent),
+      "gradient-to-b": linear-gradient(to bottom, black, transparent),
+      "gradient-to-l": linear-gradient(to left, black, transparent),
+      "gradient-to-r": linear-gradient(to right, black, transparent),
+    ),
+    settings: $effects-settings,
+    property: "mask-image",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// MASK SIZE
+// ============================================================================
+
+$u-mask-size: (
+  mask-size: (
+    base: "mask-size",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "cover": cover,
+      "contain": contain,
+    ),
+    settings: $effects-settings,
+    property: "mask-size",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// MASK REPEAT
+// ============================================================================
+
+$u-mask-repeat: (
+  mask-repeat: (
+    base: "mask-repeat",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "repeat": repeat,
+      "no-repeat": no-repeat,
+      "repeat-x": repeat-x,
+      "repeat-y": repeat-y,
+      "space": space,
+      "round": round,
+    ),
+    settings: $effects-settings,
+    property: "mask-repeat",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// MASK POSITION
+// ============================================================================
+
+$u-mask-position: (
+  mask-position: (
+    base: "mask-position",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "center": center,
+      "top": top,
+      "bottom": bottom,
+      "left": left,
+      "right": right,
+      "top-left": top left,
+      "top-right": top right,
+      "bottom-left": bottom left,
+      "bottom-right": bottom right,
+    ),
+    settings: $effects-settings,
+    property: "mask-position",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// MASK ORIGIN
+// ============================================================================
+
+$u-mask-origin: (
+  mask-origin: (
+    base: "mask-origin",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "border": border-box,
+      "padding": padding-box,
+      "content": content-box,
+      "fill": fill-box,
+      "stroke": stroke-box,
+      "view": view-box,
+    ),
+    settings: $effects-settings,
+    property: "mask-origin",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// MASK CLIP
+// ============================================================================
+
+$u-mask-clip: (
+  mask-clip: (
+    base: "mask-clip",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "border": border-box,
+      "padding": padding-box,
+      "content": content-box,
+      "fill": fill-box,
+      "stroke": stroke-box,
+      "view": view-box,
+      "no-clip": no-clip,
+    ),
+    settings: $effects-settings,
+    property: "mask-clip",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// MASK COMPOSITE
+// ============================================================================
+
+$u-mask-composite: (
+  mask-composite: (
+    base: "mask-composite",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "add": add,
+      "subtract": subtract,
+      "intersect": intersect,
+      "exclude": exclude,
+    ),
+    settings: $effects-settings,
+    property: "mask-composite",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// MASK MODE
+// ============================================================================
+
+$u-mask-mode: (
+  mask-mode: (
+    base: "mask-mode",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "alpha": alpha,
+      "luminance": luminance,
+      "match-source": match-source,
+    ),
+    settings: $effects-settings,
+    property: "mask-mode",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// MASK TYPE
+// ============================================================================
+
+$u-mask-type: (
+  mask-type: (
+    base: "mask-type",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "alpha": alpha,
+      "luminance": luminance,
+    ),
+    settings: $effects-settings,
+    property: "mask-type",
+    type: "utility",
+  ),
+);
