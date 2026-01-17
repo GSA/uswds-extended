@@ -1,0 +1,372 @@
+// Animation Utilities
+// Transitions, transforms, and keyframe animations
+//
+// Usage:
+//   <div class="transition-all duration-300 ease-in-out hover:scale-105">
+//   <div class="animate-fade-in">
+//   <div class="transform rotate-45 translate-x-2">
+
+@use "uswds-core" as *;
+
+// ============================================================================
+// TRANSITION UTILITIES
+// ============================================================================
+
+$transition-settings: (
+  output: true,
+  responsive: false,
+  hover: false,
+);
+
+// Transition property
+$u-transition: (
+  transition: (
+    base: "transition",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+      "all": all 150ms cubic-bezier(0.4, 0, 0.2, 1),
+      "": color 150ms cubic-bezier(0.4, 0, 0.2, 1) #{","} background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) #{","} border-color 150ms cubic-bezier(0.4, 0, 0.2, 1) #{","} text-decoration-color 150ms cubic-bezier(0.4, 0, 0.2, 1) #{","} fill 150ms cubic-bezier(0.4, 0, 0.2, 1) #{","} stroke 150ms cubic-bezier(0.4, 0, 0.2, 1),
+      "colors": color 150ms cubic-bezier(0.4, 0, 0.2, 1) #{","} background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) #{","} border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+      "opacity": opacity 150ms cubic-bezier(0.4, 0, 0.2, 1),
+      "shadow": box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1),
+      "transform": transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    ),
+    settings: $transition-settings,
+    property: "transition",
+    type: "utility",
+  ),
+);
+
+// Transition duration
+$u-duration: (
+  duration: (
+    base: "duration",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": 0s,
+      "75": 75ms,
+      "100": 100ms,
+      "150": 150ms,
+      "200": 200ms,
+      "300": 300ms,
+      "500": 500ms,
+      "700": 700ms,
+      "1000": 1000ms,
+    ),
+    settings: $transition-settings,
+    property: "transition-duration",
+    type: "utility",
+  ),
+);
+
+// Transition timing function (easing)
+$u-ease: (
+  ease: (
+    base: "ease",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "linear": linear,
+      "in": cubic-bezier(0.4, 0, 1, 1),
+      "out": cubic-bezier(0, 0, 0.2, 1),
+      "in-out": cubic-bezier(0.4, 0, 0.2, 1),
+    ),
+    settings: $transition-settings,
+    property: "transition-timing-function",
+    type: "utility",
+  ),
+);
+
+// Transition delay
+$u-delay: (
+  delay: (
+    base: "delay",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": 0s,
+      "75": 75ms,
+      "100": 100ms,
+      "150": 150ms,
+      "200": 200ms,
+      "300": 300ms,
+      "500": 500ms,
+      "700": 700ms,
+      "1000": 1000ms,
+    ),
+    settings: $transition-settings,
+    property: "transition-delay",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// TRANSFORM UTILITIES
+// ============================================================================
+
+$transform-settings: (
+  output: true,
+  responsive: true,
+  hover: true,
+);
+
+// Scale
+$u-scale: (
+  scale: (
+    base: "scale",
+    modifiers: (
+      noModifier: "",
+      "x": "",
+      "y": "",
+    ),
+    values: (
+      "0": 0,
+      "50": 0.5,
+      "75": 0.75,
+      "90": 0.9,
+      "95": 0.95,
+      "100": 1,
+      "105": 1.05,
+      "110": 1.1,
+      "125": 1.25,
+      "150": 1.5,
+    ),
+    settings: $transform-settings,
+    property: "scale",
+    type: "utility",
+  ),
+);
+
+// Rotate
+$u-rotate: (
+  rotate: (
+    base: "rotate",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": 0deg,
+      "1": 1deg,
+      "2": 2deg,
+      "3": 3deg,
+      "6": 6deg,
+      "12": 12deg,
+      "45": 45deg,
+      "90": 90deg,
+      "180": 180deg,
+      "neg-1": -1deg,
+      "neg-2": -2deg,
+      "neg-3": -3deg,
+      "neg-6": -6deg,
+      "neg-12": -12deg,
+      "neg-45": -45deg,
+      "neg-90": -90deg,
+      "neg-180": -180deg,
+    ),
+    settings: $transform-settings,
+    property: "rotate",
+    type: "utility",
+  ),
+);
+
+// Translate
+$u-translate: (
+  translate-x: (
+    base: "translate-x",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": 0,
+      "1px": 1px,
+      "05": 0.25rem,
+      "1": 0.5rem,
+      "2": 1rem,
+      "3": 1.5rem,
+      "4": 2rem,
+      "5": 2.5rem,
+      "6": 3rem,
+      "8": 4rem,
+      "10": 5rem,
+      "full": 100%,
+      "1\\/2": 50%,
+      "neg-1px": -1px,
+      "neg-05": -0.25rem,
+      "neg-1": -0.5rem,
+      "neg-2": -1rem,
+      "neg-3": -1.5rem,
+      "neg-4": -2rem,
+      "neg-full": -100%,
+      "neg-1\\/2": -50%,
+    ),
+    settings: $transform-settings,
+    property: "translate",
+    type: "utility",
+  ),
+  translate-y: (
+    base: "translate-y",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": 0,
+      "1px": 1px,
+      "05": 0.25rem,
+      "1": 0.5rem,
+      "2": 1rem,
+      "3": 1.5rem,
+      "4": 2rem,
+      "5": 2.5rem,
+      "6": 3rem,
+      "8": 4rem,
+      "10": 5rem,
+      "full": 100%,
+      "1\\/2": 50%,
+      "neg-1px": -1px,
+      "neg-05": -0.25rem,
+      "neg-1": -0.5rem,
+      "neg-2": -1rem,
+      "neg-3": -1.5rem,
+      "neg-4": -2rem,
+      "neg-full": -100%,
+      "neg-1\\/2": -50%,
+    ),
+    settings: $transform-settings,
+    property: "translate",
+    type: "utility",
+  ),
+);
+
+// Skew
+$u-skew: (
+  skew-x: (
+    base: "skew-x",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": 0deg,
+      "1": 1deg,
+      "2": 2deg,
+      "3": 3deg,
+      "6": 6deg,
+      "12": 12deg,
+      "neg-1": -1deg,
+      "neg-2": -2deg,
+      "neg-3": -3deg,
+      "neg-6": -6deg,
+      "neg-12": -12deg,
+    ),
+    settings: $transform-settings,
+    property: "transform",
+    type: "utility",
+  ),
+  skew-y: (
+    base: "skew-y",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": 0deg,
+      "1": 1deg,
+      "2": 2deg,
+      "3": 3deg,
+      "6": 6deg,
+      "12": 12deg,
+      "neg-1": -1deg,
+      "neg-2": -2deg,
+      "neg-3": -3deg,
+      "neg-6": -6deg,
+      "neg-12": -12deg,
+    ),
+    settings: $transform-settings,
+    property: "transform",
+    type: "utility",
+  ),
+);
+
+// Transform origin
+$u-origin: (
+  origin: (
+    base: "origin",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "center": center,
+      "top": top,
+      "top-right": top right,
+      "right": right,
+      "bottom-right": bottom right,
+      "bottom": bottom,
+      "bottom-left": bottom left,
+      "left": left,
+      "top-left": top left,
+    ),
+    settings: $transform-settings,
+    property: "transform-origin",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// ANIMATION UTILITIES
+// ============================================================================
+
+$animation-settings: (
+  output: true,
+  responsive: false,
+  hover: false,
+);
+
+// Animation presets
+$u-animate: (
+  animate: (
+    base: "animate",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+      "spin": spin 1s linear infinite,
+      "ping": ping 1s cubic-bezier(0, 0, 0.2, 1) infinite,
+      "pulse": pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite,
+      "bounce": bounce 1s infinite,
+      "fade-in": fade-in 300ms ease-out,
+      "fade-out": fade-out 300ms ease-in,
+      "slide-in-up": slide-in-up 300ms ease-out,
+      "slide-in-down": slide-in-down 300ms ease-out,
+      "slide-in-left": slide-in-left 300ms ease-out,
+      "slide-in-right": slide-in-right 300ms ease-out,
+      "zoom-in": zoom-in 300ms ease-out,
+      "zoom-out": zoom-out 300ms ease-in,
+    ),
+    settings: $animation-settings,
+    property: "animation",
+    type: "utility",
+  ),
+);
+
+// Animation play state
+$u-animation-state: (
+  animation-state: (
+    base: "animate",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "running": running,
+      "paused": paused,
+    ),
+    settings: $animation-settings,
+    property: "animation-play-state",
+    type: "utility",
+  ),
+);

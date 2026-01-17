@@ -1,0 +1,359 @@
+// theme() - Unified token access function
+// Similar to Tailwind's theme() function
+//
+// Usage:
+//   theme('colors.primary')         -> #005ea2
+//   theme('colors.primary-light')   -> #73b3e7
+//   theme('spacing.2')              -> 1rem
+//   theme('spacing.4')              -> 2rem
+//   theme('font-size.lg')           -> 1.22rem
+//   theme('font-weight.bold')       -> 700
+//   theme('border-radius.lg')       -> 0.5rem
+//   theme('z-index.500')            -> 500
+//   theme('breakpoints.tablet')     -> 40em
+
+@use "sass:list";
+@use "sass:map";
+@use "sass:meta";
+@use "sass:string";
+@use "../../functions/general/str-split" as *;
+@use "../../functions/utilities/color" as *;
+@use "../../functions/units/units" as *;
+@use "../../tokens/color/shortcodes-color-all" as *;
+@use "../../variables/project-spacing" as spacing-vars;
+
+// Token registry - maps token paths to their values
+// This is the central registry of all available tokens
+
+$-font-sizes: (
+  "3xs": 0.69rem,
+  "2xs": 0.79rem,
+  "xs": 0.87rem,
+  "sm": 0.93rem,
+  "md": 1rem,
+  "lg": 1.22rem,
+  "xl": 1.34rem,
+  "2xl": 1.49rem,
+  "3xl": 1.76rem,
+);
+
+$-font-weights: (
+  "thin": 100,
+  "light": 300,
+  "normal": 400,
+  "medium": 500,
+  "semibold": 600,
+  "bold": 700,
+  "black": 900,
+);
+
+$-line-heights: (
+  "1": 1,
+  "2": 1.15,
+  "3": 1.35,
+  "4": 1.5,
+  "5": 1.62,
+  "6": 1.75,
+);
+
+$-letter-spacing: (
+  "tightest": -0.03em,
+  "tighter": -0.02em,
+  "tight": -0.01em,
+  "auto": initial,
+  "wide": 0.025em,
+  "wider": 0.05em,
+  "widest": 0.1em,
+);
+
+$-border-radius: (
+  "0": 0,
+  "sm": 0.125rem,
+  "md": 0.25rem,
+  "lg": 0.5rem,
+  "xl": 1rem,
+  "2xl": 1.5rem,
+  "full": 9999px,
+  "pill": 99rem,
+);
+
+$-border-widths: (
+  "0": 0,
+  "1px": 1px,
+  "2px": 2px,
+  "05": 0.25rem,
+  "1": 0.5rem,
+);
+
+$-z-index: (
+  "auto": auto,
+  "0": 0,
+  "100": 100,
+  "200": 200,
+  "300": 300,
+  "400": 400,
+  "500": 500,
+);
+
+$-opacity: (
+  "0": 0,
+  "5": 0.05,
+  "10": 0.1,
+  "20": 0.2,
+  "25": 0.25,
+  "30": 0.3,
+  "40": 0.4,
+  "50": 0.5,
+  "60": 0.6,
+  "70": 0.7,
+  "75": 0.75,
+  "80": 0.8,
+  "90": 0.9,
+  "95": 0.95,
+  "100": 1,
+);
+
+$-shadows: (
+  "none": none,
+  "1": 0 1px 4px 0 rgba(0, 0, 0, 0.1),
+  "2": 0 4px 8px 0 rgba(0, 0, 0, 0.1),
+  "3": 0 8px 16px 0 rgba(0, 0, 0, 0.1),
+  "4": 0 12px 24px 0 rgba(0, 0, 0, 0.1),
+  "5": 0 16px 32px 0 rgba(0, 0, 0, 0.1),
+);
+
+$-breakpoints: (
+  "mobile-lg": 30em,
+  "tablet": 40em,
+  "tablet-lg": 55em,
+  "desktop": 64em,
+  "desktop-lg": 75em,
+  "widescreen": 87.5em,
+);
+
+$-transitions: (
+  "none": none,
+  "all": all 150ms ease-in-out,
+  "colors": color 150ms ease-in-out#{","} background-color 150ms ease-in-out#{","} border-color 150ms ease-in-out,
+  "opacity": opacity 150ms ease-in-out,
+  "shadow": box-shadow 150ms ease-in-out,
+  "transform": transform 150ms ease-in-out,
+);
+
+$-duration: (
+  "75": 75ms,
+  "100": 100ms,
+  "150": 150ms,
+  "200": 200ms,
+  "300": 300ms,
+  "500": 500ms,
+  "700": 700ms,
+  "1000": 1000ms,
+);
+
+$-easing: (
+  "linear": linear,
+  "ease": ease,
+  "ease-in": ease-in,
+  "ease-out": ease-out,
+  "ease-in-out": ease-in-out,
+);
+
+// Main theme function
+@function theme($path) {
+  // Parse the path (e.g., "colors.primary" or "spacing.2")
+  $parts: str-split($path, ".");
+  $category: list.nth($parts, 1);
+
+  // Get the key (everything after the first dot)
+  $key: null;
+  @if list.length($parts) > 1 {
+    $key: list.nth($parts, 2);
+    // Handle nested keys like "colors.primary.light"
+    @if list.length($parts) > 2 {
+      @for $i from 3 through list.length($parts) {
+        $key: $key + "-" + list.nth($parts, $i);
+      }
+    }
+  }
+
+  // Route to appropriate token map
+  @if $category == "colors" or $category == "color" {
+    @if $key == null {
+      @error "theme(): color requires a key, e.g., theme('colors.primary')";
+    }
+    @return color($key);
+  }
+
+  @if $category == "spacing" or $category == "space" {
+    @if $key == null {
+      @error "theme(): spacing requires a key, e.g., theme('spacing.2')";
+    }
+    @return units($key);
+  }
+
+  @if $category == "font-size" or $category == "fontSize" {
+    @if $key == null {
+      @return $-font-sizes;
+    }
+    @if not map.has-key($-font-sizes, $key) {
+      @error "theme(): Unknown font-size '#{$key}'. Available: #{map.keys($-font-sizes)}";
+    }
+    @return map.get($-font-sizes, $key);
+  }
+
+  @if $category == "font-weight" or $category == "fontWeight" {
+    @if $key == null {
+      @return $-font-weights;
+    }
+    @if not map.has-key($-font-weights, $key) {
+      @error "theme(): Unknown font-weight '#{$key}'. Available: #{map.keys($-font-weights)}";
+    }
+    @return map.get($-font-weights, $key);
+  }
+
+  @if $category == "line-height" or $category == "lineHeight" {
+    @if $key == null {
+      @return $-line-heights;
+    }
+    @if not map.has-key($-line-heights, $key) {
+      @error "theme(): Unknown line-height '#{$key}'. Available: #{map.keys($-line-heights)}";
+    }
+    @return map.get($-line-heights, $key);
+  }
+
+  @if $category == "letter-spacing" or $category == "letterSpacing" {
+    @if $key == null {
+      @return $-letter-spacing;
+    }
+    @if not map.has-key($-letter-spacing, $key) {
+      @error "theme(): Unknown letter-spacing '#{$key}'. Available: #{map.keys($-letter-spacing)}";
+    }
+    @return map.get($-letter-spacing, $key);
+  }
+
+  @if $category == "border-radius" or $category == "borderRadius" or $category == "radius" {
+    @if $key == null {
+      @return $-border-radius;
+    }
+    @if not map.has-key($-border-radius, $key) {
+      @error "theme(): Unknown border-radius '#{$key}'. Available: #{map.keys($-border-radius)}";
+    }
+    @return map.get($-border-radius, $key);
+  }
+
+  @if $category == "border-width" or $category == "borderWidth" {
+    @if $key == null {
+      @return $-border-widths;
+    }
+    @if not map.has-key($-border-widths, $key) {
+      @error "theme(): Unknown border-width '#{$key}'. Available: #{map.keys($-border-widths)}";
+    }
+    @return map.get($-border-widths, $key);
+  }
+
+  @if $category == "z-index" or $category == "zIndex" {
+    @if $key == null {
+      @return $-z-index;
+    }
+    @if not map.has-key($-z-index, $key) {
+      @error "theme(): Unknown z-index '#{$key}'. Available: #{map.keys($-z-index)}";
+    }
+    @return map.get($-z-index, $key);
+  }
+
+  @if $category == "opacity" {
+    @if $key == null {
+      @return $-opacity;
+    }
+    @if not map.has-key($-opacity, $key) {
+      @error "theme(): Unknown opacity '#{$key}'. Available: #{map.keys($-opacity)}";
+    }
+    @return map.get($-opacity, $key);
+  }
+
+  @if $category == "shadow" or $category == "shadows" or $category == "boxShadow" {
+    @if $key == null {
+      @return $-shadows;
+    }
+    @if not map.has-key($-shadows, $key) {
+      @error "theme(): Unknown shadow '#{$key}'. Available: #{map.keys($-shadows)}";
+    }
+    @return map.get($-shadows, $key);
+  }
+
+  @if $category == "breakpoints" or $category == "screens" {
+    @if $key == null {
+      @return $-breakpoints;
+    }
+    @if not map.has-key($-breakpoints, $key) {
+      @error "theme(): Unknown breakpoint '#{$key}'. Available: #{map.keys($-breakpoints)}";
+    }
+    @return map.get($-breakpoints, $key);
+  }
+
+  @if $category == "transition" or $category == "transitions" {
+    @if $key == null {
+      @return $-transitions;
+    }
+    @if not map.has-key($-transitions, $key) {
+      @error "theme(): Unknown transition '#{$key}'. Available: #{map.keys($-transitions)}";
+    }
+    @return map.get($-transitions, $key);
+  }
+
+  @if $category == "duration" {
+    @if $key == null {
+      @return $-duration;
+    }
+    @if not map.has-key($-duration, $key) {
+      @error "theme(): Unknown duration '#{$key}'. Available: #{map.keys($-duration)}";
+    }
+    @return map.get($-duration, $key);
+  }
+
+  @if $category == "easing" or $category == "timing" {
+    @if $key == null {
+      @return $-easing;
+    }
+    @if not map.has-key($-easing, $key) {
+      @error "theme(): Unknown easing '#{$key}'. Available: #{map.keys($-easing)}";
+    }
+    @return map.get($-easing, $key);
+  }
+
+  @error "theme(): Unknown category '#{$category}'. Available categories: colors, spacing, font-size, font-weight, line-height, letter-spacing, border-radius, border-width, z-index, opacity, shadow, breakpoints, transition, duration, easing";
+}
+
+// Alias functions for common token access
+@function spacing($key) {
+  @return theme("spacing.#{$key}");
+}
+
+@function font-size($key) {
+  @return theme("font-size.#{$key}");
+}
+
+@function radius($key) {
+  @return theme("border-radius.#{$key}");
+}
+
+@function shadow($key) {
+  @return theme("shadow.#{$key}");
+}
+
+@function z($key) {
+  @return theme("z-index.#{$key}");
+}
+
+@function breakpoint($key) {
+  @return theme("breakpoints.#{$key}");
+}
+
+@function duration($key) {
+  @return theme("duration.#{$key}");
+}
+
+@function easing($key) {
+  @return theme("easing.#{$key}");
+}

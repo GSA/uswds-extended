@@ -1,0 +1,83 @@
+// Container Query Utilities
+// Enables container-based responsive design
+//
+// Usage:
+//   <div class="container-type-inline">
+//     <div class="@md:display-flex @lg:grid-cols-3">...</div>
+//   </div>
+//
+// Container types:
+//   container-type-normal   - No containment (default)
+//   container-type-size     - Both inline and block containment
+//   container-type-inline   - Inline-size containment only
+//
+// Container names:
+//   container-name-{name}   - Named container
+//
+// Container variants (use @ prefix):
+//   @sm:  - >= 20rem (320px)
+//   @md:  - >= 28rem (448px)
+//   @lg:  - >= 32rem (512px)
+//   @xl:  - >= 36rem (576px)
+//   @2xl: - >= 42rem (672px)
+
+@use "uswds-core" as *;
+
+// Container type utilities
+$u-container-type: (
+  container-type: (
+    base: "container-type",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "normal": normal,
+      "size": size,
+      "inline": inline-size,
+    ),
+    output: true,
+    responsive: false,
+    property: "container-type",
+    type: "utility",
+  ),
+);
+
+// Container name utilities (for named containers)
+$u-container-name: (
+  container-name: (
+    base: "container-name",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "main": main,
+      "sidebar": sidebar,
+      "card": card,
+      "content": content,
+      "header": header,
+      "footer": footer,
+      "none": none,
+    ),
+    output: true,
+    responsive: false,
+    property: "container-name",
+    type: "utility",
+  ),
+);
+
+// Shorthand container utility (sets both type and enables containment)
+$u-container: (
+  container: (
+    base: "container",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "": inline-size,
+    ),
+    output: true,
+    responsive: false,
+    property: "container-type",
+    type: "utility",
+  ),
+);

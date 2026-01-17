@@ -1,5 +1,5 @@
 // USWDS Extended Configuration
-// Configures extended features: JIT scanning, arbitrary values, color opacity
+// Configures extended features: JIT, arbitrary values, color opacity, CSS layers, etc.
 
 module.exports = {
   // Content Patterns (JIT Scanner)
@@ -28,4 +28,22 @@ module.exports = {
   // Use !important
   // Whether to add !important to generated arbitrary value utilities.
   important: true,
+
+  // CSS Layers Configuration
+  // Wraps CSS in @layer for better cascade control
+  cssLayers: {
+    enabled: false, // Set to true to enable @layer output
+    order: ['reset', 'base', 'tokens', 'components', 'utilities', 'overrides'],
+  },
+
+  // Container Query Breakpoints
+  // Used for @sm:, @md:, @lg:, @xl:, @2xl: container variants
+  containerBreakpoints: {
+    sm: '20rem',   // 320px
+    md: '28rem',   // 448px
+    lg: '32rem',   // 512px
+    xl: '36rem',   // 576px
+    '2xl': '42rem', // 672px
+    '3xl': '48rem', // 768px
+  },
 };

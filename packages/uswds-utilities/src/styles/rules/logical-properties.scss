@@ -1,0 +1,424 @@
+// Logical Properties Utilities
+// Uses start/end instead of left/right for RTL language support
+//
+// Usage:
+//   <div class="margin-inline-start-2 padding-inline-end-4">
+//   <div class="text-start border-start-1px">
+//   <div class="inset-inline-start-0 scroll-margin-block-start-2">
+//
+// Logical property mapping:
+//   start = left in LTR, right in RTL
+//   end   = right in LTR, left in RTL
+//   inline = horizontal axis (left/right)
+//   block  = vertical axis (top/bottom)
+
+@use "uswds-core" as *;
+@use "../palettes" as *;
+
+$logical-settings: (
+  output: true,
+  responsive: true,
+  hover: false,
+);
+
+// ============================================================================
+// MARGIN LOGICAL PROPERTIES
+// ============================================================================
+
+$u-margin-logical: (
+  margin-inline: (
+    base: "margin-inline",
+    modifiers: (
+      noModifier: "",
+      "start": "-start",
+      "end": "-end",
+    ),
+    values: map-collect(get-palettes($margin-palettes)),
+    settings: $logical-settings,
+    property: "margin-inline",
+    type: "utility",
+  ),
+  margin-block: (
+    base: "margin-block",
+    modifiers: (
+      noModifier: "",
+      "start": "-start",
+      "end": "-end",
+    ),
+    values: map-collect(get-palettes($margin-palettes)),
+    settings: $logical-settings,
+    property: "margin-block",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// PADDING LOGICAL PROPERTIES
+// ============================================================================
+
+$u-padding-logical: (
+  padding-inline: (
+    base: "padding-inline",
+    modifiers: (
+      noModifier: "",
+      "start": "-start",
+      "end": "-end",
+    ),
+    values: map-collect(get-palettes($padding-palettes)),
+    settings: $logical-settings,
+    property: "padding-inline",
+    type: "utility",
+  ),
+  padding-block: (
+    base: "padding-block",
+    modifiers: (
+      noModifier: "",
+      "start": "-start",
+      "end": "-end",
+    ),
+    values: map-collect(get-palettes($padding-palettes)),
+    settings: $logical-settings,
+    property: "padding-block",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// INSET LOGICAL PROPERTIES (positioning)
+// ============================================================================
+
+$inset-values: (
+  "0": 0,
+  "1px": 1px,
+  "2px": 2px,
+  "05": 0.25rem,
+  "1": 0.5rem,
+  "105": 0.75rem,
+  "2": 1rem,
+  "205": 1.25rem,
+  "3": 1.5rem,
+  "4": 2rem,
+  "5": 2.5rem,
+  "6": 3rem,
+  "auto": auto,
+  "full": 100%,
+  "1\\/2": 50%,
+);
+
+$u-inset-logical: (
+  inset-inline: (
+    base: "inset-inline",
+    modifiers: (
+      noModifier: "",
+      "start": "-start",
+      "end": "-end",
+    ),
+    values: $inset-values,
+    settings: $logical-settings,
+    property: "inset-inline",
+    type: "utility",
+  ),
+  inset-block: (
+    base: "inset-block",
+    modifiers: (
+      noModifier: "",
+      "start": "-start",
+      "end": "-end",
+    ),
+    values: $inset-values,
+    settings: $logical-settings,
+    property: "inset-block",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BORDER LOGICAL PROPERTIES
+// ============================================================================
+
+$border-width-values: (
+  "0": 0,
+  "1px": 1px,
+  "2px": 2px,
+  "05": 0.25rem,
+  "1": 0.5rem,
+);
+
+$u-border-logical: (
+  border-inline: (
+    base: "border-inline",
+    modifiers: (
+      noModifier: "",
+      "start": "-start",
+      "end": "-end",
+    ),
+    values: $border-width-values,
+    settings: $logical-settings,
+    property: "border-inline-width",
+    type: "utility",
+  ),
+  border-block: (
+    base: "border-block",
+    modifiers: (
+      noModifier: "",
+      "start": "-start",
+      "end": "-end",
+    ),
+    values: $border-width-values,
+    settings: $logical-settings,
+    property: "border-block-width",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// TEXT ALIGNMENT LOGICAL PROPERTIES
+// ============================================================================
+
+$u-text-align-logical: (
+  text-align-logical: (
+    base: "text",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "start": start,
+      "end": end,
+    ),
+    settings: $logical-settings,
+    property: "text-align",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// SIZING LOGICAL PROPERTIES
+// ============================================================================
+
+$sizing-values: (
+  "0": 0,
+  "auto": auto,
+  "full": 100%,
+  "screen": 100vw,
+  "min": min-content,
+  "max": max-content,
+  "fit": fit-content,
+  "1": 0.5rem,
+  "2": 1rem,
+  "3": 1.5rem,
+  "4": 2rem,
+  "5": 2.5rem,
+  "6": 3rem,
+  "7": 3.5rem,
+  "8": 4rem,
+  "9": 4.5rem,
+  "10": 5rem,
+  "15": 7.5rem,
+);
+
+$u-size-logical: (
+  inline-size: (
+    base: "inline-size",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $sizing-values,
+    settings: $logical-settings,
+    property: "inline-size",
+    type: "utility",
+  ),
+  block-size: (
+    base: "block-size",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $sizing-values,
+    settings: $logical-settings,
+    property: "block-size",
+    type: "utility",
+  ),
+  min-inline-size: (
+    base: "min-inline-size",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $sizing-values,
+    settings: $logical-settings,
+    property: "min-inline-size",
+    type: "utility",
+  ),
+  max-inline-size: (
+    base: "max-inline-size",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $sizing-values,
+    settings: $logical-settings,
+    property: "max-inline-size",
+    type: "utility",
+  ),
+  min-block-size: (
+    base: "min-block-size",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $sizing-values,
+    settings: $logical-settings,
+    property: "min-block-size",
+    type: "utility",
+  ),
+  max-block-size: (
+    base: "max-block-size",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $sizing-values,
+    settings: $logical-settings,
+    property: "max-block-size",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BORDER RADIUS LOGICAL PROPERTIES
+// ============================================================================
+
+$radius-values: (
+  "0": 0,
+  "sm": 0.125rem,
+  "md": 0.25rem,
+  "lg": 0.5rem,
+  "xl": 1rem,
+  "full": 9999px,
+);
+
+$u-radius-logical: (
+  rounded-start: (
+    base: "rounded-start",
+    modifiers: (
+      noModifier: "",
+      "start": "-start",
+      "end": "-end",
+    ),
+    values: $radius-values,
+    settings: $logical-settings,
+    property: "border-start-start-radius",
+    type: "utility",
+  ),
+  rounded-end: (
+    base: "rounded-end",
+    modifiers: (
+      noModifier: "",
+      "start": "-start",
+      "end": "-end",
+    ),
+    values: $radius-values,
+    settings: $logical-settings,
+    property: "border-end-end-radius",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// SCROLL MARGIN/PADDING LOGICAL PROPERTIES
+// ============================================================================
+
+$scroll-values: (
+  "0": 0,
+  "1": 0.5rem,
+  "2": 1rem,
+  "3": 1.5rem,
+  "4": 2rem,
+  "5": 2.5rem,
+);
+
+$u-scroll-logical: (
+  scroll-margin-inline: (
+    base: "scroll-margin-inline",
+    modifiers: (
+      noModifier: "",
+      "start": "-start",
+      "end": "-end",
+    ),
+    values: $scroll-values,
+    settings: $logical-settings,
+    property: "scroll-margin-inline",
+    type: "utility",
+  ),
+  scroll-margin-block: (
+    base: "scroll-margin-block",
+    modifiers: (
+      noModifier: "",
+      "start": "-start",
+      "end": "-end",
+    ),
+    values: $scroll-values,
+    settings: $logical-settings,
+    property: "scroll-margin-block",
+    type: "utility",
+  ),
+  scroll-padding-inline: (
+    base: "scroll-padding-inline",
+    modifiers: (
+      noModifier: "",
+      "start": "-start",
+      "end": "-end",
+    ),
+    values: $scroll-values,
+    settings: $logical-settings,
+    property: "scroll-padding-inline",
+    type: "utility",
+  ),
+  scroll-padding-block: (
+    base: "scroll-padding-block",
+    modifiers: (
+      noModifier: "",
+      "start": "-start",
+      "end": "-end",
+    ),
+    values: $scroll-values,
+    settings: $logical-settings,
+    property: "scroll-padding-block",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// FLOAT LOGICAL PROPERTIES
+// ============================================================================
+
+$u-float-logical: (
+  float-logical: (
+    base: "float",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "start": inline-start,
+      "end": inline-end,
+    ),
+    settings: $logical-settings,
+    property: "float",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// CLEAR LOGICAL PROPERTIES
+// ============================================================================
+
+$u-clear-logical: (
+  clear-logical: (
+    base: "clear",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "start": inline-start,
+      "end": inline-end,
+    ),
+    settings: $logical-settings,
+    property: "clear",
+    type: "utility",
+  ),
+);
