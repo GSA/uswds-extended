@@ -17,6 +17,7 @@ const { compileSass, jitScan } = require("./tasks/sass");
 const { compileCustomCSS } = require("./tasks/custom-css");
 const { purgeSass, reportPurgeStats } = require("./tasks/purge");
 const { cleanDist } = require("./tasks/clean");
+const { gulpJIT } = require("./tasks/jit");
 
 /**
  * *Flags*
@@ -67,6 +68,7 @@ exports.jitScan = jitScan;
 exports.compileCustomCSS = compileCustomCSS;
 exports.purgeSass = purgeSass;
 exports.reportPurgeStats = reportPurgeStats;
+exports.jitBuild = gulpJIT;  // Full JIT mode - generates only used utilities
 exports.buildSass = series(lintSass, compileSass);
 exports.buildJS = series(typeCheck, compileJS);
 exports.buildUSWDS = build;
