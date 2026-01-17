@@ -46,4 +46,14 @@ module.exports = {
     '2xl': '42rem', // 672px
     '3xl': '48rem', // 768px
   },
+
+  // Dark Mode Configuration
+  // Controls how dark: variants are generated
+  darkMode: {
+    // 'class' - Uses .dark class on html/body element (default)
+    // 'media' - Uses prefers-color-scheme media query
+    mode: 'class',
+    // Selector used for class-based dark mode
+    selector: '.dark',
+  },
 };

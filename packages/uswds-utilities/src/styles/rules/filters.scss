@@ -1,0 +1,247 @@
+// Filter Utilities
+// CSS filter effects for elements
+//
+// Usage:
+//   <img class="blur-sm grayscale hover:grayscale-0">
+//   <div class="brightness-75 contrast-125">
+//   <div class="drop-shadow-lg sepia">
+
+@use "uswds-core" as *;
+
+$filter-settings: (
+  output: true,
+  responsive: true,
+  hover: true,
+  focus: false,
+);
+
+// ============================================================================
+// BLUR
+// ============================================================================
+
+$u-blur: (
+  blur: (
+    base: "blur",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": blur(0),
+      "sm": blur(4px),
+      "": blur(8px),
+      "md": blur(12px),
+      "lg": blur(16px),
+      "xl": blur(24px),
+      "2xl": blur(40px),
+      "3xl": blur(64px),
+    ),
+    settings: $filter-settings,
+    property: "filter",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// BRIGHTNESS
+// ============================================================================
+
+$u-brightness: (
+  brightness: (
+    base: "brightness",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": brightness(0),
+      "50": brightness(0.5),
+      "75": brightness(0.75),
+      "90": brightness(0.9),
+      "95": brightness(0.95),
+      "100": brightness(1),
+      "105": brightness(1.05),
+      "110": brightness(1.1),
+      "125": brightness(1.25),
+      "150": brightness(1.5),
+      "200": brightness(2),
+    ),
+    settings: $filter-settings,
+    property: "filter",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// CONTRAST
+// ============================================================================
+
+$u-contrast: (
+  contrast: (
+    base: "contrast",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": contrast(0),
+      "50": contrast(0.5),
+      "75": contrast(0.75),
+      "100": contrast(1),
+      "125": contrast(1.25),
+      "150": contrast(1.5),
+      "200": contrast(2),
+    ),
+    settings: $filter-settings,
+    property: "filter",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// GRAYSCALE
+// ============================================================================
+
+$u-grayscale: (
+  grayscale: (
+    base: "grayscale",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": grayscale(0),
+      "": grayscale(100%),
+    ),
+    settings: $filter-settings,
+    property: "filter",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// HUE ROTATE
+// ============================================================================
+
+$u-hue-rotate: (
+  hue-rotate: (
+    base: "hue-rotate",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": hue-rotate(0deg),
+      "15": hue-rotate(15deg),
+      "30": hue-rotate(30deg),
+      "60": hue-rotate(60deg),
+      "90": hue-rotate(90deg),
+      "180": hue-rotate(180deg),
+    ),
+    settings: $filter-settings,
+    property: "filter",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// INVERT
+// ============================================================================
+
+$u-invert: (
+  invert: (
+    base: "invert",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": invert(0),
+      "": invert(100%),
+    ),
+    settings: $filter-settings,
+    property: "filter",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// SATURATE
+// ============================================================================
+
+$u-saturate: (
+  saturate: (
+    base: "saturate",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": saturate(0),
+      "50": saturate(0.5),
+      "100": saturate(1),
+      "150": saturate(1.5),
+      "200": saturate(2),
+    ),
+    settings: $filter-settings,
+    property: "filter",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// SEPIA
+// ============================================================================
+
+$u-sepia: (
+  sepia: (
+    base: "sepia",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": sepia(0),
+      "": sepia(100%),
+    ),
+    settings: $filter-settings,
+    property: "filter",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// DROP SHADOW
+// ============================================================================
+
+$u-drop-shadow: (
+  drop-shadow: (
+    base: "drop-shadow",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": drop-shadow(0 0 #0000),
+      "sm": drop-shadow(0 1px 1px rgb(0 0 0 / 0.05)),
+      "": drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06)),
+      "md": drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06)),
+      "lg": drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1)),
+      "xl": drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08)),
+      "2xl": drop-shadow(0 25px 25px rgb(0 0 0 / 0.15)),
+    ),
+    settings: $filter-settings,
+    property: "filter",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// FILTER NONE (removes all filters)
+// ============================================================================
+
+$u-filter-none: (
+  filter-none: (
+    base: "filter",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+    ),
+    settings: $filter-settings,
+    property: "filter",
+    type: "utility",
+  ),
+);

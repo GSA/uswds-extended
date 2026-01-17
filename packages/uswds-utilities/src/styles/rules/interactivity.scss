@@ -1,0 +1,300 @@
+// Interactivity Utilities
+// User interaction and behavior controls
+//
+// Usage:
+//   <input class="accent-primary caret-primary">
+//   <div class="pointer-events-none select-none">
+//   <div class="resize-y scroll-smooth will-change-transform">
+
+@use "uswds-core" as *;
+
+$interactivity-settings: (
+  output: true,
+  responsive: false,
+  hover: false,
+  focus: false,
+);
+
+$interactivity-colors: (
+  "transparent": transparent,
+  "current": currentColor,
+  "primary": #005ea2,
+  "primary-vivid": #0050d8,
+  "primary-dark": #1a4480,
+  "secondary": #d83933,
+  "accent-cool": #00bde3,
+  "accent-warm": #fa9441,
+  "base": #71767a,
+  "ink": #1b1b1b,
+  "info": #00bde3,
+  "success": #00a91c,
+  "warning": #ffbe2e,
+  "error": #d54309,
+);
+
+// ============================================================================
+// ACCENT COLOR
+// ============================================================================
+
+$u-accent-color: (
+  accent-color: (
+    base: "accent",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "transparent": transparent,
+      "current": currentColor,
+      "primary": #005ea2,
+      "primary-vivid": #0050d8,
+      "secondary": #d83933,
+      "accent-cool": #00bde3,
+      "accent-warm": #fa9441,
+      "info": #00bde3,
+      "success": #00a91c,
+      "warning": #ffbe2e,
+      "error": #d54309,
+    ),
+    settings: $interactivity-settings,
+    property: "accent-color",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// CARET COLOR
+// ============================================================================
+
+$u-caret-color: (
+  caret-color: (
+    base: "caret",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $interactivity-colors,
+    settings: $interactivity-settings,
+    property: "caret-color",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// APPEARANCE
+// ============================================================================
+
+$u-appearance: (
+  appearance: (
+    base: "appearance",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+      "auto": auto,
+    ),
+    settings: $interactivity-settings,
+    property: "appearance",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// POINTER EVENTS
+// ============================================================================
+
+$u-pointer-events: (
+  pointer-events: (
+    base: "pointer-events",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+      "auto": auto,
+    ),
+    settings: $interactivity-settings,
+    property: "pointer-events",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// RESIZE
+// ============================================================================
+
+$u-resize: (
+  resize: (
+    base: "resize",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+      "": both,
+      "y": vertical,
+      "x": horizontal,
+    ),
+    settings: $interactivity-settings,
+    property: "resize",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// SCROLL BEHAVIOR
+// ============================================================================
+
+$u-scroll-behavior: (
+  scroll-behavior: (
+    base: "scroll",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "smooth": smooth,
+    ),
+    settings: $interactivity-settings,
+    property: "scroll-behavior",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// SCROLL SNAP TYPE
+// ============================================================================
+
+$u-scroll-snap-type: (
+  scroll-snap-type: (
+    base: "snap",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+      "x": x var(--scroll-snap-strictness, proximity),
+      "y": y var(--scroll-snap-strictness, proximity),
+      "both": both var(--scroll-snap-strictness, proximity),
+      "mandatory": mandatory,
+      "proximity": proximity,
+    ),
+    settings: $interactivity-settings,
+    property: "scroll-snap-type",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// SCROLL SNAP ALIGN
+// ============================================================================
+
+$u-scroll-snap-align: (
+  scroll-snap-align: (
+    base: "snap",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "start": start,
+      "end": end,
+      "center": center,
+      "align-none": none,
+    ),
+    settings: $interactivity-settings,
+    property: "scroll-snap-align",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// SCROLL SNAP STOP
+// ============================================================================
+
+$u-scroll-snap-stop: (
+  scroll-snap-stop: (
+    base: "snap",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "normal": normal,
+      "always": always,
+    ),
+    settings: $interactivity-settings,
+    property: "scroll-snap-stop",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// TOUCH ACTION
+// ============================================================================
+
+$u-touch-action: (
+  touch-action: (
+    base: "touch",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "none": none,
+      "pan-x": pan-x,
+      "pan-left": pan-left,
+      "pan-right": pan-right,
+      "pan-y": pan-y,
+      "pan-up": pan-up,
+      "pan-down": pan-down,
+      "pinch-zoom": pinch-zoom,
+      "manipulation": manipulation,
+    ),
+    settings: $interactivity-settings,
+    property: "touch-action",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// USER SELECT
+// ============================================================================
+
+$u-user-select: (
+  user-select: (
+    base: "select",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "none": none,
+      "text": text,
+      "all": all,
+      "auto": auto,
+    ),
+    settings: $interactivity-settings,
+    property: "user-select",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// WILL CHANGE
+// ============================================================================
+
+$u-will-change: (
+  will-change: (
+    base: "will-change",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "auto": auto,
+      "scroll": scroll-position,
+      "contents": contents,
+      "transform": transform,
+    ),
+    settings: $interactivity-settings,
+    property: "will-change",
+    type: "utility",
+  ),
+);

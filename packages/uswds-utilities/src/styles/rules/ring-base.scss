@@ -1,0 +1,119 @@
+// Ring Base Styles
+// Sets up CSS custom properties for ring utilities
+// This should be included before ring utilities
+
+// Default ring custom properties
+:root {
+  --ring-inset: ;
+  --ring-offset-width: 0px;
+  --ring-offset-color: #fff;
+  --ring-color: rgb(0 94 162 / 0.5); // primary with 50% opacity
+  --ring-offset-shadow: 0 0 #0000;
+  --ring-shadow: 0 0 #0000;
+}
+
+// Ring utility classes that compose the box-shadow
+// These work with ring-{width} to create the actual shadow
+
+.ring-0 {
+  --ring-offset-shadow: var(--ring-inset) 0 0 0 var(--ring-offset-width) var(--ring-offset-color);
+  --ring-shadow: var(--ring-inset) 0 0 0 calc(0px + var(--ring-offset-width)) var(--ring-color);
+  box-shadow: var(--ring-offset-shadow), var(--ring-shadow), var(--shadow, 0 0 #0000);
+}
+
+.ring-1 {
+  --ring-offset-shadow: var(--ring-inset) 0 0 0 var(--ring-offset-width) var(--ring-offset-color);
+  --ring-shadow: var(--ring-inset) 0 0 0 calc(1px + var(--ring-offset-width)) var(--ring-color);
+  box-shadow: var(--ring-offset-shadow), var(--ring-shadow), var(--shadow, 0 0 #0000);
+}
+
+.ring-2 {
+  --ring-offset-shadow: var(--ring-inset) 0 0 0 var(--ring-offset-width) var(--ring-offset-color);
+  --ring-shadow: var(--ring-inset) 0 0 0 calc(2px + var(--ring-offset-width)) var(--ring-color);
+  box-shadow: var(--ring-offset-shadow), var(--ring-shadow), var(--shadow, 0 0 #0000);
+}
+
+.ring,
+.ring-3 {
+  --ring-offset-shadow: var(--ring-inset) 0 0 0 var(--ring-offset-width) var(--ring-offset-color);
+  --ring-shadow: var(--ring-inset) 0 0 0 calc(3px + var(--ring-offset-width)) var(--ring-color);
+  box-shadow: var(--ring-offset-shadow), var(--ring-shadow), var(--shadow, 0 0 #0000);
+}
+
+.ring-4 {
+  --ring-offset-shadow: var(--ring-inset) 0 0 0 var(--ring-offset-width) var(--ring-offset-color);
+  --ring-shadow: var(--ring-inset) 0 0 0 calc(4px + var(--ring-offset-width)) var(--ring-color);
+  box-shadow: var(--ring-offset-shadow), var(--ring-shadow), var(--shadow, 0 0 #0000);
+}
+
+.ring-8 {
+  --ring-offset-shadow: var(--ring-inset) 0 0 0 var(--ring-offset-width) var(--ring-offset-color);
+  --ring-shadow: var(--ring-inset) 0 0 0 calc(8px + var(--ring-offset-width)) var(--ring-color);
+  box-shadow: var(--ring-offset-shadow), var(--ring-shadow), var(--shadow, 0 0 #0000);
+}
+
+// Ring inset modifier
+.ring-inset {
+  --ring-inset: inset;
+}
+
+// Ring colors
+.ring-transparent { --ring-color: transparent; }
+.ring-current { --ring-color: currentColor; }
+.ring-white { --ring-color: #ffffff; }
+.ring-black { --ring-color: #000000; }
+.ring-primary { --ring-color: #005ea2; }
+.ring-primary-vivid { --ring-color: #0050d8; }
+.ring-primary-dark { --ring-color: #1a4480; }
+.ring-primary-light { --ring-color: #73b3e7; }
+.ring-secondary { --ring-color: #d83933; }
+.ring-secondary-dark { --ring-color: #b50909; }
+.ring-secondary-light { --ring-color: #f2938c; }
+.ring-accent-cool { --ring-color: #00bde3; }
+.ring-accent-warm { --ring-color: #fa9441; }
+.ring-base { --ring-color: #71767a; }
+.ring-base-dark { --ring-color: #565c65; }
+.ring-base-light { --ring-color: #a9aeb1; }
+.ring-base-lighter { --ring-color: #dfe1e2; }
+.ring-ink { --ring-color: #1b1b1b; }
+.ring-info { --ring-color: #00bde3; }
+.ring-success { --ring-color: #00a91c; }
+.ring-warning { --ring-color: #ffbe2e; }
+.ring-error { --ring-color: #d54309; }
+
+// Ring offset widths
+.ring-offset-0 { --ring-offset-width: 0px; }
+.ring-offset-1 { --ring-offset-width: 1px; }
+.ring-offset-2 { --ring-offset-width: 2px; }
+.ring-offset-4 { --ring-offset-width: 4px; }
+.ring-offset-8 { --ring-offset-width: 8px; }
+
+// Ring offset colors
+.ring-offset-white { --ring-offset-color: #ffffff; }
+.ring-offset-black { --ring-offset-color: #000000; }
+.ring-offset-primary { --ring-offset-color: #005ea2; }
+.ring-offset-base-lightest { --ring-offset-color: #f0f0f0; }
+
+// Focus variants (commonly used)
+.focus\:ring-0:focus { @extend .ring-0; }
+.focus\:ring-1:focus { @extend .ring-1; }
+.focus\:ring-2:focus { @extend .ring-2; }
+.focus\:ring:focus, .focus\:ring-3:focus { @extend .ring-3; }
+.focus\:ring-4:focus { @extend .ring-4; }
+
+.focus\:ring-primary:focus { --ring-color: #005ea2; }
+.focus\:ring-secondary:focus { --ring-color: #d83933; }
+.focus\:ring-accent-cool:focus { --ring-color: #00bde3; }
+.focus\:ring-info:focus { --ring-color: #00bde3; }
+.focus\:ring-success:focus { --ring-color: #00a91c; }
+.focus\:ring-warning:focus { --ring-color: #ffbe2e; }
+.focus\:ring-error:focus { --ring-color: #d54309; }
+
+// Focus-visible variants (better accessibility)
+.focus-visible\:ring-2:focus-visible {
+  --ring-offset-shadow: var(--ring-inset) 0 0 0 var(--ring-offset-width) var(--ring-offset-color);
+  --ring-shadow: var(--ring-inset) 0 0 0 calc(2px + var(--ring-offset-width)) var(--ring-color);
+  box-shadow: var(--ring-offset-shadow), var(--ring-shadow), var(--shadow, 0 0 #0000);
+}
+
+.focus-visible\:ring-primary:focus-visible { --ring-color: #005ea2; }

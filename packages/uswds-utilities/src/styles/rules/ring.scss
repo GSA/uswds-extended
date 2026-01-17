@@ -1,0 +1,153 @@
+// Ring Utilities
+// Focus ring effects using box-shadow
+//
+// Usage:
+//   <button class="focus:ring-2 focus:ring-primary">
+//   <input class="ring-1 ring-base-light focus:ring-2 focus:ring-primary">
+//   <div class="ring-inset ring-2 ring-secondary">
+
+@use "uswds-core" as *;
+
+$ring-settings: (
+  output: true,
+  responsive: false,
+  hover: true,
+  focus: true,
+);
+
+// Ring width utilities use CSS custom properties for composability
+// This allows ring-color to work with any ring-width
+
+// ============================================================================
+// RING WIDTH
+// ============================================================================
+
+// Ring widths - these set the --ring-offset-shadow and --ring-shadow variables
+$u-ring: (
+  ring: (
+    base: "ring",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": 0px,
+      "1": 1px,
+      "2": 2px,
+      "": 3px,
+      "4": 4px,
+      "8": 8px,
+    ),
+    settings: $ring-settings,
+    property: "box-shadow",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// RING COLOR
+// ============================================================================
+
+// Theme colors for rings
+$ring-colors: (
+  "transparent": transparent,
+  "current": currentColor,
+  "white": #ffffff,
+  "black": #000000,
+  "primary": #005ea2,
+  "primary-vivid": #0050d8,
+  "primary-dark": #1a4480,
+  "primary-light": #73b3e7,
+  "primary-lighter": #d9e8f6,
+  "secondary": #d83933,
+  "secondary-vivid": #e41d3d,
+  "secondary-dark": #b50909,
+  "secondary-light": #f2938c,
+  "accent-cool": #00bde3,
+  "accent-cool-dark": #28a0cb,
+  "accent-cool-light": #97d4ea,
+  "accent-warm": #fa9441,
+  "accent-warm-dark": #c05600,
+  "accent-warm-light": #ffbc78,
+  "base": #71767a,
+  "base-dark": #565c65,
+  "base-light": #a9aeb1,
+  "base-lighter": #dfe1e2,
+  "base-lightest": #f0f0f0,
+  "ink": #1b1b1b,
+  "info": #00bde3,
+  "success": #00a91c,
+  "warning": #ffbe2e,
+  "error": #d54309,
+);
+
+$u-ring-color: (
+  ring-color: (
+    base: "ring",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $ring-colors,
+    settings: $ring-settings,
+    property: "--ring-color",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// RING OFFSET WIDTH
+// ============================================================================
+
+$u-ring-offset: (
+  ring-offset: (
+    base: "ring-offset",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "0": 0px,
+      "1": 1px,
+      "2": 2px,
+      "4": 4px,
+      "8": 8px,
+    ),
+    settings: $ring-settings,
+    property: "--ring-offset-width",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// RING OFFSET COLOR
+// ============================================================================
+
+$u-ring-offset-color: (
+  ring-offset-color: (
+    base: "ring-offset",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: $ring-colors,
+    settings: $ring-settings,
+    property: "--ring-offset-color",
+    type: "utility",
+  ),
+);
+
+// ============================================================================
+// RING INSET
+// ============================================================================
+
+$u-ring-inset: (
+  ring-inset: (
+    base: "ring",
+    modifiers: (
+      noModifier: "",
+    ),
+    values: (
+      "inset": inset,
+    ),
+    settings: $ring-settings,
+    property: "--ring-inset",
+    type: "utility",
+  ),
+);
