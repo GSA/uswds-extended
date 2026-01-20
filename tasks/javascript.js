@@ -14,7 +14,8 @@ const dutil = require("./utils/doc-util");
 module.exports = {
   compileJS() {
     dutil.logMessage("javascript", "Compiling JavaScript");
-    let packageName = dutil.pkg.name.replace("@uswds/", "");
+    // Always use 'uswds' as the output name for drop-in compatibility with @uswds/uswds
+    const packageName = "uswds";
     const streams = Object.entries({
       [packageName]: browserify({
         entries: ["packages/uswds-core/src/js/start.js"],
