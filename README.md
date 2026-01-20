@@ -21,18 +21,245 @@ Based on the [U.S. Web Design System (USWDS)](https://designsystem.digital.gov),
 | **Gap Utilities** | `gap-2`, `gap-x-1` | Flexbox/Grid gap control |
 | **PurgeCSS** | Production build | Remove unused CSS |
 
-## Quick Start
+## Installation
 
-### Installation
+There are two ways to use USWDS Extended, depending on which features you need:
+
+### Option 1: Drop-in Replacement (Basic Extended Features)
+
+Use with your existing `@uswds/compile` setup. Gets you all the new utility classes without changing your build process.
+
+```bash
+npm install @uswds/uswds@npm:uswds-extended
+npm install @uswds/compile
+```
+
+Your existing gulpfile works unchanged:
+
+```js
+const uswds = require("@uswds/compile");
+
+uswds.settings.version = 3;
+uswds.paths.dist.css = "./assets/css";
+uswds.paths.dist.theme = "./sass";
+
+exports.compile = uswds.compile;
+exports.watch = uswds.watch;
+```
+
+### Option 2: Full Installation (All Features)
+
+Use the bundled compile module for color opacity, arbitrary values, @apply, and PurgeCSS.
 
 ```bash
 npm install uswds-extended
-
-# Or as a drop-in replacement for @uswds/uswds:
-npm install uswds@npm:uswds-extended
 ```
 
-### Usage
+```js
+// gulpfile.js
+const uswds = require("uswds-extended/compile");
+
+uswds.paths.dist.css = "./assets/css";
+uswds.paths.dist.theme = "./sass";
+
+exports.init = uswds.init;
+exports.compile = uswds.compile;
+exports.watch = uswds.watch;
+```
+
+### Feature Comparison
+
+| Feature | @uswds/compile | uswds-extended/compile |
+|---------|:--------------:|:----------------------:|
+| Standard USWDS components | ✅ | ✅ |
+| Extended utilities (ring, gradient, space, size) | ✅ | ✅ |
+| Group/peer hover variants | ✅ | ✅ |
+| Responsive variants | ✅ | ✅ |
+| Color opacity (`bg-primary/75`) | ❌ | ✅ |
+| Arbitrary values (`w-[137px]`) | ❌ | ✅ |
+| @apply directive | ❌ | ✅ |
+| JIT scanning | ❌ | ✅ |
+| PurgeCSS integration | ❌ | ✅ |
+
+---
+
+## uswds-extended/compile API
+
+The compile module mirrors the `@uswds/compile` API with additional extended settings.
+
+### Path Configuration
+
+```js
+const uswds = require("uswds-extended/compile");
+
+// Same paths API as @uswds/compile
+uswds.paths.dist.css = "./assets/css";
+uswds.paths.dist.theme = "./sass";
+uswds.paths.dist.fonts = "./assets/fonts";
+uswds.paths.dist.img = "./assets/img";
+uswds.paths.dist.js = "./assets/js";
+
+// Custom CSS source (for @apply)
+uswds.paths.src.customCSS = "./src/stylesheets/custom";
+```
+
+### Extended Settings
+
+```js
+// Color opacity steps - generates bg-primary/25, bg-primary/50, etc.
+uswds.extended.opacitySteps = [25, 50, 75, 90];
+
+// Content patterns for JIT scanning and PurgeCSS
+uswds.extended.content = [
+  "./src/**/*.html",
+  "./src/**/*.jsx",
+  "./templates/**/*.twig"
+];
+
+// Manual arbitrary values safelist (merged with JIT-scanned values)
+uswds.extended.arbitraryValues = {
+  w: ["137px", "200px"],
+  h: ["calc(100vh-60px)"],
+  "max-w": ["1200px", "80ch"]
+};
+
+// PurgeCSS safelist
+uswds.extended.safelist = {
+  standard: [/^usa-/, /^is-/, /^has-/],
+  deep: [],
+  greedy: []
+};
+
+// Make all utilities !important
+uswds.extended.important = false;
+```
+
+### Available Tasks
+
+| Task | Description |
+|------|-------------|
+| `uswds.init` | Copy theme files, assets, and compile |
+| `uswds.compile` | Compile with all extended features |
+| `uswds.compileSass` | Standard compile (no PostCSS features) |
+| `uswds.compileExtended` | Explicit extended compile |
+| `uswds.compileCustomCSS` | Process @apply directives |
+| `uswds.purgeSass` | Remove unused CSS |
+| `uswds.purge` | Purge + report file size savings |
+| `uswds.reportPurgeStats` | Show purge statistics |
+| `uswds.watch` | Watch mode with extended compile |
+| `uswds.updateUswds` | Copy assets + recompile |
+| `uswds.copyTheme` | Copy theme files only |
+| `uswds.copyAssets` | Copy fonts, images, JS |
+| `uswds.copyAll` | Copy theme + all assets |
+
+### Complete Gulpfile Example
+
+```js
+// gulpfile.js
+const uswds = require("uswds-extended/compile");
+
+// Path configuration
+uswds.paths.dist.css = "./assets/css";
+uswds.paths.dist.theme = "./sass";
+uswds.paths.dist.fonts = "./assets/fonts";
+uswds.paths.dist.img = "./assets/img";
+uswds.paths.dist.js = "./assets/js";
+uswds.paths.src.customCSS = "./src/css";
+
+// Extended features
+uswds.extended.opacitySteps = [10, 25, 50, 75, 90];
+uswds.extended.content = [
+  "./src/**/*.html",
+  "./src/**/*.js",
+  "./templates/**/*.twig"
+];
+
+// Export tasks
+exports.init = uswds.init;
+exports.compile = uswds.compile;
+exports.customCSS = uswds.compileCustomCSS;
+exports.purge = uswds.purge;
+exports.watch = uswds.watch;
+exports.update = uswds.updateUswds;
+
+// Default task
+exports.default = uswds.watch;
+```
+
+Run tasks:
+```bash
+npx gulp init      # First-time setup
+npx gulp compile   # Compile CSS
+npx gulp customCSS # Process @apply
+npx gulp purge     # Production build
+npx gulp watch     # Development mode
+```
+
+---
+
+## Naming Conventions
+
+> **Important**: USWDS Extended uses **USWDS naming conventions** for core utilities, not Tailwind shorthand.
+
+### Core Utilities (USWDS Style)
+
+| Tailwind | USWDS Extended | Property |
+|----------|----------------|----------|
+| `m-4` | `margin-4` | margin |
+| `mx-4` | `margin-x-4` | margin-left/right |
+| `p-4` | `padding-4` | padding |
+| `w-full` | `width-full` | width |
+| `h-screen` | `height-viewport` | height |
+| `flex` | `display-flex` | display |
+| `items-center` | `flex-align-center` | align-items |
+| `justify-between` | `flex-justify` | justify-content |
+| `text-lg` | `font-size-lg` | font-size |
+| `min-w-0` | `minw-0` | min-width |
+| `max-w-lg` | `maxw-lg` | max-width |
+
+### Extended Utilities (Tailwind Style)
+
+New utilities use Tailwind-style naming:
+
+| Category | Classes | Example |
+|----------|---------|---------|
+| Flex Grow/Shrink | `grow`, `grow-0`, `shrink`, `shrink-0` | `<div class="grow">` |
+| Flex Basis | `basis-0`, `basis-1/2`, `basis-full` | `<div class="basis-1/2">` |
+| Size | `size-0` to `size-96`, `size-full` | `<img class="size-12">` |
+| Aspect Ratio | `aspect-auto`, `aspect-square`, `aspect-video` | `<div class="aspect-video">` |
+| Ring | `ring`, `ring-2`, `ring-primary` | `<button class="focus:ring-2">` |
+| Gradients | `bg-gradient-to-r`, `from-primary`, `to-secondary` | `<div class="bg-gradient-to-r from-primary to-accent-warm">` |
+
+### Responsive Breakpoints
+
+Use USWDS breakpoint prefixes (not Tailwind's `sm:`, `md:`, `lg:`):
+
+| Breakpoint | Prefix | Min Width |
+|------------|--------|-----------|
+| Mobile Large | `mobile-lg:` | 480px |
+| Tablet | `tablet:` | 640px |
+| Tablet Large | `tablet-lg:` | 880px |
+| Desktop | `desktop:` | 1024px |
+| Desktop Large | `desktop-lg:` | 1200px |
+| Widescreen | `widescreen:` | 1400px |
+
+```html
+<div class="display-flex flex-column tablet:flex-row desktop:grid-cols-3">
+```
+
+### State Variants
+
+| Variant | Selector | Example |
+|---------|----------|---------|
+| `hover:` | `:hover` | `hover:bg-primary-dark` |
+| `focus:` | `:focus` | `focus:ring-2` |
+| `active:` | `:active` | `active:opacity-80` |
+| `visited:` | `:visited` | `visited:text-violet` |
+| `group-hover:` | `.group:hover` | `group-hover:text-white` |
+
+---
+
+## Usage Examples
 
 ```html
 <!-- Color opacity -->
@@ -70,42 +297,51 @@ Compose utilities in custom CSS (`src/stylesheets/custom/*.css`):
 }
 ```
 
-Build with: `npx gulp compileCustomCSS`
+Build with: `npx gulp customCSS`
 
 ### Production Build
 
-Remove unused CSS:
+Remove unused CSS for smaller file sizes:
 
 ```bash
-npx gulp purgeSass
-npx gulp reportPurgeStats
+npx gulp purge
 ```
 
-## Configuration
+This runs PurgeCSS and reports the file size savings.
 
-**`uswds.config.js`** - Configure arbitrary values and opacity steps:
+---
 
-```js
-module.exports = {
-  arbitraryValues: {
-    w: ['137px', '200px'],
-    h: ['calc(100vh-60px)'],
-    'max-w': ['1200px', '80ch'],
-  },
-  opacitySteps: [5, 10, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 95],
-};
+## Migration
+
+### From Tailwind CSS
+
+Replace Tailwind shorthand with USWDS verbose names:
+
+```html
+<!-- Tailwind -->
+<div class="m-4 p-2 flex items-center w-full min-h-screen">
+
+<!-- USWDS Extended -->
+<div class="margin-4 padding-2 display-flex flex-align-center width-full minh-viewport">
 ```
 
-**`purgecss.config.js`** - Configure CSS purging for production.
+Extended utilities (grow, shrink, basis, ring, etc.) use familiar Tailwind naming.
 
-## Gulp Tasks
+### From Standard USWDS
 
-| Task | Description |
-|------|-------------|
-| `compileSass` | Compile USWDS + extended utilities |
-| `compileCustomCSS` | Process custom CSS with @apply |
-| `purgeSass` | Remove unused CSS for production |
-| `reportPurgeStats` | Show size comparison |
+Extended utilities work alongside existing USWDS components:
+
+```html
+<div class="usa-card">
+  <div class="usa-card__body padding-4">
+    <!-- Mix USWDS components with extended utilities -->
+    <div class="display-flex gap-2">
+      <p class="grow basis-1/2">Content</p>
+      <button class="usa-button focus:ring-2">Action</button>
+    </div>
+  </div>
+</div>
+```
 
 ---
 

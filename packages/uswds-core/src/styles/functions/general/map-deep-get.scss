@@ -13,6 +13,9 @@ map-deep-get()
 
 @function map-deep-get($map, $keys...) {
   @each $key in $keys {
+    @if $map == null {
+      @return null;
+    }
     $map: map.get($map, $key);
   }
 

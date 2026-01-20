@@ -23,6 +23,7 @@
   ],
   "files": [
     ".storybook",
+    "compile",
     "dist",
     "packages",
     "scripts",
@@ -30,6 +31,8 @@
     "tasks",
     ".browserslistrc",
     "CONTRIBUTING.md",
+    "LICENSE.md",
+    "README.md",
     "gulpfile.js",
     "webpack.twig.config.js",
     "vite.config.js",
@@ -46,6 +49,10 @@
     ".": {
       "import": "./dist/js/uswds.min.js",
       "default": "./dist/js/uswds.min.js"
+    },
+    "./compile": {
+      "require": "./compile/index.js",
+      "default": "./compile/index.js"
     },
     "./components/*": "./dist/components/*.js.mjs",
     "./src/js/components": "./packages/uswds-core/src/js/index.js",
@@ -129,7 +136,21 @@
   },
   "homepage": "https://github.com/gsa/uswds-extended#readme",
   "dependencies": {
-    "lit": "^3.2.1"
+    "lit": "^3.2.1",
+    "@fullhuman/postcss-purgecss": "^7.0.2",
+    "autoprefixer": "^10.4.20",
+    "glob": "^13.0.0",
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-postcss": "^9.0.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-replace": "^1.1.4",
+    "gulp-sass": "^6.0.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "postcss": "^8.5.2",
+    "postcss-csso": "^6.0.1",
+    "postcss-discard-comments": "^6.0.2",
+    "sass-embedded": "^1.83.4"
   },
   "devDependencies": {
     "@18f/identity-stylelint-config": "4.1.0",
