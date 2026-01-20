@@ -157,6 +157,7 @@ uswds.extended.important = false;
 ```js
 // gulpfile.js
 const uswds = require("uswds-extended/compile");
+const path = require("path");
 
 // Path configuration
 uswds.paths.dist.css = "./assets/css";

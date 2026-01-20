@@ -59,6 +59,22 @@ const colors = {
 SETTINGS
 ----------------------------------------
 */
+
+function resolvePackagePath() {
+  // 1. Extended location (bundled packages) - PRIORITY
+  // Relative to: node_modules/uswds-extended/compile/index.js
+  const extendedPath = path.resolve(__dirname, "../packages");
+
+  // 2. Standard location (peer dependency)
+  const standardPath = "./node_modules/@uswds/uswds/packages";
+
+  if (fs.existsSync(extendedPath)) {
+    return extendedPath;
+  }
+  // Only fall back if bundled packages are missing
+  return standardPath;
+}
+
 let settings = {
   version: 3,
   compile: {
@@ -76,7 +92,7 @@ let settings = {
         defaults: {
           v3: {
             uswds: "./node_modules/@uswds",
-            sass: "./node_modules/@uswds/uswds/packages",
+            sass: resolvePackagePath(),
             theme: "./node_modules/@uswds/uswds/dist/theme",
             fonts: "./node_modules/@uswds/uswds/dist/fonts",
             img: "./node_modules/@uswds/uswds/dist/img",
@@ -297,8 +313,6 @@ function buildSass() {
     ],
     includes: [
       paths.dist.theme,
-      getSrcFrom("uswds"),
-      `${getSrcFrom("sass")}/packages`.replace("//", "/"),
       getSrcFrom("sass"),
     ],
   };
@@ -336,8 +350,6 @@ async function buildSassExtended() {
   const buildSettings = {
     includes: [
       paths.dist.theme,
-      getSrcFrom("uswds"),
-      `${getSrcFrom("sass")}/packages`.replace("//", "/"),
       getSrcFrom("sass"),
     ],
   };
