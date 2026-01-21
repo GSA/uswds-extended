@@ -323,7 +323,7 @@ function buildSass() {
     .pipe(
       sass({
         outputStyle: "compressed",
-        includePaths: buildSettings.includes,
+        loadPaths: buildSettings.includes,
         quietDeps: !settings.compile.sassDeprecationWarnings,
       }).on("error", handleError)
     )
