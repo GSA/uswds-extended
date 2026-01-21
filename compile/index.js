@@ -377,7 +377,7 @@ async function buildSassExtended() {
       .pipe(
         sass({
           outputStyle: "expanded",
-          includePaths: buildSettings.includes,
+          loadPaths: buildSettings.includes,
           quietDeps: !settings.compile.sassDeprecationWarnings,
         }).on("error", handleError)
       )
