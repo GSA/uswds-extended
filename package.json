@@ -136,7 +136,7 @@
   },
   "homepage": "https://github.com/gsa/uswds-extended#readme",
   "dependencies": {
-    "lit": "^3.2.1",
+    "lit": "^3.3.2",
     "@fullhuman/postcss-purgecss": "^7.0.2",
     "autoprefixer": "^10.4.20",
     "glob": "^13.0.0",
